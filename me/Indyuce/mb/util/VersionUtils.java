@@ -95,7 +95,7 @@ public class VersionUtils implements Listener {
 		try {
 			loc.getWorld().playSound(loc, Sound.valueOf(path), vol, pitch);
 		} catch (Exception e) {
-			Bukkit.getConsoleSender().sendMessage("§4[MMOItems] Bug with " + sound + ". No such sound found. Please report it to the plugin creator :)");
+			Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_RED + "[MoarBows] " + sound + " - No such sound found.");
 		}
 	}
 
@@ -104,7 +104,7 @@ public class VersionUtils implements Listener {
 		try {
 			p.playSound(p.getLocation(), Sound.valueOf(path), vol, pitch);
 		} catch (Exception e) {
-			Bukkit.getConsoleSender().sendMessage("§4[MMOItems] Bug with " + sound + ". No such sound found. Please report it to the plugin creator :)");
+			Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_RED + "[MoarBows] " + sound + " - No such sound found.");
 		}
 	}
 }
