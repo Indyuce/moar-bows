@@ -1,0 +1,9 @@
+full-pull-restriction: false
+bows-hand-particles: true
+disable-all-bow-crafting: false
+unbreakable-bows: true
+bows-arrow-particles: true
+disable-repair: false
+disable-enchanting: false
+disable-give-cmd-msg: false
+reduce-hand-particles: false
