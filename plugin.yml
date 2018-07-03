@@ -1,6 +1,6 @@
 name: MoarBows
-version: 2.0.1
-main: me.Indyuce.mb.Main
+version: 2.1.1
+main: net.Indyuce.mb.Main
 author: Indyuce
 softdepend: [WorldGuard]
 commands:
@@ -9,10 +9,10 @@ commands:
         aliases: [mb, bows]
 permissions:
     moarbows.cmd:
-        description: Use the MoarBows command.
+        description: Main permission.
         default: op
     moarbows.gui:
-        description: Access the Bows GUI.
+        description: Access the bows GUI.
         default: op
     moarbows.anvil-create:
         description: Allows to create a bow by renaming a regular one.
@@ -24,7 +24,7 @@ permissions:
         description: Allows to repair a special bow.
         default: op
     moarbows.use.*:
-        description: Use all types of bows.
+        description: Use all special bows.
         default: op
         children:
             moarbows.use.silver_bow: true
@@ -53,3 +53,4 @@ permissions:
             moarbows.use.meteor_bow: true
             moarbows.use.pulsar_bow: true
             moarbows.use.spartan_bow: true
+            moarbows.use.earthquake_bow: true

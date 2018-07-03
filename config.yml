@@ -1,9 +1,36 @@
+# --------------------------------------------------------------
+#
+#
+# Thanks for using MoarBows ;)
+# Join my Discord here for fast support! https://discordapp.com/invite/7Pc8ZHh
+#
+#
+# --------------------------------------------------------------
+
 full-pull-restriction: false
+# If set to true, players must fully pull special
+# bows to be able to shoot arrows.
+
 bows-hand-particles: true
+# Disables particles emitted when holding
+# a special bow when set to false.
+
 disable-all-bow-crafting: false
+# Disables all crafting recipes of special bows.
+# You can still obtain the bows via /mb get...
+
 unbreakable-bows: true
+# When set to true, all special bows will be unbreakable.
+
 bows-arrow-particles: true
+# Disables particles emitted by special bow arrows.
+
 disable-repair: false
+# Disables anvils with special bows
+
 disable-enchanting: false
-disable-give-cmd-msg: false
+# Disables enchantment tables with special bows
+
 reduce-hand-particles: false
+# Reduces particles emitted when holding bows
+# Might improve performance
