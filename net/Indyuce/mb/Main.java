@@ -128,52 +128,53 @@ public class Main extends JavaPlugin {
 		getCommand("moarbows").setTabCompleter(new MoarBowsCompletion());
 
 		// crafting recipes
-		for (MoarBow b : map.values())
-			if (bows.getBoolean(b.getID() + ".craft-enabled") && !getConfig().getBoolean("disable-all-bow-craftings")) {
-				ShapedRecipe recipe = VersionUtils.isBelow(1, 11) ? new ShapedRecipe(b.a()) : new ShapedRecipe(Version_1_12.key(b.getID()), b.a());
-				recipe.shape(new String[] { "ABC", "DEF", "GHI" });
-				char[] chars = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' };
-				boolean check = true;
-				List<String> list = bows.getStringList(b.getID() + ".craft");
-				for (int j = 0; j < 9; j++) {
-					char c = chars[j];
-					if (list.size() != 3) {
-						Bukkit.getConsoleSender().sendMessage("[MoarBows] " + ChatColor.RED + "Couldn't create the crafting recipe of " + b.getID() + ". Format error.");
-						check = false;
-						break;
-					}
-					List<String> line = Arrays.asList(list.get(j / 3).split(Pattern.quote(",")));
-					if (line.size() < 3) {
-						Bukkit.getConsoleSender().sendMessage("[MoarBows] " + ChatColor.RED + "Couldn't create the crafting recipe of " + b.getID() + ". Format error.");
-						check = false;
-						break;
-					}
-					String s = line.get(j % 3);
-					Material material = null;
-					try {
-						material = Material.valueOf(s.split(Pattern.quote(":"))[0].replace("-", "_").toUpperCase());
-					} catch (Exception e1) {
-						Bukkit.getConsoleSender().sendMessage("[MoarBows] " + ChatColor.RED + "Couldn't create the crafting recipe of " + b.getID() + ". " + s.split(Pattern.quote(":"))[0] + " is not a valid material.");
-						check = false;
-						break;
-					}
-					if (s.contains(":")) {
-						int durability = 0;
-						try {
-							durability = Integer.parseInt(s.split(Pattern.quote(":"))[1]);
-						} catch (Exception e1) {
-							Bukkit.getConsoleSender().sendMessage("[MoarBows] " + ChatColor.RED + "Couldn't create the crafting recipe of " + b.getID() + ". " + s.split(Pattern.quote(":"))[1] + " is not a valid number.");
+		if (!getConfig().getBoolean("disable-bow-craftings"))
+			for (MoarBow b : map.values())
+				if (bows.getBoolean(b.getID() + ".craft-enabled")) {
+					ShapedRecipe recipe = VersionUtils.isBelow(1, 11) ? new ShapedRecipe(b.a()) : new ShapedRecipe(Version_1_12.key(b.getID()), b.a());
+					recipe.shape(new String[] { "ABC", "DEF", "GHI" });
+					char[] chars = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' };
+					boolean check = true;
+					List<String> list = bows.getStringList(b.getID() + ".craft");
+					for (int j = 0; j < 9; j++) {
+						char c = chars[j];
+						if (list.size() != 3) {
+							Bukkit.getConsoleSender().sendMessage("[MoarBows] " + ChatColor.RED + "Couldn't create the crafting recipe of " + b.getID() + ". Format error.");
 							check = false;
 							break;
 						}
-						recipe.setIngredient(c, material, durability);
-						continue;
+						List<String> line = Arrays.asList(list.get(j / 3).split(Pattern.quote(",")));
+						if (line.size() < 3) {
+							Bukkit.getConsoleSender().sendMessage("[MoarBows] " + ChatColor.RED + "Couldn't create the crafting recipe of " + b.getID() + ". Format error.");
+							check = false;
+							break;
+						}
+						String s = line.get(j % 3);
+						Material material = null;
+						try {
+							material = Material.valueOf(s.split(Pattern.quote(":"))[0].replace("-", "_").toUpperCase());
+						} catch (Exception e1) {
+							Bukkit.getConsoleSender().sendMessage("[MoarBows] " + ChatColor.RED + "Couldn't create the crafting recipe of " + b.getID() + ". " + s.split(Pattern.quote(":"))[0] + " is not a valid material.");
+							check = false;
+							break;
+						}
+						if (s.contains(":")) {
+							int durability = 0;
+							try {
+								durability = Integer.parseInt(s.split(Pattern.quote(":"))[1]);
+							} catch (Exception e1) {
+								Bukkit.getConsoleSender().sendMessage("[MoarBows] " + ChatColor.RED + "Couldn't create the crafting recipe of " + b.getID() + ". " + s.split(Pattern.quote(":"))[1] + " is not a valid number.");
+								check = false;
+								break;
+							}
+							recipe.setIngredient(c, material, durability);
+							continue;
+						}
+						recipe.setIngredient(c, material);
 					}
-					recipe.setIngredient(c, material);
+					if (check)
+						getServer().addRecipe(recipe);
 				}
-				if (check)
-					getServer().addRecipe(recipe);
-			}
 	}
 
 	public static boolean canRegisterBows() {
