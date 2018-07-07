@@ -15,7 +15,7 @@ bows-hand-particles: true
 # Disables particles emitted when holding
 # a special bow when set to false.
 
-disable-all-bow-crafting: false
+disable-bow-craftings: false
 # Disables all crafting recipes of special bows.
 # You can still obtain the bows via /mb get...
 
