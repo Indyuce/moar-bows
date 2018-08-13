@@ -1,7 +1,6 @@
 package net.Indyuce.mb.util;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,10 +14,10 @@ import org.bukkit.inventory.ItemStack;
 @SuppressWarnings("deprecation")
 public class VersionUtils implements Listener {
 	public static String version;
+	public static String[] splitVersion;
 
 	public static boolean isBelow(int... ver) {
-		String[] split = version.split(Pattern.quote("_"));
-		return Integer.parseInt(split[0].replace("v", "")) <= ver[0] && Integer.parseInt(split[1]) <= ver[1];
+		return Integer.parseInt(splitVersion[0].replace("v", "")) <= ver[0] && Integer.parseInt(splitVersion[1]) <= ver[1];
 	}
 
 	public static double[] getBoundingBox(Entity p) {

@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import net.Indyuce.mb.Main;
-import net.Indyuce.mb.reflect.NBTTags;
 import net.Indyuce.mb.resource.ItemTag;
 
 public class MoarBow {
@@ -103,7 +102,7 @@ public class MoarBow {
 
 		// unbreakable?
 		if (Main.plugin.getConfig().getBoolean("unbreakable-bows"))
-			i = NBTTags.add(i, new ItemTag("Unbreakable", true));
+			i = Main.nbttags.add(i, new ItemTag("Unbreakable", true));
 
 		return i;
 	}
@@ -127,7 +126,7 @@ public class MoarBow {
 			if (ChatColor.translateAlternateColorCodes('&', b.getName()).equals(i.getItemMeta().getDisplayName()))
 				return b;
 
-		String tag = NBTTags.getPluginTag(i, "MMOITEMS_MOARBOWS_ID");
+		String tag = Main.nbttags.getStringTag(i, "MMOITEMS_MOARBOWS_ID");
 		if (tag.equals(""))
 			return null;
 

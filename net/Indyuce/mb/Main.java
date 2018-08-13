@@ -26,6 +26,8 @@ import net.Indyuce.mb.listener.HandParticles;
 import net.Indyuce.mb.listener.HitEntity;
 import net.Indyuce.mb.listener.ItemPrevents;
 import net.Indyuce.mb.listener.ShootBow;
+import net.Indyuce.mb.nms.json.Json;
+import net.Indyuce.mb.nms.nbttag.NBTTags;
 import net.Indyuce.mb.resource.CustomMessage;
 import net.Indyuce.mb.resource.DefaultBow;
 import net.Indyuce.mb.resource.bow.MarkedBow;
@@ -45,6 +47,10 @@ public class Main extends JavaPlugin {
 	// improves performance, easier to access
 	public static FileConfiguration bows;
 	public static FileConfiguration messages;
+
+	// nms handling
+	public static Json json;
+	public static NBTTags nbttags;
 
 	// must register the bows before the plugin is enabled
 	// otherwise it can't generate the required config files
@@ -72,7 +78,11 @@ public class Main extends JavaPlugin {
 		// version
 		try {
 			VersionUtils.version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+			VersionUtils.splitVersion = VersionUtils.version.split("\\_");
 			Bukkit.getConsoleSender().sendMessage("[MoarBows] " + ChatColor.DARK_GRAY + "Detected Bukkit Version: " + VersionUtils.version);
+
+			json = (Json) Class.forName("net.Indyuce.mb.nms.json.Json_" + VersionUtils.version.substring(1)).newInstance();
+			nbttags = (NBTTags) Class.forName("net.Indyuce.mb.nms.nbttag.NBTTags_" + VersionUtils.version.substring(1)).newInstance();
 		} catch (Exception e) {
 			Bukkit.getConsoleSender().sendMessage("[MoarBows] " + ChatColor.RED + "Your server version is not compatible.");
 			Bukkit.getPluginManager().disablePlugin(this);

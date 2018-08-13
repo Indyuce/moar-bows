@@ -12,7 +12,6 @@ import net.Indyuce.mb.ConfigData;
 import net.Indyuce.mb.GUI;
 import net.Indyuce.mb.Main;
 import net.Indyuce.mb.api.MoarBow;
-import net.Indyuce.mb.reflect.Json;
 import net.Indyuce.mb.util.Utils;
 
 public class MoarBowsCommand implements CommandExecutor {
@@ -69,7 +68,7 @@ public class MoarBowsCommand implements CommandExecutor {
 				return true;
 			}
 			for (MoarBow b : Main.map.values())
-				Json.json((Player) sender, "{\"text\":\"* " + ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', b.getName()) + ChatColor.WHITE + ", use /mb get " + b.getID() + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/mb get " + b.getID() + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click to get the " + ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', b.getName()) + ChatColor.WHITE + ".\",\"color\":\"white\"}]}}}");
+				Main.json.message((Player) sender, "{\"text\":\"* " + ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', b.getName()) + ChatColor.WHITE + ", use /mb get " + b.getID() + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/mb get " + b.getID() + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click to get the " + ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', b.getName()) + ChatColor.WHITE + ".\",\"color\":\"white\"}]}}}");
 		}
 
 		if (args[0].equalsIgnoreCase("get")) {
