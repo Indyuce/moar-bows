@@ -18,8 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.Indyuce.mb.Eff;
 import net.Indyuce.mb.Main;
 import net.Indyuce.mb.api.MoarBow;
-import net.Indyuce.mb.comp.CUtils;
-import net.Indyuce.mb.resource.CustomFlag;
+import net.Indyuce.mb.comp.worldguard.CustomFlag;
 import net.Indyuce.mb.util.Utils;
 
 public class ShootBow implements Listener {
@@ -48,7 +47,7 @@ public class ShootBow implements Listener {
 			return;
 
 		// worldguard flag
-		if (!CUtils.boolFlag(p, CustomFlag.MB_BOWS)) {
+		if (!Main.wgPlugin.isFlagAllowed(p, CustomFlag.MB_BOWS)) {
 			e.setCancelled(true);
 			p.sendMessage(ChatColor.YELLOW + Utils.msg("disable-bows-flag"));
 			return;

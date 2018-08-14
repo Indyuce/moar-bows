@@ -19,9 +19,11 @@ import net.Indyuce.mb.api.MoarBow;
 import net.Indyuce.mb.command.MoarBowsCommand;
 import net.Indyuce.mb.command.completion.MoarBowsCompletion;
 import net.Indyuce.mb.comp.Version_1_12;
-import net.Indyuce.mb.comp.WorldGuardUtils;
-import net.Indyuce.mb.listener.ArrowLand_v1_9;
+import net.Indyuce.mb.comp.worldguard.WGPlugin;
+import net.Indyuce.mb.comp.worldguard.WorldGuardOff;
+import net.Indyuce.mb.comp.worldguard.WorldGuardOn;
 import net.Indyuce.mb.listener.ArrowLand_v1_8;
+import net.Indyuce.mb.listener.ArrowLand_v1_9;
 import net.Indyuce.mb.listener.HandParticles;
 import net.Indyuce.mb.listener.HitEntity;
 import net.Indyuce.mb.listener.ItemPrevents;
@@ -40,8 +42,9 @@ public class Main extends JavaPlugin {
 	// bows need different bow IDs otherwise it just overrides
 	public static HashMap<String, MoarBow> map = new HashMap<String, MoarBow>();
 
-	// plugin instance
+	// plugins
 	public static Main plugin;
+	public static WGPlugin wgPlugin;
 
 	// saves temporarily the files to it is more accessible
 	// improves performance, easier to access
@@ -59,13 +62,15 @@ public class Main extends JavaPlugin {
 	public void onLoad() {
 		plugin = this;
 
-		// load WG flags
-		if (getServer().getPluginManager().getPlugin("WorldGuard") != null)
-			WorldGuardUtils.setup();
-
 		// load default bows
 		for (DefaultBow b : DefaultBow.values())
 			new MoarBow(b.interfaceClass, b.name(), b.name, b.lore, 0, b.cd, b.eff, b.craft, b.mods).register(false);
+
+		// register WG flags before it is enabled
+		if (getServer().getPluginManager().getPlugin("WorldGuard") != null)
+			wgPlugin = new WorldGuardOn();
+		else
+			wgPlugin = new WorldGuardOff();
 	}
 
 	@SuppressWarnings("deprecation")
