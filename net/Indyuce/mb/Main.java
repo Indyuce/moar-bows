@@ -18,10 +18,10 @@ import net.Indyuce.mb.api.BowModifier;
 import net.Indyuce.mb.api.MoarBow;
 import net.Indyuce.mb.command.MoarBowsCommand;
 import net.Indyuce.mb.command.completion.MoarBowsCompletion;
-import net.Indyuce.mb.comp.ArrowLand_1_8;
 import net.Indyuce.mb.comp.Version_1_12;
 import net.Indyuce.mb.comp.WorldGuardUtils;
-import net.Indyuce.mb.listener.ArrowLand;
+import net.Indyuce.mb.listener.ArrowLand_v1_9;
+import net.Indyuce.mb.listener.ArrowLand_v1_8;
 import net.Indyuce.mb.listener.HandParticles;
 import net.Indyuce.mb.listener.HitEntity;
 import net.Indyuce.mb.listener.ItemPrevents;
@@ -96,9 +96,9 @@ public class Main extends JavaPlugin {
 		Bukkit.getServer().getPluginManager().registerEvents(new ItemPrevents(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new HitEntity(), this);
 		if (VersionUtils.isBelow(1, 8))
-			Bukkit.getServer().getPluginManager().registerEvents(new ArrowLand_1_8(), this);
+			Bukkit.getServer().getPluginManager().registerEvents(new ArrowLand_v1_8(), this);
 		else
-			Bukkit.getServer().getPluginManager().registerEvents(new ArrowLand(), this);
+			Bukkit.getServer().getPluginManager().registerEvents(new ArrowLand_v1_9(), this);
 		HandParticles.initialize();
 
 		Bukkit.getServer().getPluginManager().registerEvents(new MarkedBow(), this);

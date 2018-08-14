@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
-public class ArrowLand implements Listener {
+public class ArrowLand_v1_9 implements Listener {
 	@EventHandler
 	public void a(ProjectileHitEvent e) {
 		if (e.getEntity().getType() != EntityType.ARROW)

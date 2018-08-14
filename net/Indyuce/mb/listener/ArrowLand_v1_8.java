@@ -1,4 +1,4 @@
-package net.Indyuce.mb.comp;
+package net.Indyuce.mb.listener;
 
 import java.lang.reflect.Field;
 
@@ -12,10 +12,9 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.Indyuce.mb.Main;
-import net.Indyuce.mb.listener.ShootBow;
 import net.minecraft.server.v1_8_R3.EntityArrow;
 
-public class ArrowLand_1_8 implements Listener {
+public class ArrowLand_v1_8 implements Listener {
 	@EventHandler
 	private void onProjectileHit(final ProjectileHitEvent e) {
 		if (e.getEntityType() != EntityType.ARROW)
