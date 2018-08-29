@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
-import net.Indyuce.mb.resource.ItemTag;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 
 public class NBTTags_1_12_R1 implements NBTTags {

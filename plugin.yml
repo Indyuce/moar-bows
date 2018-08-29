@@ -1,6 +1,6 @@
 name: MoarBows
-version: 2.2.2
-main: net.Indyuce.mb.Main
+version: 2.3
+main: net.Indyuce.mb.MoarBows
 author: Indyuce
 softdepend: [WorldGuard]
 commands:

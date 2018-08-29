@@ -9,7 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import net.Indyuce.mb.Main;
+import net.Indyuce.mb.MoarBows;
+import net.Indyuce.mb.api.MoarBow;
 
 public class MoarBowsCompletion implements TabCompleter {
 	@Override
@@ -27,7 +28,8 @@ public class MoarBowsCompletion implements TabCompleter {
 			list.add("reload");
 		} else if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("get"))
-					list.addAll(Main.map.keySet());
+				for (MoarBow bow : MoarBows.getBows())
+					list.add(bow.getID());
 		} else if (args.length == 3) {
 			if (args[0].equalsIgnoreCase("get"))
 				for (Player t : Bukkit.getOnlinePlayers())

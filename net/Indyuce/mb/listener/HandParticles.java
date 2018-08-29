@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.Indyuce.mb.Eff;
-import net.Indyuce.mb.Main;
+import net.Indyuce.mb.MoarBows;
 import net.Indyuce.mb.api.MoarBow;
 import net.Indyuce.mb.util.Utils;
 import net.Indyuce.mb.util.VersionUtils;
@@ -19,15 +19,15 @@ public class HandParticles {
 	private static int parsPerSec = 1;
 
 	public static void initialize() {
-		parsPerSec = Main.plugin.getConfig().getBoolean("reduce-hand-particles") ? 8 : 1;
+		parsPerSec = MoarBows.plugin.getConfig().getBoolean("reduce-hand-particles") ? 8 : 1;
 
-		if (Main.plugin.getConfig().getBoolean("bows-hand-particles")) {
+		if (MoarBows.plugin.getConfig().getBoolean("bows-hand-particles")) {
 			new BukkitRunnable() {
 				public void run() {
 					for (Player p : Bukkit.getOnlinePlayers())
 						loopHandParticles(p);
 				}
-			}.runTaskTimer(Main.plugin, 0, (Main.plugin.getConfig().getBoolean("reduce-hand-particles") ? 20 : 2));
+			}.runTaskTimer(MoarBows.plugin, 0, (MoarBows.plugin.getConfig().getBoolean("reduce-hand-particles") ? 20 : 2));
 		}
 	}
 

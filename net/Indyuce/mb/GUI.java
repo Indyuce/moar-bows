@@ -27,7 +27,7 @@ public class GUI implements Listener {
 	public static void openInv(Player p) {
 		Inventory inv = Bukkit.createInventory(null, 54, ChatColor.UNDERLINE + Utils.msg("gui-name"));
 
-		for (MoarBow b : Main.map.values()) {
+		for (MoarBow b : MoarBows.getBows()) {
 			ItemStack i = b.a().clone();
 			inv.setItem(getAvailableSlot(inv), i);
 		}

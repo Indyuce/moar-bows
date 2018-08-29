@@ -11,14 +11,14 @@ import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 
-import net.Indyuce.mb.Main;
+import net.Indyuce.mb.MoarBows;
 
 public class WorldGuardOn implements WGPlugin {
 	public static WorldGuardPlugin wg;
 	public static HashMap<String, StateFlag> flags = new HashMap<String, StateFlag>();
 
 	public WorldGuardOn() {
-		wg = (WorldGuardPlugin) Main.plugin.getServer().getPluginManager().getPlugin("WorldGuard");
+		wg = (WorldGuardPlugin) MoarBows.plugin.getServer().getPluginManager().getPlugin("WorldGuard");
 
 		FlagRegistry registry = wg.getFlagRegistry();
 		for (CustomFlag cf : CustomFlag.values()) {

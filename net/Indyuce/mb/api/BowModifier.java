@@ -1,19 +1,19 @@
 package net.Indyuce.mb.api;
 
 public class BowModifier {
-	private String p;
-	private Object df;
+	private String path;
+	private Object defaultValue;
 
 	public BowModifier(String path, Object defaultValue) {
-		this.p = path;
-		this.df = defaultValue;
+		this.path = path;
+		this.defaultValue = defaultValue;
 	}
 
 	public String getPath() {
-		return p;
+		return path;
 	}
 
 	public Object getDefaultValue() {
-		return df;
+		return defaultValue;
 	}
 }

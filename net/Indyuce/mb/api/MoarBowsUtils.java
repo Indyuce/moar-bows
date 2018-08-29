@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.logging.log4j.util.Strings;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
 public class MoarBowsUtils {
@@ -23,9 +22,5 @@ public class MoarBowsUtils {
 		List<String> line3 = Arrays.asList(new String[] { parse(craftingRecipe[6]), parse(craftingRecipe[7]), parse(craftingRecipe[8]) });
 		
 		return new String[] { Strings.join(line1, ','), Strings.join(line2, ','), Strings.join(line3, ',') };
-	}
-
-	public static MoarBow getBowFromItem(ItemStack item) {
-		return MoarBow.get(item);
 	}
 }

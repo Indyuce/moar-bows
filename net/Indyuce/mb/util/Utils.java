@@ -17,14 +17,14 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import net.Indyuce.mb.Main;
+import net.Indyuce.mb.MoarBows;
 import net.Indyuce.mb.api.MoarBow;
 
 public class Utils implements Listener {
 	public static HashMap<UUID, HashMap<String, Long>> cd = new HashMap<UUID, HashMap<String, Long>>();
 
 	public static String msg(String path) {
-		return ChatColor.translateAlternateColorCodes('&', Main.messages.getString(path));
+		return ChatColor.translateAlternateColorCodes('&', MoarBows.messages.getString(path));
 	}
 
 	public static String caseOnWords(String s) {

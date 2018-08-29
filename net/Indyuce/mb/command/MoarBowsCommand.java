@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import net.Indyuce.mb.ConfigData;
 import net.Indyuce.mb.GUI;
-import net.Indyuce.mb.Main;
+import net.Indyuce.mb.MoarBows;
 import net.Indyuce.mb.api.MoarBow;
 import net.Indyuce.mb.util.Utils;
 
@@ -46,16 +46,16 @@ public class MoarBowsCommand implements CommandExecutor {
 		}
 
 		if (args[0].equalsIgnoreCase("reload")) {
-			
+
 			// reload config files
-			Main.plugin.reloadConfig();
-			Main.bows = ConfigData.getCD(Main.plugin, "", "bows");
-			Main.messages = ConfigData.getCD(Main.plugin, "", "messages");
-			
+			MoarBows.plugin.reloadConfig();
+			MoarBows.bows = ConfigData.getCD(MoarBows.plugin, "", "bows");
+			MoarBows.messages = ConfigData.getCD(MoarBows.plugin, "", "messages");
+
 			// reload bows
-			for (MoarBow b : Main.map.values())
-				b.update(Main.bows);
-			
+			for (MoarBow b : MoarBows.getBows())
+				b.update(MoarBows.bows);
+
 			sender.sendMessage(ChatColor.YELLOW + "Config files & bows reloaded.");
 		}
 
@@ -63,12 +63,12 @@ public class MoarBowsCommand implements CommandExecutor {
 			sender.sendMessage(ChatColor.DARK_GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------------------");
 			sender.sendMessage(ChatColor.GREEN + "List of available bows:");
 			if (!Utils.checkPl(sender, false)) {
-				for (MoarBow b : Main.map.values())
+				for (MoarBow b : MoarBows.getBows())
 					sender.sendMessage("* " + ChatColor.GREEN + " " + ChatColor.translateAlternateColorCodes('&', b.getName()));
 				return true;
 			}
-			for (MoarBow b : Main.map.values())
-				Main.json.message((Player) sender, "{\"text\":\"* " + ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', b.getName()) + ChatColor.WHITE + ", use /mb get " + b.getID() + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/mb get " + b.getID() + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click to get the " + ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', b.getName()) + ChatColor.WHITE + ".\",\"color\":\"white\"}]}}}");
+			for (MoarBow b : MoarBows.getBows())
+				MoarBows.json.message((Player) sender, "{\"text\":\"* " + ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', b.getName()) + ChatColor.WHITE + ", use /mb get " + b.getID() + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/mb get " + b.getID() + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click to get the " + ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', b.getName()) + ChatColor.WHITE + ".\",\"color\":\"white\"}]}}}");
 		}
 
 		if (args[0].equalsIgnoreCase("get")) {
@@ -83,7 +83,7 @@ public class MoarBowsCommand implements CommandExecutor {
 
 			// trap
 			String bowFormat = args[1].toUpperCase().replace("-", "_");
-			MoarBow bow = Main.map.containsKey(bowFormat) ? Main.map.get(bowFormat) : null;
+			MoarBow bow = MoarBows.hasBow(bowFormat) ? MoarBows.getBow(bowFormat) : null;
 			if (bow == null) {
 				sender.sendMessage(ChatColor.RED + "Couldn't find the bow called " + bowFormat + ".");
 				return false;
@@ -115,7 +115,7 @@ public class MoarBowsCommand implements CommandExecutor {
 		if (args[0].equalsIgnoreCase("getall")) {
 			if (!Utils.checkPl(sender, true))
 				return false;
-			for (MoarBow b : Main.map.values()) {
+			for (MoarBow b : MoarBows.getBows()) {
 				if (((Player) sender).getInventory().firstEmpty() == -1) {
 					((Player) sender).getWorld().dropItem(((Player) sender).getLocation(), b.a());
 					continue;

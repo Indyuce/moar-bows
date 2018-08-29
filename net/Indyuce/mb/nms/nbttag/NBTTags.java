@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
 
-import net.Indyuce.mb.resource.ItemTag;
-
 public interface NBTTags {
 	public ItemStack add(ItemStack i, ItemTag... tags);
 

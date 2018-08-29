@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import net.Indyuce.mb.api.MoarBow;
+import net.Indyuce.mb.api.ArrowManager;
 
 public class HitEntity implements Listener {
 	@EventHandler
@@ -15,11 +15,10 @@ public class HitEntity implements Listener {
 		if (e.getDamager().getType() != EntityType.ARROW)
 			return;
 
-		Arrow a = (Arrow) e.getDamager();
-		MoarBow b = ShootBow.type.get(a.getUniqueId());
-		if (b == null || !(a.getShooter() instanceof Player))
+		Arrow arrow = (Arrow) e.getDamager();
+		if (!ArrowManager.isCustomArrow(arrow))
 			return;
 
-		b.getBowClass().hit(e, a, e.getEntity(), (Player) a.getShooter());
+		ArrowManager.getArrowData(arrow).getBow().hit(e, arrow, e.getEntity(), (Player) arrow.getShooter());
 	}
 }

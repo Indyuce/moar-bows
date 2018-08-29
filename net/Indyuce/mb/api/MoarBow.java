@@ -1,24 +1,29 @@
 package net.Indyuce.mb.api;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import net.Indyuce.mb.Main;
-import net.Indyuce.mb.resource.ItemTag;
+import net.Indyuce.mb.MoarBows;
+import net.Indyuce.mb.nms.nbttag.ItemTag;
 
 public class MoarBow {
 
 	// main
 	private String id;
-	private SpecialBow bowClass;
-	private BowModifier[] mods;
+	private List<BowModifier> mods = new ArrayList<BowModifier>();
 
 	// display
 	private String name;
@@ -30,28 +35,52 @@ public class MoarBow {
 	private double cd;
 	private String[] craft;
 
-	public MoarBow(SpecialBow bowClass, String id, String name, String[] lore, int durability, double cooldown, String particleEffect, String[] craft, BowModifier[] mods) {
+	public MoarBow(String[] lore, int durability, double cooldown, String particleEffect, String[] craft) {
+		this("", "", lore, durability, cooldown, particleEffect, craft);
+
+		this.id = getClass().getSimpleName().toUpperCase();
+		this.name = getClass().getSimpleName().replace("_", " ");
+	}
+
+	public MoarBow(String id, String name, String[] lore, int durability, double cooldown, String particleEffect, String[] craft) {
 		this.id = id.toUpperCase().replace("-", "_");
-		this.bowClass = bowClass;
 		this.name = name;
 		this.lore = lore;
 		this.data = (short) durability;
 		this.pe = particleEffect;
 		this.cd = cooldown;
 		this.craft = craft;
-		this.mods = mods;
+	}
+
+	public void addModifier(BowModifier... modifiers) {
+		for (BowModifier modifier : modifiers)
+			mods.add(modifier);
+	}
+
+	// true = arrow effects
+	// false = no arrow effects, arrow is NOT removed systematically
+	public boolean shoot(EntityShootBowEvent e, Arrow a, Player p, ItemStack i) {
+		return true;
+	}
+
+	public void hit(EntityDamageByEntityEvent e, Arrow a, Entity p, Player t) {
+
+	}
+
+	public void land(Player p, Arrow a) {
+
 	}
 
 	public String getID() {
 		return id;
 	}
 
-	public String getName() {
-		return name;
+	public String getLowerCaseID() {
+		return id.toLowerCase().replace("_", "-");
 	}
 
-	public SpecialBow getBowClass() {
-		return bowClass;
+	public String getName() {
+		return name;
 	}
 
 	public short getDurability() {
@@ -62,8 +91,8 @@ public class MoarBow {
 		return lore == null ? new String[0] : lore;
 	}
 
-	public BowModifier[] getModifiers() {
-		return mods == null ? new BowModifier[0] : mods;
+	public List<BowModifier> getModifiers() {
+		return mods == null ? new ArrayList<BowModifier>() : mods;
 	}
 
 	public double getCooldown() {
@@ -101,35 +130,33 @@ public class MoarBow {
 		i.setItemMeta(meta);
 
 		// unbreakable?
-		if (Main.plugin.getConfig().getBoolean("unbreakable-bows"))
-			i = Main.nbttags.add(i, new ItemTag("Unbreakable", true));
+		if (MoarBows.plugin.getConfig().getBoolean("unbreakable-bows"))
+			i = MoarBows.nbttags.add(i, new ItemTag("Unbreakable", true));
 
 		return i;
 	}
 
-	public void register(boolean msg) {
-
-		// check for register boolean
-		if (!Main.canRegisterBows()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_RED + "[MoarBows] Failed attempt to register " + id + "! Please register your bows when the plugin is loading.");
-			return;
-		}
-
-		// register
-		Main.map.put(id, this);
-		if (msg)
-			Bukkit.getConsoleSender().sendMessage("[MoarBows] Successfully registered " + ChatColor.GREEN + id + ChatColor.WHITE + "!");
+	public void register() {
+		MoarBows.registerBow(this);
+		MoarBows.plugin.getLogger().log(Level.CONFIG, "Successfully register " + id + ".");
 	}
 
 	public static MoarBow get(ItemStack i) {
-		for (MoarBow b : Main.map.values())
+		for (MoarBow b : MoarBows.getBows())
 			if (ChatColor.translateAlternateColorCodes('&', b.getName()).equals(i.getItemMeta().getDisplayName()))
 				return b;
 
-		String tag = Main.nbttags.getStringTag(i, "MMOITEMS_MOARBOWS_ID");
+		String tag = MoarBows.nbttags.getStringTag(i, "MMOITEMS_MOARBOWS_ID");
 		if (tag.equals(""))
 			return null;
 
-		return Main.map.containsKey(tag) ? Main.map.get(tag) : null;
+		return MoarBows.hasBow(tag) ? MoarBows.getBow(tag) : null;
+	}
+
+	public static MoarBow getFromDisplayName(ItemStack i) {
+		for (MoarBow b : MoarBows.getBows())
+			if (ChatColor.translateAlternateColorCodes('&', b.getName()).equals(i.getItemMeta().getDisplayName()))
+				return b;
+		return null;
 	}
 }
