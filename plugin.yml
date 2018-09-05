@@ -1,6 +1,6 @@
 name: MoarBows
 version: 2.3
-main: net.Indyuce.mb.MoarBows
+main: net.Indyuce.moarbows.MoarBows
 author: Indyuce
 softdepend: [WorldGuard]
 commands:
@@ -8,13 +8,13 @@ commands:
         description: Main command.
         aliases: [mb, bows]
 permissions:
-    moarbows.cmd:
+    moarbows.admin:
         description: Main permission.
         default: op
     moarbows.gui:
         description: Access the bows GUI.
         default: op
-    moarbows.anvil-create:
+    moarbows.anvil:
         description: Allows to create a bow by renaming a regular one.
         default: op
     moarbows.repair:
