@@ -20,8 +20,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.comp.nms.ItemTag;
 import net.Indyuce.moarbows.util.MathUtils;
-import net.Indyuce.moarbows.version.nms.ItemTag;
 
 public class MoarBow {
 

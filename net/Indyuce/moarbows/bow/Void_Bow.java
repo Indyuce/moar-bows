@@ -8,7 +8,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import net.Indyuce.moarbows.Eff;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.VersionUtils;
+import net.Indyuce.moarbows.comp.version.VersionSound;
 
 public class Void_Bow extends MoarBow {
 	public Void_Bow() {
@@ -28,6 +28,6 @@ public class Void_Bow extends MoarBow {
 		loc.setYaw(((Player) a.getShooter()).getLocation().getYaw());
 		((Player) a.getShooter()).teleport(loc);
 		Eff.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, loc, 200);
-		VersionUtils.sound(a.getLocation(), "ENTITY_ENDERMEN_TELEPORT", 3, 1);
+		a.getWorld().playSound(a.getLocation(), VersionSound.ENTITY_ENDERMEN_TELEPORT.getSound(), 2, 1);
 	}
 }

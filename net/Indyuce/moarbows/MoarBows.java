@@ -22,6 +22,9 @@ import net.Indyuce.moarbows.command.MoarBowsCommand;
 import net.Indyuce.moarbows.command.completion.MoarBowsCompletion;
 import net.Indyuce.moarbows.comp.ArrowLand_v1_8;
 import net.Indyuce.moarbows.comp.Version_1_12;
+import net.Indyuce.moarbows.comp.nms.NMSHandler;
+import net.Indyuce.moarbows.comp.version.ServerVersion;
+import net.Indyuce.moarbows.comp.version.SpigotPlugin;
 import net.Indyuce.moarbows.comp.worldguard.WGPlugin;
 import net.Indyuce.moarbows.comp.worldguard.WorldGuardOff;
 import net.Indyuce.moarbows.comp.worldguard.WorldGuardOn;
@@ -31,8 +34,6 @@ import net.Indyuce.moarbows.listener.HitEntity;
 import net.Indyuce.moarbows.listener.ItemPrevents;
 import net.Indyuce.moarbows.listener.ShootBow;
 import net.Indyuce.moarbows.util.Utils;
-import net.Indyuce.moarbows.util.VersionUtils;
-import net.Indyuce.moarbows.version.nms.NMSHandler;
 
 public class MoarBows extends JavaPlugin {
 
@@ -44,10 +45,10 @@ public class MoarBows extends JavaPlugin {
 	public static WGPlugin wgPlugin;
 	private static NMSHandler nms;
 
-	// saves temporarily the files to it is more accessible
-	// improves performance, easier to access
+	// plugin
 	public static MoarBows plugin;
-	public static LanguageManager language;
+	private static LanguageManager language;
+	private static ServerVersion version;
 
 	// must register the bows before the plugin is enabled
 	// otherwise it can't generate the required config files
@@ -84,14 +85,18 @@ public class MoarBows extends JavaPlugin {
 		// otherwise the plugin can't create config files for the bows
 		registration = false;
 
-		// version
-		try {
-			VersionUtils.version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
-			VersionUtils.splitVersion = VersionUtils.version.split("\\_");
-			getLogger().log(Level.INFO, "Detected Bukkit Version: " + VersionUtils.version);
+		// check for latest version
+		SpigotPlugin spigotPlugin = new SpigotPlugin(this, 36387);
+		if (spigotPlugin.isOutOfDate())
+			for (String s : spigotPlugin.getOutOfDateMessage())
+				getLogger().log(Level.INFO, "\u001B[32m" + s + "\u001B[37m");
 
-			nms = (NMSHandler) Class.forName("net.Indyuce.moarbows.version.nms.NMSHandler_" + VersionUtils.version.substring(1)).newInstance();
-		} catch (Exception e) {
+		try {
+
+			// nms handle
+			getLogger().log(Level.INFO, "Detected Bukkit Version: " + version.toString());
+			nms = (NMSHandler) Class.forName("net.Indyuce.moarbows.comp.nms.NMSHandler_" + version.toString().substring(1)).newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			getLogger().log(Level.SEVERE, "Your server version is not compatible.");
 			Bukkit.getPluginManager().disablePlugin(this);
 			return;
@@ -103,17 +108,14 @@ public class MoarBows extends JavaPlugin {
 		Bukkit.getServer().getPluginManager().registerEvents(new ShootBow(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new ItemPrevents(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new HitEntity(), this);
-		if (VersionUtils.isBelow(1, 8))
-			Bukkit.getServer().getPluginManager().registerEvents(new ArrowLand_v1_8(), this);
-		else
-			Bukkit.getServer().getPluginManager().registerEvents(new ArrowLand(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(version.isBelowOrEqual(1, 8) ? new ArrowLand_v1_8() : new ArrowLand(), this);
 		HandParticles.initialize();
 
 		Bukkit.getServer().getPluginManager().registerEvents(new Marked_Bow(), this);
 
 		// worldguard flags
 		if (getServer().getPluginManager().isPluginEnabled("WorldGuard"))
-			getLogger().log(Level.INFO, "WorldGuard detected: enabled flags.");
+			getLogger().log(Level.INFO, "Hooked onto WorldGuard");
 
 		// config files
 		saveDefaultConfig();
@@ -128,7 +130,7 @@ public class MoarBows extends JavaPlugin {
 		if (!getConfig().getBoolean("disable-bow-craftings"))
 			for (MoarBow bow : getBows())
 				if (getLanguage().getBows().getBoolean(bow.getID() + ".craft-enabled")) {
-					ShapedRecipe recipe = VersionUtils.isBelow(1, 11) ? new ShapedRecipe(bow.getItem()) : new ShapedRecipe(Version_1_12.key(bow.getID()), bow.getItem());
+					ShapedRecipe recipe = version.isBelowOrEqual(1, 11) ? new ShapedRecipe(bow.getItem()) : new ShapedRecipe(Version_1_12.key(bow.getID()), bow.getItem());
 					recipe.shape(new String[] { "ABC", "DEF", "GHI" });
 					char[] chars = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' };
 					boolean check = true;
@@ -140,12 +142,14 @@ public class MoarBows extends JavaPlugin {
 							check = false;
 							break;
 						}
+
 						List<String> line = Arrays.asList(list.get(j / 3).split(Pattern.quote(",")));
 						if (line.size() < 3) {
 							getLogger().log(Level.WARNING, "Couldn't register the recipe of " + bow.getID() + " (format error)");
 							check = false;
 							break;
 						}
+
 						String s = line.get(j % 3);
 						Material material = null;
 						try {
@@ -155,6 +159,7 @@ public class MoarBows extends JavaPlugin {
 							check = false;
 							break;
 						}
+
 						if (s.contains(":")) {
 							int durability = 0;
 							try {
@@ -201,6 +206,10 @@ public class MoarBows extends JavaPlugin {
 
 	public static LanguageManager getLanguage() {
 		return language;
+	}
+
+	public static ServerVersion getVersion() {
+		return version;
 	}
 
 	public static void registerBow(MoarBow bow) {

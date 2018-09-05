@@ -17,7 +17,7 @@ import net.Indyuce.moarbows.Eff;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.VersionUtils;
+import net.Indyuce.moarbows.comp.version.VersionSound;
 
 public class Earthquake_Bow extends MoarBow {
 	public Earthquake_Bow() {
@@ -51,7 +51,7 @@ public class Earthquake_Bow extends MoarBow {
 
 		// needs a small delay because of the arrow knockback
 		a.remove();
-		VersionUtils.sound(a.getLocation(), "ENTITY_ZOMBIE_ATTACK_DOOR_WOOD", 2, 0);
+		a.getWorld().playSound(a.getLocation(), VersionSound.ENTITY_ZOMBIE_ATTACK_DOOR_WOOD.getSound(), 2, 0);
 		new BukkitRunnable() {
 			public void run() {
 				for (Entity ent : a.getNearbyEntities(radius, radius, radius))

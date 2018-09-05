@@ -13,7 +13,7 @@ import net.Indyuce.moarbows.Eff;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.VersionUtils;
+import net.Indyuce.moarbows.comp.version.VersionSound;
 
 public class Meteor_Bow extends MoarBow {
 	public Meteor_Bow() {
@@ -32,7 +32,7 @@ public class Meteor_Bow extends MoarBow {
 		a.remove();
 		double dmg = MoarBows.getLanguage().getBows().getInt("METEOR_BOW.damage");
 		double knockback = MoarBows.getLanguage().getBows().getInt("METEOR_BOW.knockback");
-		VersionUtils.sound(a.getLocation(), "ENTITY_ENDERMEN_TELEPORT", 3, 1);
+		a.getWorld().playSound(a.getLocation(), VersionSound.ENTITY_ENDERMEN_TELEPORT.getSound(), 3, 1);
 		new BukkitRunnable() {
 			Location loc = a.getLocation().clone();
 			Location source = a.getLocation().clone().add(0, 20, 0);
@@ -45,7 +45,7 @@ public class Meteor_Bow extends MoarBow {
 				Eff.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, source, 150);
 				Eff.FLAME.display(.2f, .2f, .2f, 0, 4, source, 100);
 				if (ti >= 1) {
-					VersionUtils.sound(loc, "ENTITY_GENERIC_EXPLODE", 3, 1);
+					loc.getWorld().playSound(loc, VersionSound.ENTITY_GENERIC_EXPLODE.getSound(), 3, 1);
 					Eff.EXPLOSION_LARGE.display(2, 2, 2, 0, 16, loc, 1000);
 					Eff.FLAME.display(0, 0, 0, .25f, 32, loc.add(0, .1, 0), 100);
 					Eff.EXPLOSION_NORMAL.display(0, 0, 0, .25f, 32, loc, 100);

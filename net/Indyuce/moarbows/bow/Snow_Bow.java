@@ -3,6 +3,7 @@ package net.Indyuce.moarbows.bow;
 import java.util.Random;
 
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -14,7 +15,6 @@ import org.bukkit.util.Vector;
 import net.Indyuce.moarbows.Eff;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.VersionUtils;
 
 public class Snow_Bow extends MoarBow {
 	public Snow_Bow() {
@@ -34,7 +34,7 @@ public class Snow_Bow extends MoarBow {
 
 				Location loc = p.getEyeLocation().clone();
 				Eff.SNOWBALL.display(.2f, .2f, .2f, 0, 6, loc, 100);
-				VersionUtils.sound(p.getLocation(), "ENTITY_SNOWBALL_THROW", 1, 1.5f);
+				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_SNOWBALL_THROW, 1, 1.5f);
 				Snowball s = p.launchProjectile(Snowball.class);
 				loc.setPitch(loc.getPitch() + new Random().nextInt(3) - 1);
 				loc.setYaw(loc.getYaw() + new Random().nextInt(3) - 1);

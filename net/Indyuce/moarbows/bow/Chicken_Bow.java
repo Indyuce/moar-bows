@@ -15,8 +15,8 @@ import org.bukkit.util.Vector;
 import net.Indyuce.moarbows.Eff;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.comp.version.VersionSound;
 import net.Indyuce.moarbows.util.Utils;
-import net.Indyuce.moarbows.util.VersionUtils;
 
 public class Chicken_Bow extends MoarBow {
 	public Chicken_Bow() {
@@ -39,7 +39,7 @@ public class Chicken_Bow extends MoarBow {
 
 				Location loc = p.getEyeLocation().clone();
 				Eff.CRIT.display(.2f, .2f, .2f, 0, 6, loc, 100);
-				VersionUtils.sound(p.getLocation(), "ENTITY_EGG_THROW", 1, 1.5f);
+				loc.getWorld().playSound(loc, VersionSound.ENTITY_CHICKEN_EGG_POP.getSound(), 1, 1.5f);
 				Egg egg = p.launchProjectile(Egg.class);
 				loc.setPitch(loc.getPitch() + new Random().nextInt(3) - 1);
 				loc.setYaw(loc.getYaw() + new Random().nextInt(3) - 1);

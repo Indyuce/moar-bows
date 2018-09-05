@@ -16,7 +16,7 @@ import net.Indyuce.moarbows.Eff;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.VersionUtils;
+import net.Indyuce.moarbows.comp.version.VersionSound;
 
 public class Pulsar_Bow extends MoarBow {
 	public Pulsar_Bow() {
@@ -34,7 +34,7 @@ public class Pulsar_Bow extends MoarBow {
 	public void land(Player p, Arrow a) {
 		double duration = MoarBows.getLanguage().getBows().getDouble("PULSAR_BOW.duration") * 20;
 		a.remove();
-		VersionUtils.sound(a.getLocation(), "ENTITY_ENDERMEN_TELEPORT", 3, 1);
+		a.getWorld().playSound(a.getLocation(), VersionSound.ENTITY_ENDERMEN_TELEPORT.getSound(), 3, 1);
 		new BukkitRunnable() {
 			int ti = 0;
 			double r = 4;
@@ -42,7 +42,7 @@ public class Pulsar_Bow extends MoarBow {
 
 			public void run() {
 				ti++;
-				VersionUtils.sound(loc, "BLOCK_NOTE_HAT", 2, 2);
+				loc.getWorld().playSound(loc, VersionSound.BLOCK_NOTE_HAT.getSound(), 2, 2);
 				Eff.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, loc, 100);
 				for (int j = 0; j < 3; j++) {
 					double ran = new Random().nextDouble() * Math.PI * 2;

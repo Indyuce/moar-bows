@@ -13,8 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import net.Indyuce.moarbows.Eff;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.comp.version.VersionSound;
 import net.Indyuce.moarbows.util.Utils;
-import net.Indyuce.moarbows.util.VersionUtils;
 
 public class Linear_Bow extends MoarBow {
 	public Linear_Bow() {
@@ -27,7 +27,7 @@ public class Linear_Bow extends MoarBow {
 		if (!Utils.consumeAmmo(p, new ItemStack(Material.ARROW)))
 			return false;
 
-		VersionUtils.sound(p.getLocation(), "ENTITY_ARROW_SHOOT", 2, 0);
+		p.getWorld().playSound(p.getLocation(), VersionSound.ENTITY_ARROW_SHOOT.getSound(), 2, 0);
 		int range = (int) (56 * e.getForce());
 		Location loc = p.getEyeLocation();
 		for (double j = 0; j < range; j++) {

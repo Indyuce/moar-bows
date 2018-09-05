@@ -11,7 +11,7 @@ import org.bukkit.inventory.Inventory;
 
 import net.Indyuce.moarbows.api.Message;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.VersionUtils;
+import net.Indyuce.moarbows.comp.version.VersionSound;
 
 public class GUI implements Listener {
 
@@ -37,7 +37,7 @@ public class GUI implements Listener {
 			String stat = lore1.split("#")[1];
 			double mod = config.getDouble(main_name + "." + stat);
 
-			lore1 = lore1.replace("#" + stat + "#", "§f" + mod + "§7");
+			lore1 = lore1.replace("#" + stat + "#", ChatColor.WHITE + "" + mod + "" + ChatColor.GRAY);
 			lore1 = statsInLore(config, lore1, main_name);
 		}
 		return lore1;
@@ -53,7 +53,7 @@ public class GUI implements Listener {
 		if (e.getClickedInventory() != e.getInventory())
 			return;
 
-		VersionUtils.sound(p, "BLOCK_NOTE_PLING", 1, 2);
+		p.getWorld().playSound(p.getLocation(), VersionSound.BLOCK_NOTE_PLING.getSound(), 1, 2);
 		p.getInventory().addItem(e.getCurrentItem());
 	}
 }

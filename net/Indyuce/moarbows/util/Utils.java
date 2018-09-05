@@ -8,6 +8,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import net.Indyuce.moarbows.MoarBows;
+
 public class Utils implements Listener {
 	public static String caseOnWords(String s) {
 		StringBuilder builder = new StringBuilder(s);
@@ -47,7 +49,7 @@ public class Utils implements Listener {
 		if (i != null)
 			if (i.hasItemMeta())
 				if (i.getItemMeta().hasDisplayName())
-					return !lore || i.getItemMeta().getLore() == null;
+					return !lore || i.getItemMeta().getLore() != null;
 		return false;
 	}
 
@@ -61,9 +63,13 @@ public class Utils implements Listener {
 	public static boolean canDmgEntity(Player p, Location loc, Entity t) {
 		if (t.hasMetadata("NPC"))
 			return false;
-		double[] boundingBox = VersionUtils.getBoundingBox(t);
-		if ((loc == null ? true : loc.getX() >= boundingBox[0] - .5 && loc.getY() >= boundingBox[1] - .5 && loc.getZ() >= boundingBox[2] - .5 && loc.getX() <= boundingBox[3] + .5 && loc.getY() <= boundingBox[4] + .5 && loc.getZ() <= boundingBox[5] + .5) && t != p)
-			return true;
-		return false;
+
+		double[] boundingBox = MoarBows.getNMS().getBoundingBox(t);
+		return (loc == null ? true : loc.getX() >= boundingBox[0] - .5 && loc.getY() >= boundingBox[1] - .5 && loc.getZ() >= boundingBox[2] - .5 && loc.getX() <= boundingBox[3] + .5 && loc.getY() <= boundingBox[4] + .5 && loc.getZ() <= boundingBox[5] + .5) && t != p;
+	}
+
+	@SuppressWarnings("deprecation")
+	public static ItemStack[] getHandItems(Player p) {
+		return MoarBows.getVersion().isBelowOrEqual(1, 8) ? new ItemStack[] { p.getItemInHand() } : new ItemStack[] { p.getInventory().getItemInMainHand(), p.getInventory().getItemInOffHand() };
 	}
 }

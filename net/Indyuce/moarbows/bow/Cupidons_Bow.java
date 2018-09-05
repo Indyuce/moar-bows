@@ -11,7 +11,7 @@ import net.Indyuce.moarbows.Eff;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.VersionUtils;
+import net.Indyuce.moarbows.comp.version.VersionSound;
 
 public class Cupidons_Bow extends MoarBow {
 	public Cupidons_Bow() {
@@ -27,7 +27,7 @@ public class Cupidons_Bow extends MoarBow {
 
 		e.setDamage(0);
 		Eff.HEART.display(1, 1, 1, 0, 16, p.getLocation().add(0, 1, 0), 200);
-		VersionUtils.sound(p.getLocation(), "ENTITY_BLAZE_AMBIENT", 2, 2);
+		p.getWorld().playSound(p.getLocation(), VersionSound.ENTITY_BLAZE_AMBIENT.getSound(), 2, 2);
 		Marked_Bow.marked.remove(p.getUniqueId());
 		double max = ((Player) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
 		double health = ((Player) p).getHealth();

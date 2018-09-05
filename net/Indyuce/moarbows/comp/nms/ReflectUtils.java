@@ -1,10 +1,10 @@
-package net.Indyuce.moarbows.version.nms;
+package net.Indyuce.moarbows.comp.nms;
 
 import java.lang.reflect.InvocationTargetException;
 
 import org.bukkit.entity.Player;
 
-import net.Indyuce.moarbows.util.VersionUtils;
+import net.Indyuce.moarbows.MoarBows;
 
 public class ReflectUtils {
 	public static void sendPacket(Player p, Object packet) {
@@ -18,14 +18,14 @@ public class ReflectUtils {
 	}
 
 	public static Class<?> nms(String str) throws ClassNotFoundException {
-		return Class.forName("net.minecraft.server." + VersionUtils.version + "." + str);
+		return Class.forName("net.minecraft.server." + MoarBows.getVersion().toString() + "." + str);
 	}
 
 	public static Class<?> obc(String str) throws ClassNotFoundException {
-		return Class.forName("org.bukkit.craftbukkit." + VersionUtils.version + "." + str);
+		return Class.forName("org.bukkit.craftbukkit." + MoarBows.getVersion().toString() + "." + str);
 	}
 
-	// works above 1.13
+	// reflection that works >1.13 ONLY (not <1.11)
 	public static Class<?> enumTitleAction() throws SecurityException, ClassNotFoundException {
 		return ReflectUtils.nms("PacketPlayOutTitle").getDeclaredClasses()[0];
 	}

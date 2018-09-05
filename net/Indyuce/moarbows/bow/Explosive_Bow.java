@@ -10,7 +10,7 @@ import net.Indyuce.moarbows.Eff;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.VersionUtils;
+import net.Indyuce.moarbows.comp.version.VersionSound;
 
 public class Explosive_Bow extends MoarBow {
 	public Explosive_Bow() {
@@ -29,7 +29,7 @@ public class Explosive_Bow extends MoarBow {
 		double dmg = MoarBows.getLanguage().getBows().getDouble("EXPLOSIVE_BOW.damage");
 		a.remove();
 		Eff.EXPLOSION_LARGE.display(2, 2, 2, 0, 8, a.getLocation(), 200);
-		VersionUtils.sound(a.getLocation(), "ENTITY_GENERIC_EXPLODE", 3, 1);
+		a.getWorld().playSound(p.getLocation(), VersionSound.ENTITY_GENERIC_EXPLODE.getSound(), 2, 1);
 		for (Entity ent : a.getNearbyEntities(5, 5, 5))
 			if (ent instanceof LivingEntity)
 				MoarBows.getNMS().damageEntity(p, (LivingEntity) ent, dmg);

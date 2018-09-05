@@ -1,39 +1,39 @@
-package net.Indyuce.moarbows.version.nms;
+package net.Indyuce.moarbows.comp.nms;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_10_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import net.minecraft.server.v1_10_R1.AxisAlignedBB;
-import net.minecraft.server.v1_10_R1.DamageSource;
-import net.minecraft.server.v1_10_R1.EntityHuman;
-import net.minecraft.server.v1_10_R1.IChatBaseComponent;
-import net.minecraft.server.v1_10_R1.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_10_R1.NBTTagCompound;
-import net.minecraft.server.v1_10_R1.NBTTagFloat;
-import net.minecraft.server.v1_10_R1.NBTTagInt;
-import net.minecraft.server.v1_10_R1.NBTTagList;
-import net.minecraft.server.v1_10_R1.NBTTagString;
-import net.minecraft.server.v1_10_R1.PacketPlayOutChat;
-import net.minecraft.server.v1_10_R1.PacketPlayOutTitle;
-import net.minecraft.server.v1_10_R1.PacketPlayOutTitle.EnumTitleAction;
-import net.minecraft.server.v1_10_R1.PlayerConnection;
+import net.minecraft.server.v1_8_R2.AxisAlignedBB;
+import net.minecraft.server.v1_8_R2.DamageSource;
+import net.minecraft.server.v1_8_R2.EntityHuman;
+import net.minecraft.server.v1_8_R2.IChatBaseComponent;
+import net.minecraft.server.v1_8_R2.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_8_R2.NBTTagCompound;
+import net.minecraft.server.v1_8_R2.NBTTagFloat;
+import net.minecraft.server.v1_8_R2.NBTTagInt;
+import net.minecraft.server.v1_8_R2.NBTTagList;
+import net.minecraft.server.v1_8_R2.NBTTagString;
+import net.minecraft.server.v1_8_R2.PacketPlayOutChat;
+import net.minecraft.server.v1_8_R2.PacketPlayOutTitle;
+import net.minecraft.server.v1_8_R2.PacketPlayOutTitle.EnumTitleAction;
+import net.minecraft.server.v1_8_R2.PlayerConnection;
 
-public class NMSHandler_1_10_R1 implements NMSHandler {
+public class NMSHandler_1_8_R2 implements NMSHandler {
 	@Override
 	public ItemStack addTag(ItemStack i, ItemTag... tags) {
-		net.minecraft.server.v1_10_R1.ItemStack nmsi = CraftItemStack.asNMSCopy(i);
+		net.minecraft.server.v1_8_R2.ItemStack nmsi = CraftItemStack.asNMSCopy(i);
 		NBTTagCompound compound = nmsi.hasTag() ? nmsi.getTag() : new NBTTagCompound();
 
 		for (ItemTag tag : tags) {
@@ -55,7 +55,7 @@ public class NMSHandler_1_10_R1 implements NMSHandler {
 
 	@Override
 	public ItemStack addAttribute(ItemStack i, Attribute... attributes) {
-		net.minecraft.server.v1_10_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(i);
+		net.minecraft.server.v1_8_R2.ItemStack nmsStack = CraftItemStack.asNMSCopy(i);
 		NBTTagCompound compound = nmsStack.getTag();
 		if (compound == null) {
 			nmsStack.setTag(new NBTTagCompound());
@@ -86,7 +86,7 @@ public class NMSHandler_1_10_R1 implements NMSHandler {
 		if (i == null || i.getType() == Material.AIR)
 			return new ArrayList<String>();
 
-		net.minecraft.server.v1_10_R1.ItemStack nmsi = CraftItemStack.asNMSCopy(i);
+		net.minecraft.server.v1_8_R2.ItemStack nmsi = CraftItemStack.asNMSCopy(i);
 		NBTTagCompound compound = nmsi.hasTag() ? nmsi.getTag() : new NBTTagCompound();
 		return new ArrayList<String>(compound.c());
 	}
@@ -96,7 +96,7 @@ public class NMSHandler_1_10_R1 implements NMSHandler {
 		if (i == null || i.getType() == Material.AIR)
 			return false;
 
-		net.minecraft.server.v1_10_R1.ItemStack nmsi = CraftItemStack.asNMSCopy(i);
+		net.minecraft.server.v1_8_R2.ItemStack nmsi = CraftItemStack.asNMSCopy(i);
 		NBTTagCompound compound = nmsi.hasTag() ? nmsi.getTag() : new NBTTagCompound();
 		return compound.getBoolean(path);
 	}
@@ -106,7 +106,7 @@ public class NMSHandler_1_10_R1 implements NMSHandler {
 		if (i == null || i.getType() == Material.AIR)
 			return 0;
 
-		net.minecraft.server.v1_10_R1.ItemStack nmsi = CraftItemStack.asNMSCopy(i);
+		net.minecraft.server.v1_8_R2.ItemStack nmsi = CraftItemStack.asNMSCopy(i);
 		NBTTagCompound compound = nmsi.hasTag() ? nmsi.getTag() : new NBTTagCompound();
 		return compound.getDouble(path);
 	}
@@ -116,29 +116,28 @@ public class NMSHandler_1_10_R1 implements NMSHandler {
 		if (i == null || i.getType() == Material.AIR)
 			return "";
 
-		net.minecraft.server.v1_10_R1.ItemStack nmsi = CraftItemStack.asNMSCopy(i);
+		net.minecraft.server.v1_8_R2.ItemStack nmsi = CraftItemStack.asNMSCopy(i);
 		NBTTagCompound compound = nmsi.hasTag() ? nmsi.getTag() : new NBTTagCompound();
 		return compound.getString(path);
 	}
 
 	@Override
-	public HashMap<String, Double> requestDoubleTags(ItemStack i, HashMap<String, Double> map) {
-		if (i == null || i.getType() == Material.AIR)
-			return map;
-
-		net.minecraft.server.v1_10_R1.ItemStack nmsi = CraftItemStack.asNMSCopy(i);
-		NBTTagCompound compound = nmsi.hasTag() ? nmsi.getTag() : new NBTTagCompound();
-		for (String s : map.keySet())
-			map.put(s, map.get(s) + compound.getDouble("MMOITEMS_" + s));
-
-		return map;
+	public double[] getBoundingBox(Entity p) {
+		net.minecraft.server.v1_8_R2.Entity nmsEntity = ((CraftEntity) p).getHandle();
+		AxisAlignedBB boundingBox = nmsEntity.getBoundingBox();
+		return new double[] { boundingBox.a, boundingBox.b, boundingBox.c, boundingBox.d, boundingBox.e, boundingBox.f };
 	}
 
 	@Override
-	public double[] getBoundingBox(Entity p) {
-		net.minecraft.server.v1_10_R1.Entity nmsEntity = ((CraftEntity) p).getHandle();
-		AxisAlignedBB boundingBox = nmsEntity.getBoundingBox();
-		return new double[] { boundingBox.a, boundingBox.b, boundingBox.c, boundingBox.d, boundingBox.e, boundingBox.f };
+	public void damageEntity(Player p, LivingEntity t, double value) {
+		((CraftLivingEntity) t).getHandle().damageEntity(DamageSource.playerAttack((EntityHuman) ((CraftPlayer) p).getHandle()), (float) value);
+	}
+
+	@Override
+	public void sendJson(Player p, String msg) {
+		PacketPlayOutChat packet = new PacketPlayOutChat(ChatSerializer.a(msg));
+		PlayerConnection co = ((CraftPlayer) p).getHandle().playerConnection;
+		co.sendPacket(packet);
 	}
 
 	@Override
@@ -160,17 +159,5 @@ public class NMSHandler_1_10_R1 implements NMSHandler {
 		IChatBaseComponent cbc = ChatSerializer.a("{\"text\": \"" + message + "\"}");
 		PacketPlayOutChat ppoc = new PacketPlayOutChat(cbc, (byte) 2);
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(ppoc);
-	}
-
-	@Override
-	public void sendJson(Player p, String msg) {
-		PacketPlayOutChat packet = new PacketPlayOutChat(ChatSerializer.a(msg));
-		PlayerConnection co = ((CraftPlayer) p).getHandle().playerConnection;
-		co.sendPacket(packet);
-	}
-
-	@Override
-	public void damageEntity(Player p, LivingEntity t, double value) {
-		((CraftLivingEntity) t).getHandle().damageEntity(DamageSource.playerAttack((EntityHuman) ((CraftPlayer) p).getHandle()), (float) value);
 	}
 }

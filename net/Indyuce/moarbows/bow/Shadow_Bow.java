@@ -15,8 +15,8 @@ import net.Indyuce.moarbows.Eff;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.comp.version.VersionSound;
 import net.Indyuce.moarbows.util.Utils;
-import net.Indyuce.moarbows.util.VersionUtils;
 
 public class Shadow_Bow extends MoarBow {
 	public Shadow_Bow() {
@@ -42,7 +42,7 @@ public class Shadow_Bow extends MoarBow {
 					ti += .5;
 					loc.add(v);
 					Eff.SPELL_WITCH.display(.1f, .1f, .1f, 0, 8, loc, 100);
-					VersionUtils.sound(loc, "ENTITY_ENDERMEN_HURT", 3, 2);
+					loc.getWorld().playSound(loc, VersionSound.ENTITY_ENDERMEN_HURT.getSound(), 2, 2);
 					for (LivingEntity t : loc.getWorld().getEntitiesByClass(LivingEntity.class))
 						if (Utils.canDmgEntity(p, loc, t) && t != p) {
 							new BukkitRunnable() {
@@ -62,7 +62,7 @@ public class Shadow_Bow extends MoarBow {
 									}
 								}
 							}.runTaskTimer(MoarBows.plugin, 0, 1);
-							VersionUtils.sound(t.getLocation(), "ENTITY_FIREWORK_BLAST", 3, 0);
+							t.getWorld().playSound(t.getLocation(), VersionSound.ENTITY_FIREWORK_BLAST.getSound(), 2, 0);
 							Eff.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, t.getLocation().add(0, 1, 0), 100);
 							cancel();
 							MoarBows.getNMS().damageEntity(p, t, dmg);

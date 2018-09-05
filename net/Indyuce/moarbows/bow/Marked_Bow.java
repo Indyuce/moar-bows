@@ -24,7 +24,7 @@ import net.Indyuce.moarbows.Eff;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.VersionUtils;
+import net.Indyuce.moarbows.comp.version.VersionSound;
 
 public class Marked_Bow extends MoarBow implements Listener {
 	public Marked_Bow() {
@@ -41,7 +41,7 @@ public class Marked_Bow extends MoarBow implements Listener {
 			return;
 
 		effect(p.getLocation());
-		VersionUtils.sound(p.getLocation(), "ENTITY_ENDERMEN_HURT", 2, 1.5f);
+		p.getWorld().playSound(p.getLocation(), VersionSound.ENTITY_ENDERMEN_HURT.getSound(), 2, 1.5f);
 		if (marked.containsKey(p.getUniqueId()))
 			return;
 
@@ -69,7 +69,7 @@ public class Marked_Bow extends MoarBow implements Listener {
 			e.setDamage(e.getDamage() * per);
 			effect(p.getLocation());
 			marked.remove(p.getUniqueId());
-			VersionUtils.sound(p.getLocation(), "ENTITY_ENDERMEN_DEATH", 2, 2);
+			p.getWorld().playSound(p.getLocation(), VersionSound.ENTITY_ENDERMEN_DEATH.getSound(), 2, 2);
 		}
 	}
 
@@ -79,7 +79,7 @@ public class Marked_Bow extends MoarBow implements Listener {
 		ItemStack i = e.getItem();
 		if (i.getType() == Material.MILK_BUCKET && marked.containsKey(p.getUniqueId())) {
 			marked.remove(p.getUniqueId());
-			VersionUtils.sound(p.getLocation(), "ENTITY_BLAZE_AMBIENT", 2, 2);
+			p.getWorld().playSound(p.getLocation(), VersionSound.ENTITY_ENDERMEN_DEATH.getSound(), 2, 2);
 		}
 	}
 

@@ -13,7 +13,6 @@ import net.Indyuce.moarbows.Eff;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.util.Utils;
-import net.Indyuce.moarbows.util.VersionUtils;
 
 public class HandParticles {
 	private static int parsPerSec = 1;
@@ -32,7 +31,7 @@ public class HandParticles {
 	}
 
 	public static void loopHandParticles(Player p) {
-		ItemStack[] items = VersionUtils.getItemsInHand(p);
+		ItemStack[] items = Utils.getHandItems(p);
 		for (int j = 0; j < items.length; j++) {
 			ItemStack i = items[j];
 			if (!Utils.isPluginItem(i, false))
