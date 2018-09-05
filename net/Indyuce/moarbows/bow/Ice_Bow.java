@@ -28,8 +28,8 @@ public class Ice_Bow extends MoarBow {
 
 	@Override
 	public void land(Player p, Arrow a) {
-		int duration = MoarBows.bows.getInt("ICE_BOW.duration") * 20;
-		int amplifier = MoarBows.bows.getInt("ICE_BOW.amplifier");
+		int duration = MoarBows.getLanguage().getBows().getInt("ICE_BOW.duration") * 20;
+		int amplifier = MoarBows.getLanguage().getBows().getInt("ICE_BOW.amplifier");
 		a.remove();
 		Eff.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, a.getLocation(), 200);
 		Eff.SNOW_SHOVEL.display(0, 0, 0, .2f, 48, a.getLocation().add(0, .1, 0), 200);

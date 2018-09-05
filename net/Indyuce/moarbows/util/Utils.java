@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -13,14 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import net.Indyuce.moarbows.MoarBows;
-
 public class Utils implements Listener {
 	public static Map<UUID, Map<String, Long>> cd = new HashMap<UUID, Map<String, Long>>();
-
-	public static String msg(String path) {
-		return ChatColor.translateAlternateColorCodes('&', MoarBows.messages.getString(path));
-	}
 
 	public static String caseOnWords(String s) {
 		StringBuilder builder = new StringBuilder(s);

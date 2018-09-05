@@ -65,7 +65,7 @@ public class Marked_Bow extends MoarBow implements Listener {
 			return;
 		Player p = (Player) e.getEntity();
 		if (marked.containsKey(p.getUniqueId())) {
-			double per = 1 + (MoarBows.bows.getDouble("MARKED_BOW.damage-percent") / 100);
+			double per = 1 + (MoarBows.getLanguage().getBows().getDouble("MARKED_BOW.damage-percent") / 100);
 			e.setDamage(e.getDamage() * per);
 			effect(p.getLocation());
 			marked.remove(p.getUniqueId());
@@ -90,7 +90,7 @@ public class Marked_Bow extends MoarBow implements Listener {
 	}
 
 	private void effect(Location loc) {
-		if (!MoarBows.bows.getBoolean("MARKED_BOW.particles"))
+		if (!MoarBows.getLanguage().getBows().getBoolean("MARKED_BOW.particles"))
 			return;
 
 		new BukkitRunnable() {

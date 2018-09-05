@@ -77,7 +77,7 @@ public class MoarBow {
 	}
 
 	public String getName() {
-		return name;
+		return ChatColor.translateAlternateColorCodes('&', name);
 	}
 
 	public short getDurability() {
@@ -121,7 +121,7 @@ public class MoarBow {
 	public ItemStack getItem() {
 		ItemStack item = new ItemStack(Material.BOW, 1, (short) data);
 		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+		meta.setDisplayName(getName());
 		meta.addItemFlags(ItemFlag.values());
 		if (this.lore != null) {
 			ArrayList<String> lore = new ArrayList<String>();
@@ -148,7 +148,7 @@ public class MoarBow {
 
 		if (remaining > 0) {
 			e.setCancelled(true);
-			p.sendMessage(ChatColor.RED + Utils.msg("on-cooldown").replace("%left%", "" + MathUtils.tronc(remaining / 1000, 1)));
+			p.sendMessage(ChatColor.RED + Message.ON_COOLDOWN.translate().replace("%left%", "" + MathUtils.tronc(remaining / 1000, 1)));
 			return false;
 		}
 		cd.put(id, System.currentTimeMillis());
@@ -162,9 +162,9 @@ public class MoarBow {
 	}
 
 	public static MoarBow get(ItemStack i) {
-		for (MoarBow b : MoarBows.getBows())
-			if (ChatColor.translateAlternateColorCodes('&', b.getName()).equals(i.getItemMeta().getDisplayName()))
-				return b;
+		for (MoarBow bow : MoarBows.getBows())
+			if (bow.getName().equals(i.getItemMeta().getDisplayName()))
+				return bow;
 
 		String tag = MoarBows.getNMS().getStringTag(i, "MMOITEMS_MOARBOWS_ID");
 		if (tag.equals(""))
@@ -174,9 +174,9 @@ public class MoarBow {
 	}
 
 	public static MoarBow getFromDisplayName(ItemStack i) {
-		for (MoarBow b : MoarBows.getBows())
-			if (ChatColor.translateAlternateColorCodes('&', b.getName()).equals(i.getItemMeta().getDisplayName()))
-				return b;
+		for (MoarBow bow : MoarBows.getBows())
+			if (bow.getName().equals(i.getItemMeta().getDisplayName()))
+				return bow;
 		return null;
 	}
 }

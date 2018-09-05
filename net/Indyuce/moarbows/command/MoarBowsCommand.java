@@ -8,22 +8,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import net.Indyuce.moarbows.ConfigData;
 import net.Indyuce.moarbows.GUI;
 import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.api.Message;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.Utils;
 
 public class MoarBowsCommand implements CommandExecutor {
-
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (args.length < 1) {
 			if (!sender.hasPermission("moarbows.admin")) {
-				sender.sendMessage(ChatColor.RED + Utils.msg("not-enough-perms"));
+				sender.sendMessage(ChatColor.RED + Message.NOT_ENOUGH_PERMS.translate());
 				return true;
 			}
-			
+
 			sender.sendMessage(ChatColor.DARK_GRAY + "" + ChatColor.STRIKETHROUGH + "-----------------[" + ChatColor.LIGHT_PURPLE + " MoarBows Help " + ChatColor.DARK_GRAY + "" + ChatColor.STRIKETHROUGH + "]-----------------");
 			sender.sendMessage(ChatColor.LIGHT_PURPLE + "<>" + ChatColor.GRAY + " = required");
 			sender.sendMessage(ChatColor.LIGHT_PURPLE + "()" + ChatColor.GRAY + " = optional");
@@ -44,7 +42,7 @@ public class MoarBowsCommand implements CommandExecutor {
 			}
 
 			if (!sender.hasPermission("moarbows.gui")) {
-				sender.sendMessage(ChatColor.RED + Utils.msg("not-enough-perms"));
+				sender.sendMessage(ChatColor.RED + Message.NOT_ENOUGH_PERMS.translate());
 				return true;
 			}
 
@@ -53,7 +51,7 @@ public class MoarBowsCommand implements CommandExecutor {
 
 		// perm for op commands
 		if (!sender.hasPermission("moarbows.admin")) {
-			sender.sendMessage(ChatColor.RED + Utils.msg("not-enough-perms"));
+			sender.sendMessage(ChatColor.RED + Message.NOT_ENOUGH_PERMS.translate());
 			return true;
 		}
 
@@ -61,12 +59,11 @@ public class MoarBowsCommand implements CommandExecutor {
 
 			// reload config files
 			MoarBows.plugin.reloadConfig();
-			MoarBows.bows = ConfigData.getCD(MoarBows.plugin, "", "bows");
-			MoarBows.messages = ConfigData.getCD(MoarBows.plugin, "", "messages");
+			MoarBows.getLanguage().reloadConfigFiles();
 
 			// reload bows
 			for (MoarBow b : MoarBows.getBows())
-				b.update(MoarBows.bows);
+				b.update(MoarBows.getLanguage().getBows());
 
 			sender.sendMessage(ChatColor.YELLOW + "Config files & bows reloaded.");
 		}
@@ -75,13 +72,13 @@ public class MoarBowsCommand implements CommandExecutor {
 			sender.sendMessage(ChatColor.DARK_GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------------------");
 			sender.sendMessage(ChatColor.GREEN + "List of available bows:");
 			if (!(sender instanceof Player)) {
-				for (MoarBow b : MoarBows.getBows())
-					sender.sendMessage("* " + ChatColor.GREEN + " " + ChatColor.translateAlternateColorCodes('&', b.getName()));
+				for (MoarBow bow : MoarBows.getBows())
+					sender.sendMessage("* " + ChatColor.GREEN + " " + bow.getName());
 				return true;
 			}
 
-			for (MoarBow b : MoarBows.getBows())
-				MoarBows.getNMS().sendJson((Player) sender, "{\"text\":\"* " + ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', b.getName()) + ChatColor.WHITE + ", use /mb get " + b.getID() + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/mb get " + b.getID() + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click to get the " + ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', b.getName()) + ChatColor.WHITE + ".\",\"color\":\"white\"}]}}}");
+			for (MoarBow bow : MoarBows.getBows())
+				MoarBows.getNMS().sendJson((Player) sender, "{\"text\":\"* " + ChatColor.GREEN + bow.getName() + ChatColor.WHITE + ", use /mb get " + bow.getLowerCaseID() + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/mb get " + bow.getID() + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click to get the " + ChatColor.GREEN + bow.getName() + ChatColor.WHITE + ".\",\"color\":\"white\"}]}}}");
 		}
 
 		if (args[0].equalsIgnoreCase("get")) {
@@ -116,12 +113,12 @@ public class MoarBowsCommand implements CommandExecutor {
 			ItemStack item = bow.getItem();
 			for (ItemStack drop : target.getInventory().addItem(item).values())
 				target.getWorld().dropItem(target.getLocation(), drop);
-			sender.sendMessage(ChatColor.YELLOW + target.getName() + " was given " + ChatColor.WHITE + ChatColor.translateAlternateColorCodes('&', bow.getName()) + ChatColor.YELLOW + ".");
+			sender.sendMessage(ChatColor.YELLOW + target.getName() + " was given " + ChatColor.WHITE + bow.getName() + ChatColor.YELLOW + ".");
 
 			// message
-			String message = Utils.msg("receive-bow");
-			if (!ChatColor.stripColor(message).equals("") && sender != target)
-				target.sendMessage(ChatColor.YELLOW + message.replace("%bow%", ChatColor.translateAlternateColorCodes('&', bow.getName())));
+			String message = Message.RECEIVE_BOW.translate();
+			if (!message.equals("") && sender != target)
+				target.sendMessage(ChatColor.YELLOW + message.replace("%bow%", bow.getName()));
 
 		}
 		if (args[0].equalsIgnoreCase("getall")) {

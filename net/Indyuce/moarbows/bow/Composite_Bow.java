@@ -26,7 +26,7 @@ public class Composite_Bow extends MoarBow {
 
 	@Override
 	public boolean shoot(EntityShootBowEvent e, Arrow a, Player p, ItemStack i) {
-		final double dmg = MoarBows.bows.getDouble("COMPOSITE_BOW.damage");
+		final double dmg = MoarBows.getLanguage().getBows().getDouble("COMPOSITE_BOW.damage");
 		e.setCancelled(true);
 		if (!Utils.consumeAmmo(p, new ItemStack(Material.ARROW)))
 			return false;

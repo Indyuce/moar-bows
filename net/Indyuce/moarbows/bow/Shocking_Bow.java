@@ -20,7 +20,7 @@ public class Shocking_Bow extends MoarBow {
 
 	@Override
 	public void hit(EntityDamageByEntityEvent e, Arrow a, Entity p, Player t) {
-		int duration = MoarBows.bows.getInt("SHOCKING_BOW.duration");
+		int duration = MoarBows.getLanguage().getBows().getInt("SHOCKING_BOW.duration");
 		new BukkitRunnable() {
 			double ti = 0;
 

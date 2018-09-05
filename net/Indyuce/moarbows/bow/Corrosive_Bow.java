@@ -28,7 +28,7 @@ public class Corrosive_Bow extends MoarBow {
 
 	@Override
 	public void land(Player p, Arrow a) {
-		int duration = MoarBows.bows.getInt("CORROSIVE_BOW.duration") * 20;
+		int duration = MoarBows.getLanguage().getBows().getInt("CORROSIVE_BOW.duration") * 20;
 		a.remove();
 		Eff.SLIME.display(2, 2, 2, 0, 48, a.getLocation(), 200);
 		Eff.VILLAGER_HAPPY.display(2, 2, 2, 0, 32, a.getLocation(), 200);

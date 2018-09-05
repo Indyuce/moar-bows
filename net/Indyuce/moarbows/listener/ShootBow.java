@@ -15,6 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.Indyuce.moarbows.Eff;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowManager;
+import net.Indyuce.moarbows.api.Message;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.comp.worldguard.CustomFlag;
 import net.Indyuce.moarbows.util.Utils;
@@ -45,7 +46,7 @@ public class ShootBow implements Listener {
 		// worldguard flag
 		if (!MoarBows.wgPlugin.isFlagAllowed(p, CustomFlag.MB_BOWS)) {
 			e.setCancelled(true);
-			p.sendMessage(ChatColor.YELLOW + Utils.msg("disable-bows-flag"));
+			p.sendMessage(ChatColor.YELLOW + Message.DISABLE_BOWS_FLAG.translate());
 			return;
 		}
 

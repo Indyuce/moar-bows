@@ -30,8 +30,8 @@ public class Meteor_Bow extends MoarBow {
 	@Override
 	public void land(Player p, Arrow a) {
 		a.remove();
-		double dmg = MoarBows.bows.getInt("METEOR_BOW.damage");
-		double knockback = MoarBows.bows.getInt("METEOR_BOW.knockback");
+		double dmg = MoarBows.getLanguage().getBows().getInt("METEOR_BOW.damage");
+		double knockback = MoarBows.getLanguage().getBows().getInt("METEOR_BOW.knockback");
 		VersionUtils.sound(a.getLocation(), "ENTITY_ENDERMEN_TELEPORT", 3, 1);
 		new BukkitRunnable() {
 			Location loc = a.getLocation().clone();

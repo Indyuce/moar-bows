@@ -27,8 +27,8 @@ public class Fire_Bow extends MoarBow {
 
 	@Override
 	public void land(Player p, Arrow a) {
-		int duration = MoarBows.bows.getInt("FIRE_BOW.duration") * 20;
-		int maxTicks = MoarBows.bows.getInt("FIRE_BOW.max-burning-time") * 20;
+		int duration = MoarBows.getLanguage().getBows().getInt("FIRE_BOW.duration") * 20;
+		int maxTicks = MoarBows.getLanguage().getBows().getInt("FIRE_BOW.max-burning-time") * 20;
 		a.remove();
 		Eff.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, a.getLocation(), 200);
 		Eff.LAVA.display(0, 0, 0, 0, 12, a.getLocation(), 200);

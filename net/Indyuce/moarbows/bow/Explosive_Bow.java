@@ -26,7 +26,7 @@ public class Explosive_Bow extends MoarBow {
 
 	@Override
 	public void land(Player p, Arrow a) {
-		double dmg = MoarBows.bows.getDouble("EXPLOSIVE_BOW.damage");
+		double dmg = MoarBows.getLanguage().getBows().getDouble("EXPLOSIVE_BOW.damage");
 		a.remove();
 		Eff.EXPLOSION_LARGE.display(2, 2, 2, 0, 8, a.getLocation(), 200);
 		VersionUtils.sound(a.getLocation(), "ENTITY_GENERIC_EXPLODE", 3, 1);

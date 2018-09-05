@@ -31,7 +31,7 @@ public class Railgun_Bow extends MoarBow {
 
 	@Override
 	public void land(Player p, Arrow a) {
-		int radius = MoarBows.bows.getInt("RAILGUN_BOW.radius");
+		int radius = MoarBows.getLanguage().getBows().getInt("RAILGUN_BOW.radius");
 		a.remove();
 		a.getWorld().createExplosion(a.getLocation(), radius);
 	}

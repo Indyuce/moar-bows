@@ -24,7 +24,7 @@ public class Hunter_Bow extends MoarBow {
 		if (p instanceof LivingEntity && !(p instanceof Monster))
 			return;
 
-		e.setDamage(e.getDamage() * (1 + MoarBows.bows.getDouble("HUNTER_BOW.damage-percent") / 100));
+		e.setDamage(e.getDamage() * (1 + MoarBows.getLanguage().getBows().getDouble("HUNTER_BOW.damage-percent") / 100));
 		p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, 55);
 	}
 }

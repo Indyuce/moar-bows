@@ -31,7 +31,7 @@ public class Cupidons_Bow extends MoarBow {
 		Marked_Bow.marked.remove(p.getUniqueId());
 		double max = ((Player) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
 		double health = ((Player) p).getHealth();
-		double heal = MoarBows.bows.getDouble("CUPIDONS_BOW.heal");
+		double heal = MoarBows.getLanguage().getBows().getDouble("CUPIDONS_BOW.heal");
 		if (health + heal > max) {
 			((Player) p).setHealth(max);
 			return;

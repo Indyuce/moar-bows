@@ -1,6 +1,5 @@
 package net.Indyuce.moarbows;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -13,13 +12,10 @@ import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import net.Indyuce.moarbows.api.BowModifier;
-import net.Indyuce.moarbows.api.Message;
+import net.Indyuce.moarbows.api.LanguageManager;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.bow.Marked_Bow;
 import net.Indyuce.moarbows.command.MoarBowsCommand;
@@ -44,15 +40,14 @@ public class MoarBows extends JavaPlugin {
 	// bows need different bow IDs otherwise it just overrides
 	private static HashMap<String, MoarBow> map = new HashMap<String, MoarBow>();
 
-	// plugin instances
-	public static MoarBows plugin;
+	// interfaces
 	public static WGPlugin wgPlugin;
 	private static NMSHandler nms;
 
 	// saves temporarily the files to it is more accessible
 	// improves performance, easier to access
-	public static FileConfiguration bows;
-	public static FileConfiguration messages;
+	public static MoarBows plugin;
+	public static LanguageManager language;
 
 	// must register the bows before the plugin is enabled
 	// otherwise it can't generate the required config files
@@ -123,43 +118,7 @@ public class MoarBows extends JavaPlugin {
 		// config files
 		saveDefaultConfig();
 
-		// initialize bow configs
-		FileConfiguration bows = ConfigData.getCD(this, "", "bows");
-		for (MoarBow b : map.values()) {
-			if (!bows.contains(b.getID()))
-				bows.createSection(b.getID());
-
-			List<String> lore = new ArrayList<String>(Arrays.asList(b.getLore()));
-			if (lore != null && !lore.isEmpty()) {
-				lore.add(0, "&8&m------------------------------");
-				lore.add("&8&m------------------------------");
-			}
-
-			String[] paths = new String[] { "name", "lore", "cooldown", "durability", "craft-enabled", "craft", "eff" };
-			Object[] values = new Object[] { b.getName(), lore, b.getCooldown(), b.getDurability(), b.getFormattedCraftingRecipe().length > 0, Arrays.asList(b.getFormattedCraftingRecipe()), b.getParticleEffect() };
-			ConfigurationSection section = bows.getConfigurationSection(b.getID());
-			for (int j = 0; j < paths.length; j++)
-				if (!section.contains(paths[j]))
-					bows.set(b.getID() + "." + paths[j], values[j]);
-
-			for (BowModifier mod : b.getModifiers())
-				if (!section.contains(mod.getPath()))
-					bows.set(b.getID() + "." + mod.getPath(), mod.getDefaultValue());
-
-			b.update(bows);
-		}
-		ConfigData.saveCD(this, bows, "", "bows");
-		MoarBows.bows = bows;
-
-		// in-game messages
-		FileConfiguration messages = ConfigData.getCD(this, "", "messages");
-		for (Message pa : Message.values()) {
-			String path = pa.name().toLowerCase().replace("_", "-");
-			if (!messages.contains(path))
-				messages.set(path, pa.value);
-		}
-		ConfigData.saveCD(this, messages, "", "messages");
-		MoarBows.messages = messages;
+		language = new LanguageManager();
 
 		// commands
 		getCommand("moarbows").setExecutor(new MoarBowsCommand());
@@ -167,23 +126,23 @@ public class MoarBows extends JavaPlugin {
 
 		// crafting recipes
 		if (!getConfig().getBoolean("disable-bow-craftings"))
-			for (MoarBow b : map.values())
-				if (bows.getBoolean(b.getID() + ".craft-enabled")) {
-					ShapedRecipe recipe = VersionUtils.isBelow(1, 11) ? new ShapedRecipe(b.getItem()) : new ShapedRecipe(Version_1_12.key(b.getID()), b.getItem());
+			for (MoarBow bow : getBows())
+				if (getLanguage().getBows().getBoolean(bow.getID() + ".craft-enabled")) {
+					ShapedRecipe recipe = VersionUtils.isBelow(1, 11) ? new ShapedRecipe(bow.getItem()) : new ShapedRecipe(Version_1_12.key(bow.getID()), bow.getItem());
 					recipe.shape(new String[] { "ABC", "DEF", "GHI" });
 					char[] chars = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' };
 					boolean check = true;
-					List<String> list = bows.getStringList(b.getID() + ".craft");
+					List<String> list = getLanguage().getBows().getStringList(bow.getID() + ".craft");
 					for (int j = 0; j < 9; j++) {
 						char c = chars[j];
 						if (list.size() != 3) {
-							getLogger().log(Level.WARNING, "Couldn't register the recipe of " + b.getID() + " (format error)");
+							getLogger().log(Level.WARNING, "Couldn't register the recipe of " + bow.getID() + " (format error)");
 							check = false;
 							break;
 						}
 						List<String> line = Arrays.asList(list.get(j / 3).split(Pattern.quote(",")));
 						if (line.size() < 3) {
-							getLogger().log(Level.WARNING, "Couldn't register the recipe of " + b.getID() + " (format error)");
+							getLogger().log(Level.WARNING, "Couldn't register the recipe of " + bow.getID() + " (format error)");
 							check = false;
 							break;
 						}
@@ -192,7 +151,7 @@ public class MoarBows extends JavaPlugin {
 						try {
 							material = Material.valueOf(s.split(Pattern.quote(":"))[0].replace("-", "_").toUpperCase());
 						} catch (Exception e1) {
-							getLogger().log(Level.WARNING, "Couldn't register the recipe of " + b.getID() + " (" + s.split(Pattern.quote(":"))[0] + " is not a valid material)");
+							getLogger().log(Level.WARNING, "Couldn't register the recipe of " + bow.getID() + " (" + s.split(Pattern.quote(":"))[0] + " is not a valid material)");
 							check = false;
 							break;
 						}
@@ -201,7 +160,7 @@ public class MoarBows extends JavaPlugin {
 							try {
 								durability = Integer.parseInt(s.split(Pattern.quote(":"))[1]);
 							} catch (Exception e1) {
-								getLogger().log(Level.WARNING, "Couldn't register the recipe of " + b.getID() + " (" + s.split(Pattern.quote(":"))[1] + " is not a valid number)");
+								getLogger().log(Level.WARNING, "Couldn't register the recipe of " + bow.getID() + " (" + s.split(Pattern.quote(":"))[1] + " is not a valid number)");
 								check = false;
 								break;
 							}
@@ -238,6 +197,10 @@ public class MoarBows extends JavaPlugin {
 
 	public static NMSHandler getNMS() {
 		return nms;
+	}
+
+	public static LanguageManager getLanguage() {
+		return language;
 	}
 
 	public static void registerBow(MoarBow bow) {

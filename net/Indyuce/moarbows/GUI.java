@@ -9,8 +9,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
+import net.Indyuce.moarbows.api.Message;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.Utils;
 import net.Indyuce.moarbows.util.VersionUtils;
 
 public class GUI implements Listener {
@@ -24,7 +24,7 @@ public class GUI implements Listener {
 	}
 
 	public static void openInv(Player p) {
-		Inventory inv = Bukkit.createInventory(null, 54, ChatColor.UNDERLINE + Utils.msg("gui-name"));
+		Inventory inv = Bukkit.createInventory(null, 54, ChatColor.UNDERLINE + Message.GUI_NAME.translate());
 
 		for (MoarBow bow : MoarBows.getBows())
 			inv.setItem(getAvailableSlot(inv), bow.getItem());
@@ -46,7 +46,7 @@ public class GUI implements Listener {
 	@EventHandler
 	public void a(InventoryClickEvent e) {
 		Player p = (Player) e.getWhoClicked();
-		if (!e.getInventory().getName().equals(ChatColor.UNDERLINE + Utils.msg("gui-name")))
+		if (!e.getInventory().getName().equals(ChatColor.UNDERLINE + Message.GUI_NAME.translate()))
 			return;
 
 		e.setCancelled(true);

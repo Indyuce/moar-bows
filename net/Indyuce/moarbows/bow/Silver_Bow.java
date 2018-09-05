@@ -23,9 +23,9 @@ public class Silver_Bow extends MoarBow {
 		if (!(t instanceof LivingEntity))
 			return;
 
-		int id = MoarBows.bows.getInt("SILVER_BOW.block-effect-id");
+		int id = MoarBows.getLanguage().getBows().getInt("SILVER_BOW.block-effect-id");
 		p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, id);
 		p.getWorld().playEffect(p.getLocation().add(0, 1, 0), Effect.STEP_SOUND, id);
-		e.setDamage(e.getDamage() * (1. + MoarBows.bows.getDouble("SILVER_BOW.damagePercent") / 100.));
+		e.setDamage(e.getDamage() * (1. + MoarBows.getLanguage().getBows().getDouble("SILVER_BOW.damagePercent") / 100.));
 	}
 }
