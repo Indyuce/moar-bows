@@ -67,7 +67,7 @@ public class ShootBow implements Listener {
 		ArrowManager.registerArrow(arrow, bow, p);
 
 		// arrow particles
-		if (MoarBows.plugin.getConfig().getBoolean("bows-arrow-particles")) {
+		if (MoarBows.plugin.getConfig().getBoolean("arrow-particles")) {
 			new BukkitRunnable() {
 				public void run() {
 					if (arrow == null || arrow.isDead() || arrow.isOnGround()) {

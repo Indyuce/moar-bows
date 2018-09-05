@@ -57,6 +57,8 @@ public class MoarBows extends JavaPlugin {
 	public void onLoad() {
 		plugin = this;
 
+		version = new ServerVersion(Bukkit.getServer().getClass());
+
 		// load default bows
 		try {
 			JarFile file = new JarFile(getFile());
@@ -102,23 +104,24 @@ public class MoarBows extends JavaPlugin {
 			return;
 		}
 
+		// config files
+		saveDefaultConfig();
+
 		Bukkit.getServer().getPluginManager().registerEvents(new Utils(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new GUI(), this);
-
+		
 		Bukkit.getServer().getPluginManager().registerEvents(new ShootBow(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new ItemPrevents(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new HitEntity(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(version.isBelowOrEqual(1, 8) ? new ArrowLand_v1_8() : new ArrowLand(), this);
-		HandParticles.initialize();
+		if (getConfig().getBoolean("hand-particles.enabled"))
+			new HandParticles();
 
 		Bukkit.getServer().getPluginManager().registerEvents(new Marked_Bow(), this);
 
 		// worldguard flags
 		if (getServer().getPluginManager().isPluginEnabled("WorldGuard"))
 			getLogger().log(Level.INFO, "Hooked onto WorldGuard");
-
-		// config files
-		saveDefaultConfig();
 
 		language = new LanguageManager();
 

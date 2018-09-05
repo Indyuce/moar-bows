@@ -21,7 +21,7 @@ public class Hunter_Bow extends MoarBow {
 
 	@Override
 	public void hit(EntityDamageByEntityEvent e, Arrow a, Entity p, Player t) {
-		if (p instanceof LivingEntity && !(p instanceof Monster))
+		if (p instanceof Monster || !(p instanceof LivingEntity))
 			return;
 
 		e.setDamage(e.getDamage() * (1 + MoarBows.getLanguage().getBows().getDouble("HUNTER_BOW.damage-percent") / 100));

@@ -15,22 +15,22 @@ import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.util.Utils;
 
 public class HandParticles {
-	private static int parsPerSec = 1;
+	private static int amount = MoarBows.plugin.getConfig().getInt("hands-particles.amount");
+	private static long delay = MoarBows.plugin.getConfig().getLong("hand-particles.delay");
 
-	public static void initialize() {
-		parsPerSec = MoarBows.plugin.getConfig().getBoolean("reduce-hand-particles") ? 8 : 1;
+	public HandParticles() {
+		if (!MoarBows.plugin.getConfig().getBoolean("hand-particles"))
+			return;
 
-		if (MoarBows.plugin.getConfig().getBoolean("bows-hand-particles")) {
-			new BukkitRunnable() {
-				public void run() {
-					for (Player p : Bukkit.getOnlinePlayers())
-						loopHandParticles(p);
-				}
-			}.runTaskTimer(MoarBows.plugin, 0, (MoarBows.plugin.getConfig().getBoolean("reduce-hand-particles") ? 20 : 2));
-		}
+		new BukkitRunnable() {
+			public void run() {
+				for (Player p : Bukkit.getOnlinePlayers())
+					loopHandParticles(p);
+			}
+		}.runTaskTimer(MoarBows.plugin, 0, delay);
 	}
 
-	public static void loopHandParticles(Player p) {
+	private void loopHandParticles(Player p) {
 		ItemStack[] items = Utils.getHandItems(p);
 		for (int j = 0; j < items.length; j++) {
 			ItemStack i = items[j];
@@ -58,10 +58,12 @@ public class HandParticles {
 			} catch (Exception e) {
 				continue;
 			}
+
 			if (s.length == 1)
-				effName.display(.1f, .1f, .1f, 0, parsPerSec, loc, 200);
+				effName.display(.1f, .1f, .1f, 0, amount, loc, 200);
+
 			if (s.length == 2)
-				for (int j1 = 0; j1 < parsPerSec; j1++) {
+				for (int j1 = 0; j1 < amount; j1++) {
 					loc.add(new Random().nextDouble() / 2.5 - .2, new Random().nextDouble() / 2.5 - .2, new Random().nextDouble() / 2.5 - .2);
 					String[] rgb = s[1].split(",");
 					Color c = Color.fromRGB(Integer.parseInt(rgb[0]), Integer.parseInt(rgb[1]), Integer.parseInt(rgb[2]));
