@@ -3,11 +3,11 @@ package net.Indyuce.moarbows.api;
 import net.Indyuce.moarbows.MoarBows;
 
 public enum Message {
-	ON_COOLDOWN("This bow is on cooldown! Please wait another %left%s."),
-	RECEIVE_BOW("You were given &f%bow%&e."),
+	ON_COOLDOWN("&cThis bow is on cooldown! Please wait another %left%s."),
+	RECEIVE_BOW("&eYou were given &f%bow%&e."),
 	GUI_NAME("Bows"),
-	NOT_ENOUGH_PERMS("You don't have enough permissions."),
-	DISABLE_BOWS_FLAG("Bows are disabled here."),;
+	NOT_ENOUGH_PERMS("&cYou don't have enough permissions."),
+	DISABLE_BOWS_FLAG("&cBows are disabled here."),;
 
 	private Object value;
 	private String path;

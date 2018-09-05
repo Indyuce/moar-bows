@@ -2,7 +2,6 @@ package net.Indyuce.moarbows.listener;
 
 import java.util.logging.Level;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -40,13 +39,15 @@ public class ShootBow implements Listener {
 			return;
 
 		// permission
-		if (!p.hasPermission("moarbows.use." + bow.getLowerCaseID()))
-			return;
+		if (!p.hasPermission("moarbows.use." + bow.getLowerCaseID())) {
+			p.sendMessage(Message.NOT_ENOUGH_PERMS.translate());
+			e.setCancelled(true);
+		}
 
 		// worldguard flag
 		if (!MoarBows.wgPlugin.isFlagAllowed(p, CustomFlag.MB_BOWS)) {
 			e.setCancelled(true);
-			p.sendMessage(ChatColor.YELLOW + Message.DISABLE_BOWS_FLAG.translate());
+			p.sendMessage(Message.DISABLE_BOWS_FLAG.translate());
 			return;
 		}
 

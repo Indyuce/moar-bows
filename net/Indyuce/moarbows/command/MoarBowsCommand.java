@@ -18,7 +18,7 @@ public class MoarBowsCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (args.length < 1) {
 			if (!sender.hasPermission("moarbows.admin")) {
-				sender.sendMessage(ChatColor.RED + Message.NOT_ENOUGH_PERMS.translate());
+				sender.sendMessage(Message.NOT_ENOUGH_PERMS.translate());
 				return true;
 			}
 
@@ -37,12 +37,12 @@ public class MoarBowsCommand implements CommandExecutor {
 
 		if (args[0].equalsIgnoreCase("gui")) {
 			if (!(sender instanceof Player)) {
-				sender.sendMessage(ChatColor.RED + "This command is for players only.");
+				sender.sendMessage("This command is for players only.");
 				return true;
 			}
 
 			if (!sender.hasPermission("moarbows.gui")) {
-				sender.sendMessage(ChatColor.RED + Message.NOT_ENOUGH_PERMS.translate());
+				sender.sendMessage(Message.NOT_ENOUGH_PERMS.translate());
 				return true;
 			}
 
@@ -51,7 +51,7 @@ public class MoarBowsCommand implements CommandExecutor {
 
 		// perm for op commands
 		if (!sender.hasPermission("moarbows.admin")) {
-			sender.sendMessage(ChatColor.RED + Message.NOT_ENOUGH_PERMS.translate());
+			sender.sendMessage(Message.NOT_ENOUGH_PERMS.translate());
 			return true;
 		}
 

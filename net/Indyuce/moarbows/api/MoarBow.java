@@ -151,7 +151,7 @@ public class MoarBow {
 
 		if (remaining > 0) {
 			e.setCancelled(true);
-			p.sendMessage(ChatColor.RED + Message.ON_COOLDOWN.translate().replace("%left%", "" + MathUtils.tronc(remaining / 1000, 1)));
+			p.sendMessage(Message.ON_COOLDOWN.translate().replace("%left%", "" + MathUtils.tronc(remaining / 1000, 1)));
 			return false;
 		}
 		
