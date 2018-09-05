@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 
 import org.bukkit.ChatColor;
@@ -20,7 +21,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.util.MathUtils;
-import net.Indyuce.moarbows.util.Utils;
 import net.Indyuce.moarbows.version.nms.ItemTag;
 
 public class MoarBow {
@@ -38,6 +38,9 @@ public class MoarBow {
 	private String pe;
 	private double cooldown;
 	private String[] craft;
+
+	// bow cooldowns are stored here
+	public static Map<UUID, Map<String, Long>> bowCooldown = new HashMap<UUID, Map<String, Long>>();
 
 	public MoarBow(String[] lore, int durability, double cooldown, String particleEffect, String[] craft) {
 		this("", "", lore, durability, cooldown, particleEffect, craft);
@@ -142,7 +145,7 @@ public class MoarBow {
 		if (getCooldown() <= 0)
 			return true;
 
-		Map<String, Long> cd = Utils.cd.containsKey(p.getUniqueId()) ? Utils.cd.get(p.getUniqueId()) : new HashMap<String, Long>();
+		Map<String, Long> cd = bowCooldown.containsKey(p.getUniqueId()) ? bowCooldown.get(p.getUniqueId()) : new HashMap<String, Long>();
 		Long last = cd.containsKey(id) ? cd.get(id) : 0;
 		double remaining = last + cooldown * 1000 - System.currentTimeMillis();
 
@@ -151,8 +154,9 @@ public class MoarBow {
 			p.sendMessage(ChatColor.RED + Message.ON_COOLDOWN.translate().replace("%left%", "" + MathUtils.tronc(remaining / 1000, 1)));
 			return false;
 		}
+		
 		cd.put(id, System.currentTimeMillis());
-		Utils.cd.put(p.getUniqueId(), cd);
+		bowCooldown.put(p.getUniqueId(), cd);
 		return true;
 	}
 

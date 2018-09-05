@@ -1,9 +1,5 @@
 package net.Indyuce.moarbows.util;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -13,8 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class Utils implements Listener {
-	public static Map<UUID, Map<String, Long>> cd = new HashMap<UUID, Map<String, Long>>();
-
 	public static String caseOnWords(String s) {
 		StringBuilder builder = new StringBuilder(s);
 		boolean isLastSpace = true;
@@ -32,24 +26,29 @@ public class Utils implements Listener {
 	}
 
 	public static boolean consumeAmmo(Player p, ItemStack i) {
+
+		// does not consume ammo if the
+		// player is in creative mode
 		if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR)
 			return true;
+
+		// returns false if the
+		// player does not have the item
 		if (!p.getInventory().containsAtLeast(i, 1))
 			return false;
+
+		// consume the ammo
+		// and return true
 		p.getInventory().removeItem(i);
 		return true;
 	}
 
 	public static boolean isPluginItem(ItemStack i, boolean lore) {
-		if (i == null)
-			return false;
-		if (i.getItemMeta() == null)
-			return false;
-		if (i.getItemMeta().getDisplayName() == null)
-			return false;
-		if (lore && i.getItemMeta().getLore() == null)
-			return false;
-		return true;
+		if (i != null)
+			if (i.hasItemMeta())
+				if (i.getItemMeta().hasDisplayName())
+					return !lore || i.getItemMeta().getLore() == null;
+		return false;
 	}
 
 	public static ItemStack removeDisplayName(ItemStack i) {

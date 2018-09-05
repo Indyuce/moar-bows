@@ -41,13 +41,13 @@ public class LanguageManager {
 		}
 		ConfigData.saveCD(MoarBows.plugin, bows, "", "bows");
 
-		FileConfiguration messages = ConfigData.getCD(MoarBows.plugin, "", "messages");
+		FileConfiguration language = ConfigData.getCD(MoarBows.plugin, "", "language");
 		for (Message pa : Message.values()) {
 			String path = pa.name().toLowerCase().replace("_", "-");
-			if (!messages.contains(path))
-				messages.set(path, pa.getDefaultValue());
+			if (!language.contains(path))
+				language.set(path, pa.getDefaultValue());
 		}
-		ConfigData.saveCD(MoarBows.plugin, messages, "", "messages");
+		ConfigData.saveCD(MoarBows.plugin, language, "", "language");
 
 		reloadConfigFiles();
 	}
@@ -62,6 +62,6 @@ public class LanguageManager {
 
 	public void reloadConfigFiles() {
 		bows = ConfigData.getCD(MoarBows.plugin, "", "bows");
-		language = ConfigData.getCD(MoarBows.plugin, "", "bows");
+		language = ConfigData.getCD(MoarBows.plugin, "", "language");
 	}
 }

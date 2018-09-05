@@ -62,8 +62,8 @@ public class MoarBowsCommand implements CommandExecutor {
 			MoarBows.getLanguage().reloadConfigFiles();
 
 			// reload bows
-			for (MoarBow b : MoarBows.getBows())
-				b.update(MoarBows.getLanguage().getBows());
+			for (MoarBow bow : MoarBows.getBows())
+				bow.update(MoarBows.getLanguage().getBows());
 
 			sender.sendMessage(ChatColor.YELLOW + "Config files & bows reloaded.");
 		}
