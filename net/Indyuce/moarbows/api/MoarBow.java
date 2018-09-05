@@ -43,7 +43,7 @@ public class MoarBow {
 		this("", "", lore, durability, cooldown, particleEffect, craft);
 
 		this.id = getClass().getSimpleName().toUpperCase();
-		this.name = getClass().getSimpleName().replace("_", " ");
+		this.name = "&f" + getClass().getSimpleName().replace("_", " ");
 	}
 
 	public MoarBow(String id, String name, String[] lore, int durability, double cooldown, String particleEffect, String[] craft) {

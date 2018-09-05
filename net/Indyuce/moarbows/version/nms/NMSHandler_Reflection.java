@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class NMSHandler_Reflection implements NMSHandler {
-
 	@Override
 	public ItemStack addTag(ItemStack i, ItemTag... tags) {
 		try {

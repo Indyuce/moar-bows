@@ -70,7 +70,7 @@ public class MoarBows extends JavaPlugin {
 
 				// check non anonymous class
 				// check real class
-				if (name.endsWith(".class") && !name.contains("$") && name.startsWith("net.Indyuce.mb.bow."))
+				if (name.endsWith(".class") && !name.contains("$") && name.startsWith("net.Indyuce.moarbows.bow."))
 					registerBow((MoarBow) Class.forName(name.substring(0, name.length() - 6)).newInstance());
 			}
 			file.close();
@@ -97,7 +97,9 @@ public class MoarBows extends JavaPlugin {
 
 			nms = (NMSHandler) Class.forName("net.Indyuce.moarbows.version.nms.NMSHandler_" + VersionUtils.version.substring(1)).newInstance();
 		} catch (Exception e) {
-			getLogger().log(Level.SEVERE, "Your server version is not handled with NMS.");
+			getLogger().log(Level.SEVERE, "Your server version is not compatible.");
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
 		}
 
 		Bukkit.getServer().getPluginManager().registerEvents(new Utils(), this);
