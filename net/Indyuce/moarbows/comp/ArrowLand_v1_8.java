@@ -17,7 +17,7 @@ import net.minecraft.server.v1_8_R3.EntityArrow;
 
 public class ArrowLand_v1_8 implements Listener {
 	@EventHandler
-	private void onProjectileHit(ProjectileHitEvent e) {
+	private void a(ProjectileHitEvent e) {
 		if (e.getEntityType() != EntityType.ARROW)
 			return;
 

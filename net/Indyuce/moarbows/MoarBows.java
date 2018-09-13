@@ -113,7 +113,7 @@ public class MoarBows extends JavaPlugin {
 		Bukkit.getServer().getPluginManager().registerEvents(new ShootBow(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new ItemPrevents(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new HitEntity(), this);
-		Bukkit.getServer().getPluginManager().registerEvents(version.isBelowOrEqual(1, 8) ? new ArrowLand_v1_8() : new ArrowLand(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(version.isBelowOrEqual(1, 9) ? new ArrowLand_v1_8() : new ArrowLand(), this);
 		if (getConfig().getBoolean("hand-particles.enabled"))
 			new HandParticles();
 
