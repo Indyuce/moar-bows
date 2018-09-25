@@ -13,7 +13,7 @@ import net.Indyuce.moarbows.Eff;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.comp.version.VersionSound;
+import net.Indyuce.moarbows.version.VersionSound;
 
 public class Meteor_Bow extends MoarBow {
 	public Meteor_Bow() {

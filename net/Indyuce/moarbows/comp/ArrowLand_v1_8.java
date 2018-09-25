@@ -1,8 +1,8 @@
 package net.Indyuce.moarbows.comp;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftArrow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -13,7 +13,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.ArrowManager;
-import net.minecraft.server.v1_8_R3.EntityArrow;
 
 public class ArrowLand_v1_8 implements Listener {
 	@EventHandler
@@ -30,10 +29,11 @@ public class ArrowLand_v1_8 implements Listener {
 
 			public void run() {
 				try {
-					EntityArrow entityArrow = ((CraftArrow) arrow).getHandle();
-					Field fieldX = EntityArrow.class.getDeclaredField("d");
-					Field fieldY = EntityArrow.class.getDeclaredField("e");
-					Field fieldZ = EntityArrow.class.getDeclaredField("f");
+					Object entityArrow = arrow.getClass().getDeclaredMethod("getHandle").invoke(arrow);
+
+					Field fieldX = entityArrow.getClass().getDeclaredField("d");
+					Field fieldY = entityArrow.getClass().getDeclaredField("e");
+					Field fieldZ = entityArrow.getClass().getDeclaredField("f");
 
 					fieldX.setAccessible(true);
 					fieldY.setAccessible(true);
@@ -48,7 +48,7 @@ public class ArrowLand_v1_8 implements Listener {
 						arrowData.getBow().land(arrowData.getSender(), arrow);
 						ArrowManager.unregisterArrow(arrow);
 					}
-				} catch (NoSuchFieldException | IllegalAccessException | SecurityException | IllegalArgumentException e1) {
+				} catch (NoSuchFieldException | IllegalAccessException | SecurityException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException e1) {
 					e1.printStackTrace();
 				}
 			}

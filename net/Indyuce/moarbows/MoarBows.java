@@ -22,9 +22,9 @@ import net.Indyuce.moarbows.command.MoarBowsCommand;
 import net.Indyuce.moarbows.command.completion.MoarBowsCompletion;
 import net.Indyuce.moarbows.comp.ArrowLand_v1_8;
 import net.Indyuce.moarbows.comp.Version_1_12;
-import net.Indyuce.moarbows.comp.nms.NMSHandler;
-import net.Indyuce.moarbows.comp.version.ServerVersion;
-import net.Indyuce.moarbows.comp.version.SpigotPlugin;
+import net.Indyuce.moarbows.version.ServerVersion;
+import net.Indyuce.moarbows.version.SpigotPlugin;
+import net.Indyuce.moarbows.version.nms.NMSHandler;
 import net.Indyuce.moarbows.comp.worldguard.WGPlugin;
 import net.Indyuce.moarbows.comp.worldguard.WorldGuardOff;
 import net.Indyuce.moarbows.comp.worldguard.WorldGuardOn;
@@ -97,7 +97,7 @@ public class MoarBows extends JavaPlugin {
 
 			// nms handle
 			getLogger().log(Level.INFO, "Detected Bukkit Version: " + version.toString());
-			nms = (NMSHandler) Class.forName("net.Indyuce.moarbows.comp.nms.NMSHandler_" + version.toString().substring(1)).newInstance();
+			nms = (NMSHandler) Class.forName("net.Indyuce.moarbows.version.nms.NMSHandler_" + version.toString().substring(1)).newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			getLogger().log(Level.SEVERE, "Your server version is not compatible.");
 			Bukkit.getPluginManager().disablePlugin(this);

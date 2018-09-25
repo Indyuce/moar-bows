@@ -15,8 +15,8 @@ import net.Indyuce.moarbows.Eff;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.comp.version.VersionSound;
 import net.Indyuce.moarbows.util.Utils;
+import net.Indyuce.moarbows.version.VersionSound;
 
 public class Shadow_Bow extends MoarBow {
 	public Shadow_Bow() {

@@ -1,5 +1,7 @@
 package net.Indyuce.moarbows.api;
 
+import org.bukkit.ChatColor;
+
 import net.Indyuce.moarbows.MoarBows;
 
 public enum Message {
@@ -22,6 +24,6 @@ public enum Message {
 	}
 
 	public String translate() {
-		return MoarBows.getLanguage().getTranslation(path);
+		return ChatColor.translateAlternateColorCodes('&', MoarBows.getLanguage().getTranslation(path));
 	}
 }

@@ -11,7 +11,7 @@ import org.bukkit.inventory.Inventory;
 
 import net.Indyuce.moarbows.api.Message;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.comp.version.VersionSound;
+import net.Indyuce.moarbows.version.VersionSound;
 
 public class GUI implements Listener {
 

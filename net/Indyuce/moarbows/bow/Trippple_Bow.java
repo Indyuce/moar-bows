@@ -9,8 +9,8 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.comp.version.VersionSound;
 import net.Indyuce.moarbows.util.Utils;
+import net.Indyuce.moarbows.version.VersionSound;
 
 public class Trippple_Bow extends MoarBow {
 	public Trippple_Bow() {
