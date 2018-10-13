@@ -13,7 +13,6 @@ import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.version.VersionSound;
 
 public class Fire_Bow extends MoarBow {
-
 	public Fire_Bow() {
 		super(new String[] { "Shoots burning arrows that cause a", "first burst upon landing, igniting", "any entity within a few blocks." }, 0, 0, "flame", new String[] { "BLAZE_ROD,BLAZE_ROD,BLAZE_ROD", "BLAZE_ROD,BOW,BLAZE_ROD", "BLAZE_ROD,BLAZE_ROD,BLAZE_ROD" });
 

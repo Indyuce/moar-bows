@@ -1,6 +1,5 @@
 package net.Indyuce.moarbows.version.nms;
 
-import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -18,9 +17,4 @@ public interface NMSHandler {
 	public void damageEntity(Player player, LivingEntity entity, double value);
 
 	public double[] getBoundingBox(Entity p);
-
-	public default boolean isInBoundingBox(Entity p, Location loc) {
-		double[] bb = getBoundingBox(p);
-		return loc.getX() > bb[0] && loc.getX() < bb[3] && loc.getY() > bb[1] && loc.getY() < bb[4] && loc.getZ() > bb[2] && loc.getZ() < bb[5];
-	}
 }
