@@ -35,6 +35,7 @@ import net.Indyuce.moarbows.listener.ShootBow;
 import net.Indyuce.moarbows.listener.UpdateNotify;
 import net.Indyuce.moarbows.version.ServerVersion;
 import net.Indyuce.moarbows.version.SpigotPlugin;
+import net.Indyuce.moarbows.version.VersionSound;
 import net.Indyuce.moarbows.version.nms.NMSHandler;
 
 public class MoarBows extends JavaPlugin {
@@ -89,6 +90,9 @@ public class MoarBows extends JavaPlugin {
 		// other plugins must register bows while the plugin is loading
 		// otherwise the plugin can't create config files for the bows
 		registration = false;
+
+		for (VersionSound sound : VersionSound.values())
+			sound.getSound();
 
 		// check for latest version
 		spigotPlugin = new SpigotPlugin(this, 36387);
