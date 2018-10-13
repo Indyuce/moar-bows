@@ -19,9 +19,9 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.version.nms.ItemTag;
-import net.Indyuce.moarbows.util.MathUtils;
 
 public class MoarBow {
 
@@ -151,7 +151,7 @@ public class MoarBow {
 
 		if (remaining > 0) {
 			e.setCancelled(true);
-			p.sendMessage(Message.ON_COOLDOWN.translate().replace("%left%", "" + MathUtils.tronc(remaining / 1000, 1)));
+			p.sendMessage(Message.ON_COOLDOWN.translate().replace("%left%", "" + BowUtils.truncation(remaining / 1000, 1)));
 			return false;
 		}
 		

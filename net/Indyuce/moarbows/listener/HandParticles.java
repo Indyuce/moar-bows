@@ -9,10 +9,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import net.Indyuce.moarbows.Eff;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.Utils;
 
 public class HandParticles {
 	private static int amount = MoarBows.plugin.getConfig().getInt("hands-particles.amount");
@@ -31,10 +31,10 @@ public class HandParticles {
 	}
 
 	private void loopHandParticles(Player p) {
-		ItemStack[] items = Utils.getHandItems(p);
+		ItemStack[] items = BowUtils.getHandItems(p);
 		for (int j = 0; j < items.length; j++) {
 			ItemStack i = items[j];
-			if (!Utils.isPluginItem(i, false))
+			if (!BowUtils.isPluginItem(i, false))
 				continue;
 
 			MoarBow b = MoarBow.get(i);
@@ -52,9 +52,9 @@ public class HandParticles {
 			loc.setYaw(p.getLocation().getYaw() + 90 - (j * 180));
 			loc.add(loc.getDirection().multiply(.3));
 			String[] s = eff.split(":");
-			Eff effName = null;
+			ParticleEffect effName = null;
 			try {
-				effName = Eff.valueOf(s[0].toUpperCase());
+				effName = ParticleEffect.valueOf(s[0].toUpperCase());
 			} catch (Exception e) {
 				continue;
 			}
@@ -67,7 +67,7 @@ public class HandParticles {
 					loc.add(new Random().nextDouble() / 2.5 - .2, new Random().nextDouble() / 2.5 - .2, new Random().nextDouble() / 2.5 - .2);
 					String[] rgb = s[1].split(",");
 					Color c = Color.fromRGB(Integer.parseInt(rgb[0]), Integer.parseInt(rgb[1]), Integer.parseInt(rgb[2]));
-					effName.display(new Eff.OrdinaryColor(c), loc, 200);
+					effName.display(new ParticleEffect.OrdinaryColor(c), loc, 200);
 				}
 		}
 	}

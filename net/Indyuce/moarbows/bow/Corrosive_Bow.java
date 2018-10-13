@@ -8,7 +8,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import net.Indyuce.moarbows.Eff;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
@@ -30,8 +30,8 @@ public class Corrosive_Bow extends MoarBow {
 	public void land(Player p, Arrow a) {
 		int duration = MoarBows.getLanguage().getBows().getInt("CORROSIVE_BOW.duration") * 20;
 		a.remove();
-		Eff.SLIME.display(2, 2, 2, 0, 48, a.getLocation(), 200);
-		Eff.VILLAGER_HAPPY.display(2, 2, 2, 0, 32, a.getLocation(), 200);
+		ParticleEffect.SLIME.display(2, 2, 2, 0, 48, a.getLocation(), 200);
+		ParticleEffect.VILLAGER_HAPPY.display(2, 2, 2, 0, 32, a.getLocation(), 200);
 		a.getWorld().playSound(a.getLocation(), VersionSound.BLOCK_BREWING_STAND_BREW.getSound(), 2, 0);
 		for (Entity ent : a.getNearbyEntities(5, 5, 5))
 			if (ent instanceof LivingEntity) {

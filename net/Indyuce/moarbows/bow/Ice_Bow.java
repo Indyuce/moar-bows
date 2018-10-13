@@ -8,7 +8,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import net.Indyuce.moarbows.Eff;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
@@ -31,9 +31,9 @@ public class Ice_Bow extends MoarBow {
 		int duration = MoarBows.getLanguage().getBows().getInt("ICE_BOW.duration") * 20;
 		int amplifier = MoarBows.getLanguage().getBows().getInt("ICE_BOW.amplifier");
 		a.remove();
-		Eff.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, a.getLocation(), 200);
-		Eff.SNOW_SHOVEL.display(0, 0, 0, .2f, 48, a.getLocation().add(0, .1, 0), 200);
-		Eff.FIREWORKS_SPARK.display(0, 0, 0, .2f, 24, a.getLocation().add(0, .1, 0), 200);
+		ParticleEffect.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, a.getLocation(), 200);
+		ParticleEffect.SNOW_SHOVEL.display(0, 0, 0, .2f, 48, a.getLocation().add(0, .1, 0), 200);
+		ParticleEffect.FIREWORKS_SPARK.display(0, 0, 0, .2f, 24, a.getLocation().add(0, .1, 0), 200);
 		a.getWorld().playSound(p.getLocation(), VersionSound.ENTITY_FIREWORK_LARGE_BLAST.getSound(), 2, 1);
 		for (Entity ent : a.getNearbyEntities(5, 5, 5))
 			if (ent instanceof LivingEntity) {

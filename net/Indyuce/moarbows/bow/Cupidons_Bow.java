@@ -7,7 +7,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import net.Indyuce.moarbows.Eff;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
@@ -15,7 +15,7 @@ import net.Indyuce.moarbows.version.VersionSound;
 
 public class Cupidons_Bow extends MoarBow {
 	public Cupidons_Bow() {
-		super("CUPIDONS_BOW", "Cupidon's Bow", new String[] { "Arrows heal players for 3 hearts.", "Also unmarks (&nMarked Bow&7) players." }, 0, 0, "heart", new String[] { "SPECKLED_MELON,SPECKLED_MELON,SPECKLED_MELON", "SPECKLED_MELON,BOW,SPECKLED_MELON", "SPECKLED_MELON,SPECKLED_MELON,SPECKLED_MELON" });
+		super("CUPIDONS_BOW", "&fCupidon's Bow", new String[] { "Arrows heal players for 3 hearts.", "Also unmarks (&nMarked Bow&7) players." }, 0, 0, "heart", new String[] { "SPECKLED_MELON,SPECKLED_MELON,SPECKLED_MELON", "SPECKLED_MELON,BOW,SPECKLED_MELON", "SPECKLED_MELON,SPECKLED_MELON,SPECKLED_MELON" });
 
 		addModifier(new BowModifier("heal", 4));
 	}
@@ -26,7 +26,7 @@ public class Cupidons_Bow extends MoarBow {
 			return;
 
 		e.setDamage(0);
-		Eff.HEART.display(1, 1, 1, 0, 16, p.getLocation().add(0, 1, 0), 200);
+		ParticleEffect.HEART.display(1, 1, 1, 0, 16, p.getLocation().add(0, 1, 0), 200);
 		p.getWorld().playSound(p.getLocation(), VersionSound.ENTITY_BLAZE_AMBIENT.getSound(), 2, 2);
 		Marked_Bow.marked.remove(p.getUniqueId());
 		double max = ((Player) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();

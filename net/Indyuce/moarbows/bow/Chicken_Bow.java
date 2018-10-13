@@ -12,10 +12,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import net.Indyuce.moarbows.Eff;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.Utils;
 import net.Indyuce.moarbows.version.VersionSound;
 
 public class Chicken_Bow extends MoarBow {
@@ -34,11 +34,11 @@ public class Chicken_Bow extends MoarBow {
 				if (ti > 20 * e.getForce())
 					cancel();
 
-				if (!Utils.consumeAmmo(p, new ItemStack(Material.EGG)))
+				if (!BowUtils.consumeAmmo(p, new ItemStack(Material.EGG)))
 					return;
 
 				Location loc = p.getEyeLocation().clone();
-				Eff.CRIT.display(.2f, .2f, .2f, 0, 6, loc, 100);
+				ParticleEffect.CRIT.display(.2f, .2f, .2f, 0, 6, loc, 100);
 				loc.getWorld().playSound(loc, VersionSound.ENTITY_CHICKEN_EGG.getSound(), 1, 1.5f);
 				Egg egg = p.launchProjectile(Egg.class);
 				loc.setPitch(loc.getPitch() + new Random().nextInt(3) - 1);

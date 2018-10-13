@@ -1,4 +1,4 @@
-package net.Indyuce.moarbows.util;
+package net.Indyuce.moarbows.version;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

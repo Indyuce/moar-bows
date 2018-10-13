@@ -7,8 +7,8 @@ import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 
+import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.Utils;
 import net.Indyuce.moarbows.version.VersionSound;
 
 public class Wither_Bow extends MoarBow {
@@ -19,7 +19,7 @@ public class Wither_Bow extends MoarBow {
 	@Override
 	public boolean shoot(EntityShootBowEvent e, Arrow a, Player p, ItemStack i) {
 		e.setCancelled(true);
-		if (!Utils.consumeAmmo(p, new ItemStack(Material.ARROW)))
+		if (!BowUtils.consumeAmmo(p, new ItemStack(Material.ARROW)))
 			return false;
 
 		a.getWorld().playSound(a.getLocation(), VersionSound.ENTITY_WITHER_SHOOT.getSound(), 1, 1);

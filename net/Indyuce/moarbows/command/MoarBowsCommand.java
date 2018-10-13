@@ -8,10 +8,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import net.Indyuce.moarbows.GUI;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.Message;
 import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.gui.BowList;
 
 public class MoarBowsCommand implements CommandExecutor {
 	@Override
@@ -29,7 +29,7 @@ public class MoarBowsCommand implements CommandExecutor {
 			sender.sendMessage(ChatColor.LIGHT_PURPLE + "/mb " + ChatColor.WHITE + "shows the help page.");
 			sender.sendMessage(ChatColor.LIGHT_PURPLE + "/mb get <bow> (player) " + ChatColor.WHITE + "gives a player a bow.");
 			sender.sendMessage(ChatColor.LIGHT_PURPLE + "/mb getall " + ChatColor.WHITE + "gives you all the available bows.");
-			sender.sendMessage(ChatColor.LIGHT_PURPLE + "/mb gui " + ChatColor.WHITE + "shows all available bows in a GUI.");
+			sender.sendMessage(ChatColor.LIGHT_PURPLE + "/mb gui " + ChatColor.WHITE + "shows all available bows in a BowList.");
 			sender.sendMessage(ChatColor.LIGHT_PURPLE + "/mb list " + ChatColor.WHITE + "shows all available bows.");
 			sender.sendMessage(ChatColor.LIGHT_PURPLE + "/mb reload " + ChatColor.WHITE + "reloads the config file.");
 			return true;
@@ -46,7 +46,7 @@ public class MoarBowsCommand implements CommandExecutor {
 				return true;
 			}
 
-			GUI.openInv((Player) sender);
+			new BowList((Player) sender).open();
 		}
 
 		// perm for op commands

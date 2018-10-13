@@ -23,6 +23,9 @@ permissions:
     moarbows.enchant:
         description: Allows to repair a special bow.
         default: op
+    moarbows.update-notify:
+        description: Receive a notification when a new update is available.
+        default: op
     moarbows.use.*:
         description: Use all special bows.
         default: op

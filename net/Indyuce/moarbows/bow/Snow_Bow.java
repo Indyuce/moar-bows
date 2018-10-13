@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import net.Indyuce.moarbows.Eff;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.MoarBow;
 
@@ -33,7 +33,7 @@ public class Snow_Bow extends MoarBow {
 					cancel();
 
 				Location loc = p.getEyeLocation().clone();
-				Eff.SNOWBALL.display(.2f, .2f, .2f, 0, 6, loc, 100);
+				ParticleEffect.SNOWBALL.display(.2f, .2f, .2f, 0, 6, loc, 100);
 				p.getWorld().playSound(p.getLocation(), Sound.ENTITY_SNOWBALL_THROW, 1, 1.5f);
 				Snowball s = p.launchProjectile(Snowball.class);
 				loc.setPitch(loc.getPitch() + new Random().nextInt(3) - 1);

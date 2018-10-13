@@ -21,19 +21,21 @@ import net.Indyuce.moarbows.bow.Marked_Bow;
 import net.Indyuce.moarbows.command.MoarBowsCommand;
 import net.Indyuce.moarbows.command.completion.MoarBowsCompletion;
 import net.Indyuce.moarbows.comp.ArrowLand_v1_8;
+import net.Indyuce.moarbows.comp.Metrics;
 import net.Indyuce.moarbows.comp.Version_1_12;
-import net.Indyuce.moarbows.version.ServerVersion;
-import net.Indyuce.moarbows.version.SpigotPlugin;
-import net.Indyuce.moarbows.version.nms.NMSHandler;
 import net.Indyuce.moarbows.comp.worldguard.WGPlugin;
 import net.Indyuce.moarbows.comp.worldguard.WorldGuardOff;
 import net.Indyuce.moarbows.comp.worldguard.WorldGuardOn;
+import net.Indyuce.moarbows.gui.listener.GuiListener;
 import net.Indyuce.moarbows.listener.ArrowLand;
 import net.Indyuce.moarbows.listener.HandParticles;
 import net.Indyuce.moarbows.listener.HitEntity;
 import net.Indyuce.moarbows.listener.ItemPrevents;
 import net.Indyuce.moarbows.listener.ShootBow;
-import net.Indyuce.moarbows.util.Utils;
+import net.Indyuce.moarbows.listener.UpdateNotify;
+import net.Indyuce.moarbows.version.ServerVersion;
+import net.Indyuce.moarbows.version.SpigotPlugin;
+import net.Indyuce.moarbows.version.nms.NMSHandler;
 
 public class MoarBows extends JavaPlugin {
 
@@ -49,6 +51,7 @@ public class MoarBows extends JavaPlugin {
 	public static MoarBows plugin;
 	private static LanguageManager language;
 	private static ServerVersion version;
+	private static SpigotPlugin spigotPlugin;
 
 	// must register the bows before the plugin is enabled
 	// otherwise it can't generate the required config files
@@ -88,7 +91,7 @@ public class MoarBows extends JavaPlugin {
 		registration = false;
 
 		// check for latest version
-		SpigotPlugin spigotPlugin = new SpigotPlugin(this, 36387);
+		spigotPlugin = new SpigotPlugin(this, 36387);
 		if (spigotPlugin.isOutOfDate())
 			for (String s : spigotPlugin.getOutOfDateMessage())
 				getLogger().log(Level.INFO, "\u001B[32m" + s + "\u001B[37m");
@@ -104,16 +107,20 @@ public class MoarBows extends JavaPlugin {
 			return;
 		}
 
+		new Metrics(this);
+
 		// config files
 		saveDefaultConfig();
 
-		Bukkit.getServer().getPluginManager().registerEvents(new Utils(), this);
-		Bukkit.getServer().getPluginManager().registerEvents(new GUI(), this);
-		
+		Bukkit.getServer().getPluginManager().registerEvents(new BowUtils(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new GuiListener(), this);
+
 		Bukkit.getServer().getPluginManager().registerEvents(new ShootBow(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new ItemPrevents(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new HitEntity(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(version.isBelowOrEqual(1, 9) ? new ArrowLand_v1_8() : new ArrowLand(), this);
+		if (getConfig().getBoolean("update-notify"))
+			Bukkit.getServer().getPluginManager().registerEvents(new UpdateNotify(), this);
 		if (getConfig().getBoolean("hand-particles.enabled"))
 			new HandParticles();
 
@@ -213,6 +220,10 @@ public class MoarBows extends JavaPlugin {
 
 	public static ServerVersion getVersion() {
 		return version;
+	}
+
+	public static SpigotPlugin getSpigotPlugin() {
+		return spigotPlugin;
 	}
 
 	public static void registerBow(MoarBow bow) {

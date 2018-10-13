@@ -9,7 +9,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import net.Indyuce.moarbows.Eff;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
@@ -42,13 +42,13 @@ public class Meteor_Bow extends MoarBow {
 			public void run() {
 				ti += .06;
 				source.add(v);
-				Eff.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, source, 150);
-				Eff.FLAME.display(.2f, .2f, .2f, 0, 4, source, 100);
+				ParticleEffect.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, source, 150);
+				ParticleEffect.FLAME.display(.2f, .2f, .2f, 0, 4, source, 100);
 				if (ti >= 1) {
 					loc.getWorld().playSound(loc, VersionSound.ENTITY_GENERIC_EXPLODE.getSound(), 3, 1);
-					Eff.EXPLOSION_LARGE.display(2, 2, 2, 0, 16, loc, 1000);
-					Eff.FLAME.display(0, 0, 0, .25f, 32, loc.add(0, .1, 0), 100);
-					Eff.EXPLOSION_NORMAL.display(0, 0, 0, .25f, 32, loc, 100);
+					ParticleEffect.EXPLOSION_LARGE.display(2, 2, 2, 0, 16, loc, 1000);
+					ParticleEffect.FLAME.display(0, 0, 0, .25f, 32, loc.add(0, .1, 0), 100);
+					ParticleEffect.EXPLOSION_NORMAL.display(0, 0, 0, .25f, 32, loc, 100);
 					for (LivingEntity t : a.getWorld().getEntitiesByClass(LivingEntity.class))
 						if (t.getLocation().add(0, 1, 0).distanceSquared(loc) < 25) {
 							MoarBows.getNMS().damageEntity(p, t, dmg);

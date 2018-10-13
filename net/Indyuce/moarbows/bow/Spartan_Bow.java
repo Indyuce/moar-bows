@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import net.Indyuce.moarbows.Eff;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
@@ -44,7 +44,7 @@ public class Spartan_Bow extends MoarBow {
 
 			public void run() {
 				ti += 3d / 20d;
-				Eff.SMOKE_LARGE.display(0, 0, 0, 0, 1, sky, 100);
+				ParticleEffect.SMOKE_LARGE.display(0, 0, 0, 0, 1, sky, 100);
 				Location loc2 = loc1.clone().add(8 * (r.nextDouble() - .5), 0, 8 * (r.nextDouble() - .5));
 				Vector v = loc2.toVector().subtract(sky.toVector()).normalize();
 				Arrow a1 = (Arrow) sky.getWorld().spawnEntity(sky, EntityType.ARROW);

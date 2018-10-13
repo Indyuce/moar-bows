@@ -10,10 +10,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 
-import net.Indyuce.moarbows.Eff;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.Utils;
 import net.Indyuce.moarbows.version.VersionSound;
 
 public class Linear_Bow extends MoarBow {
@@ -24,7 +24,7 @@ public class Linear_Bow extends MoarBow {
 	@Override
 	public boolean shoot(EntityShootBowEvent e, Arrow a, Player p, ItemStack i) {
 		double dmg = MoarBows.getLanguage().getBows().getDouble("LINEAR_BOW.damage");
-		if (!Utils.consumeAmmo(p, new ItemStack(Material.ARROW)))
+		if (!BowUtils.consumeAmmo(p, new ItemStack(Material.ARROW)))
 			return false;
 
 		p.getWorld().playSound(p.getLocation(), VersionSound.ENTITY_ARROW_SHOOT.getSound(), 2, 0);
@@ -32,14 +32,14 @@ public class Linear_Bow extends MoarBow {
 		Location loc = p.getEyeLocation();
 		for (double j = 0; j < range; j++) {
 			loc.add(p.getEyeLocation().getDirection());
-			Eff.REDSTONE.display(new Eff.OrdinaryColor(Color.SILVER), loc, 200);
+			ParticleEffect.REDSTONE.display(new ParticleEffect.OrdinaryColor(Color.SILVER), loc, 200);
 			if (loc.getBlock().getType().isSolid())
 				break;
 			for (Entity t : p.getNearbyEntities(30, 30, 30))
-				if (Utils.canDmgEntity(p, loc, t) && t instanceof LivingEntity) {
+				if (BowUtils.canDmgEntity(p, loc, t) && t instanceof LivingEntity) {
 					e.setCancelled(true);
 					MoarBows.getNMS().damageEntity(p, (LivingEntity) t, dmg);
-					Eff.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, t.getLocation().add(0, 1, 0), 100);
+					ParticleEffect.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, t.getLocation().add(0, 1, 0), 100);
 					break;
 				}
 		}

@@ -20,7 +20,7 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import net.Indyuce.moarbows.Eff;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
@@ -52,7 +52,7 @@ public class Marked_Bow extends MoarBow implements Listener {
 					cancel();
 
 				for (double j = 0; j < Math.PI * 2; j += Math.PI / 18)
-					Eff.SMOKE_NORMAL.display(0, 0, 0, 0, 1, p.getLocation().clone().add(Math.cos(j) * .7, .1, Math.sin(j) * .7), 100);
+					ParticleEffect.SMOKE_NORMAL.display(0, 0, 0, 0, 1, p.getLocation().clone().add(Math.cos(j) * .7, .1, Math.sin(j) * .7), 100);
 			}
 		}.runTaskTimer(MoarBows.plugin, 0, 20);
 	}
@@ -100,7 +100,7 @@ public class Marked_Bow extends MoarBow implements Listener {
 				for (int j1 = 0; j1 < 3; j1++) {
 					y += .07;
 					for (int j = 0; j < 3; j++)
-						Eff.REDSTONE.display(new Eff.OrdinaryColor(Color.BLACK), loc.clone().add(Math.cos(y * Math.PI + (j * Math.PI * 2 / 3)) * (3 - y) / 2.5, y, Math.sin(y * Math.PI + (j * Math.PI * 2 / 3)) * (3 - y) / 2.5), 100);
+						ParticleEffect.REDSTONE.display(new ParticleEffect.OrdinaryColor(Color.BLACK), loc.clone().add(Math.cos(y * Math.PI + (j * Math.PI * 2 / 3)) * (3 - y) / 2.5, y, Math.sin(y * Math.PI + (j * Math.PI * 2 / 3)) * (3 - y) / 2.5), 100);
 				}
 				if (y > 3)
 					cancel();

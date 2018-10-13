@@ -13,7 +13,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import net.Indyuce.moarbows.Eff;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
@@ -44,7 +44,7 @@ public class Earthquake_Bow extends MoarBow {
 				for (int k = 0; k < 64; k++) {
 					double rx = (r.nextDouble() - .5) * 6;
 					double rz = (r.nextDouble() - .5) * 6;
-					Eff.BLOCK_CRACK.display(new Eff.BlockData(Material.DIRT, (byte) 0), new Vector(0, 0, 0), 0, loc.clone().add(rx, .1, rz), 100);
+					ParticleEffect.BLOCK_CRACK.display(new ParticleEffect.BlockData(Material.DIRT, (byte) 0), new Vector(0, 0, 0), 0, loc.clone().add(rx, .1, rz), 100);
 				}
 				break;
 			}

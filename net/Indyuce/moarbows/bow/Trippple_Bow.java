@@ -8,8 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 
+import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.Utils;
 import net.Indyuce.moarbows.version.VersionSound;
 
 public class Trippple_Bow extends MoarBow {
@@ -23,7 +23,7 @@ public class Trippple_Bow extends MoarBow {
 		p.getWorld().playSound(p.getLocation(), VersionSound.ENTITY_ARROW_SHOOT.getSound(), 2, 1);
 		Location loc = p.getLocation().add(0, 1.2, 0);
 		for (int j = -1; j < 2; j++) {
-			if (!Utils.consumeAmmo(p, new ItemStack(Material.ARROW)))
+			if (!BowUtils.consumeAmmo(p, new ItemStack(Material.ARROW)))
 				return false;
 
 			if (p.getGameMode() != GameMode.CREATIVE)

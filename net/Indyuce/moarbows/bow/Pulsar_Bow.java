@@ -12,7 +12,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import net.Indyuce.moarbows.Eff;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
@@ -43,7 +43,7 @@ public class Pulsar_Bow extends MoarBow {
 			public void run() {
 				ti++;
 				loc.getWorld().playSound(loc, VersionSound.BLOCK_NOTE_HAT.getSound(), 2, 2);
-				Eff.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, loc, 100);
+				ParticleEffect.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, loc, 100);
 				for (int j = 0; j < 3; j++) {
 					double ran = new Random().nextDouble() * Math.PI * 2;
 					double ran_y = new Random().nextDouble() * 2. - 1.;
@@ -51,7 +51,7 @@ public class Pulsar_Bow extends MoarBow {
 					double z = Math.sin(ran) * Math.sin(ran_y * Math.PI * 2);
 					Location loc1 = loc.clone().add(x * r, ran_y * r, z * r);
 					Vector v = loc.toVector().subtract(loc1.toVector());
-					Eff.SMOKE_LARGE.display(v, .1f, loc1, 100);
+					ParticleEffect.SMOKE_LARGE.display(v, .1f, loc1, 100);
 				}
 				for (Entity t : a.getNearbyEntities(5, 5, 5))
 					if (t instanceof LivingEntity) {

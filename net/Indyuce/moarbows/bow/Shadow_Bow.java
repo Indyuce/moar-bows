@@ -11,11 +11,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import net.Indyuce.moarbows.Eff;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.Utils;
 import net.Indyuce.moarbows.version.VersionSound;
 
 public class Shadow_Bow extends MoarBow {
@@ -29,7 +29,7 @@ public class Shadow_Bow extends MoarBow {
 	public boolean shoot(EntityShootBowEvent e, Arrow a, Player p, ItemStack i) {
 		e.setCancelled(true);
 		final double dmg = MoarBows.getLanguage().getBows().getDouble("SHADOW_BOW.damage");
-		if (!Utils.consumeAmmo(p, new ItemStack(Material.ARROW)))
+		if (!BowUtils.consumeAmmo(p, new ItemStack(Material.ARROW)))
 			return false;
 
 		new BukkitRunnable() {
@@ -41,10 +41,10 @@ public class Shadow_Bow extends MoarBow {
 				for (double j = 0; j < 3; j++) {
 					ti += .5;
 					loc.add(v);
-					Eff.SPELL_WITCH.display(.1f, .1f, .1f, 0, 8, loc, 100);
+					ParticleEffect.SPELL_WITCH.display(.1f, .1f, .1f, 0, 8, loc, 100);
 					loc.getWorld().playSound(loc, VersionSound.ENTITY_ENDERMEN_HURT.getSound(), 2, 2);
 					for (LivingEntity t : loc.getWorld().getEntitiesByClass(LivingEntity.class))
-						if (Utils.canDmgEntity(p, loc, t) && t != p) {
+						if (BowUtils.canDmgEntity(p, loc, t) && t != p) {
 							new BukkitRunnable() {
 								final Location loc2 = t.getLocation();
 								double y = 0;
@@ -54,7 +54,7 @@ public class Shadow_Bow extends MoarBow {
 										y += .05;
 										for (int j = 0; j < 2; j++) {
 											double xz = y * Math.PI * .8 + (j * Math.PI);
-											Eff.REDSTONE.display(new Eff.OrdinaryColor(Color.PURPLE), loc2.clone().add(Math.cos(xz) * 1.3, y, Math.sin(xz) * 1.3), 150);
+											ParticleEffect.REDSTONE.display(new ParticleEffect.OrdinaryColor(Color.PURPLE), loc2.clone().add(Math.cos(xz) * 1.3, y, Math.sin(xz) * 1.3), 150);
 										}
 									}
 									if (y >= 2.5) {
@@ -63,7 +63,7 @@ public class Shadow_Bow extends MoarBow {
 								}
 							}.runTaskTimer(MoarBows.plugin, 0, 1);
 							t.getWorld().playSound(t.getLocation(), VersionSound.ENTITY_FIREWORK_BLAST.getSound(), 2, 0);
-							Eff.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, t.getLocation().add(0, 1, 0), 100);
+							ParticleEffect.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, t.getLocation().add(0, 1, 0), 100);
 							cancel();
 							MoarBows.getNMS().damageEntity(p, t, dmg);
 							return;

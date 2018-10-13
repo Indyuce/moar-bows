@@ -7,6 +7,11 @@
 #
 # --------------------------------------------------------------
 
+# Notifies players with the 'moarbows.update-notify' perm node when
+# they join the server if a new update is available for download.
+# Requires /reload when changed.
+update-notify: true
+
 # If set to true, players must fully pull
 # custom bows to be able to shoot arrows.
 full-pull-restriction: false

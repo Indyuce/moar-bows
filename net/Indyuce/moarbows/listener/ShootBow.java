@@ -11,13 +11,13 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import net.Indyuce.moarbows.Eff;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.api.ArrowManager;
 import net.Indyuce.moarbows.api.Message;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.comp.worldguard.CustomFlag;
-import net.Indyuce.moarbows.util.Utils;
 
 public class ShootBow implements Listener {
 	@EventHandler
@@ -30,7 +30,7 @@ public class ShootBow implements Listener {
 			return;
 
 		Player p = (Player) e.getEntity();
-		if (!Utils.isPluginItem(i, false))
+		if (!BowUtils.isPluginItem(i, false))
 			return;
 		
 		// check for bow
@@ -83,9 +83,9 @@ public class ShootBow implements Listener {
 					}
 
 					String[] s = eff.split(":");
-					Eff effName = null;
+					ParticleEffect effName = null;
 					try {
-						effName = Eff.valueOf(s[0].toUpperCase());
+						effName = ParticleEffect.valueOf(s[0].toUpperCase());
 					} catch (Exception e) {
 						ArrowManager.unregisterArrow(arrow);
 						MoarBows.plugin.getLogger().log(Level.WARNING, "Couldn't recognize effect of " + bow.getID());
@@ -97,7 +97,7 @@ public class ShootBow implements Listener {
 					if (s.length == 2) {
 						String[] rgb = s[1].split(",");
 						Color c = Color.fromRGB(Integer.parseInt(rgb[0]), Integer.parseInt(rgb[1]), Integer.parseInt(rgb[2]));
-						effName.display(new Eff.OrdinaryColor(c), arrow.getLocation().clone().add(0, .25, 0), 200);
+						effName.display(new ParticleEffect.OrdinaryColor(c), arrow.getLocation().clone().add(0, .25, 0), 200);
 					}
 				}
 			}.runTaskTimer(MoarBows.plugin, 0, 1);

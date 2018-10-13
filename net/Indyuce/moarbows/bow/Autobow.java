@@ -10,10 +10,10 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import net.Indyuce.moarbows.Eff;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.util.Utils;
 import net.Indyuce.moarbows.version.VersionSound;
 
 public class Autobow extends MoarBow {
@@ -32,11 +32,11 @@ public class Autobow extends MoarBow {
 				if (ti > 20 * e.getForce())
 					cancel();
 
-				if (!Utils.consumeAmmo(p, new ItemStack(Material.ARROW)))
+				if (!BowUtils.consumeAmmo(p, new ItemStack(Material.ARROW)))
 					return;
 
 				Location loc = p.getEyeLocation().clone();
-				Eff.CRIT.display(.2f, .2f, .2f, 0, 6, loc, 100);
+				ParticleEffect.CRIT.display(.2f, .2f, .2f, 0, 6, loc, 100);
 				p.getWorld().playSound(p.getLocation(), VersionSound.ENTITY_ARROW_SHOOT.getSound(), 1, 1.5f);
 				loc.setPitch(loc.getPitch() + new Random().nextInt(3) - 1);
 				loc.setYaw(loc.getYaw() + new Random().nextInt(3) - 1);
