@@ -21,6 +21,7 @@ import net.Indyuce.moarbows.bow.Marked_Bow;
 import net.Indyuce.moarbows.command.MoarBowsCommand;
 import net.Indyuce.moarbows.command.completion.MoarBowsCompletion;
 import net.Indyuce.moarbows.comp.ArrowLand_v1_8;
+import net.Indyuce.moarbows.comp.ArrowLand_v1_9;
 import net.Indyuce.moarbows.comp.Metrics;
 import net.Indyuce.moarbows.comp.Version_1_12;
 import net.Indyuce.moarbows.comp.worldguard.WGPlugin;
@@ -118,7 +119,7 @@ public class MoarBows extends JavaPlugin {
 		Bukkit.getServer().getPluginManager().registerEvents(new ShootBow(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new ItemPrevents(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new HitEntity(), this);
-		Bukkit.getServer().getPluginManager().registerEvents(version.isBelowOrEqual(1, 9) ? new ArrowLand_v1_8() : new ArrowLand(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(version.isBelowOrEqual(1, 8) ? new ArrowLand_v1_8() : (version.isBelowOrEqual(1, 9) ? new ArrowLand_v1_9() : new ArrowLand()), this);
 		if (getConfig().getBoolean("update-notify"))
 			Bukkit.getServer().getPluginManager().registerEvents(new UpdateNotify(), this);
 		if (getConfig().getBoolean("hand-particles.enabled"))
