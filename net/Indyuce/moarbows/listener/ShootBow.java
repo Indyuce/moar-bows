@@ -11,9 +11,9 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import net.Indyuce.moarbows.ParticleEffect;
-import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.BowUtils;
+import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.api.ArrowManager;
 import net.Indyuce.moarbows.api.Message;
 import net.Indyuce.moarbows.api.MoarBow;
@@ -21,51 +21,51 @@ import net.Indyuce.moarbows.comp.worldguard.CustomFlag;
 
 public class ShootBow implements Listener {
 	@EventHandler
-	public void a(EntityShootBowEvent e) {
-		if (e.getForce() < 1.0 && MoarBows.plugin.getConfig().getBoolean("full-pull-restriction"))
+	public void a(EntityShootBowEvent event) {
+		if (event.getForce() < 1.0 && MoarBows.plugin.getConfig().getBoolean("full-pull-restriction"))
 			return;
 
-		ItemStack i = e.getBow();
-		if (!(e.getProjectile() instanceof Arrow) || !(e.getEntity() instanceof Player))
+		ItemStack item = event.getBow();
+		if (!(event.getProjectile() instanceof Arrow) || !(event.getEntity() instanceof Player))
 			return;
 
-		Player p = (Player) e.getEntity();
-		if (!BowUtils.isPluginItem(i, false))
+		Player player = (Player) event.getEntity();
+		if (!BowUtils.isPluginItem(item, false))
 			return;
-		
+
 		// check for bow
-		MoarBow bow = MoarBow.get(i);
+		MoarBow bow = MoarBows.getFromItem(item);
 		if (bow == null)
 			return;
 
 		// permission
-		if (!p.hasPermission("moarbows.use." + bow.getLowerCaseID())) {
-			p.sendMessage(Message.NOT_ENOUGH_PERMS.translate());
-			e.setCancelled(true);
+		if (!player.hasPermission("moarbows.use." + bow.getLowerCaseID())) {
+			player.sendMessage(Message.NOT_ENOUGH_PERMS.translate());
+			event.setCancelled(true);
 		}
 
 		// worldguard flag
-		if (!MoarBows.wgPlugin.isFlagAllowed(p, CustomFlag.MB_BOWS)) {
-			e.setCancelled(true);
-			p.sendMessage(Message.DISABLE_BOWS_FLAG.translate());
+		if (!MoarBows.getWorldGuard().isFlagAllowed(player, CustomFlag.MB_BOWS)) {
+			event.setCancelled(true);
+			player.sendMessage(Message.DISABLE_BOWS_FLAG.translate());
 			return;
 		}
 
 		// cooldown
-		if (!bow.canUse(p, e)) {
-			e.setCancelled(true);
+		if (!bow.canUse(player, event)) {
+			event.setCancelled(true);
 			return;
 		}
 
 		// shoot effect
-		Arrow arrow = (Arrow) e.getProjectile();
-		if (!bow.shoot(e, arrow, p, i)) {
-			e.setCancelled(true);
+		Arrow arrow = (Arrow) event.getProjectile();
+		if (!bow.shoot(event, arrow, player, item)) {
+			event.setCancelled(true);
 			return;
 		}
-		
+
 		// register arrow
-		ArrowManager.registerArrow(arrow, bow, p);
+		ArrowManager.registerArrow(arrow, bow, player);
 
 		// arrow particles
 		if (MoarBows.plugin.getConfig().getBoolean("arrow-particles")) {
@@ -86,7 +86,7 @@ public class ShootBow implements Listener {
 					ParticleEffect effName = null;
 					try {
 						effName = ParticleEffect.valueOf(s[0].toUpperCase());
-					} catch (Exception e) {
+					} catch (Exception event) {
 						ArrowManager.unregisterArrow(arrow);
 						MoarBows.plugin.getLogger().log(Level.WARNING, "Couldn't recognize effect of " + bow.getID());
 						cancel();

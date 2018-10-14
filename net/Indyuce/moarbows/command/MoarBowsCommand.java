@@ -94,7 +94,7 @@ public class MoarBowsCommand implements CommandExecutor {
 
 			// bow
 			String bowFormat = args[1].toUpperCase().replace("-", "_");
-			MoarBow bow = MoarBows.hasBow(bowFormat) ? MoarBows.getBow(bowFormat) : null;
+			MoarBow bow = MoarBows.hasBow(bowFormat) ? MoarBows.getFromID(bowFormat) : null;
 			if (bow == null) {
 				sender.sendMessage(ChatColor.RED + "Couldn't find the bow called " + bowFormat + ".");
 				return true;

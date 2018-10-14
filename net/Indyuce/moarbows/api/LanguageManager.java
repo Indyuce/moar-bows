@@ -27,7 +27,7 @@ public class LanguageManager {
 			}
 
 			String[] paths = new String[] { "name", "lore", "cooldown", "durability", "craft-enabled", "craft", "eff" };
-			Object[] values = new Object[] { b.getName(), lore, b.getCooldown(), b.getDurability(), b.getFormattedCraftingRecipe().length > 0, Arrays.asList(b.getFormattedCraftingRecipe()), b.getParticleEffect() };
+			Object[] values = new Object[] { b.getUncoloredName(), lore, b.getCooldown(), b.getDurability(), b.getFormattedCraftingRecipe().length > 0, Arrays.asList(b.getFormattedCraftingRecipe()), b.getParticleEffect() };
 			ConfigurationSection section = bows.getConfigurationSection(b.getID());
 			for (int j = 0; j < paths.length; j++)
 				if (!section.contains(paths[j]))

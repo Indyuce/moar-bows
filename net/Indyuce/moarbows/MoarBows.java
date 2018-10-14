@@ -1,10 +1,13 @@
 package net.Indyuce.moarbows;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
@@ -12,12 +15,14 @@ import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.Indyuce.moarbows.api.LanguageManager;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.bow.Marked_Bow;
 import net.Indyuce.moarbows.command.MoarBowsCommand;
 import net.Indyuce.moarbows.command.completion.MoarBowsCompletion;
 import net.Indyuce.moarbows.comp.ArrowLand_v1_8;
@@ -35,24 +40,29 @@ import net.Indyuce.moarbows.listener.ShootBow;
 import net.Indyuce.moarbows.listener.UpdateNotify;
 import net.Indyuce.moarbows.version.ServerVersion;
 import net.Indyuce.moarbows.version.SpigotPlugin;
-import net.Indyuce.moarbows.version.VersionSound;
 import net.Indyuce.moarbows.version.nms.NMSHandler;
 
 public class MoarBows extends JavaPlugin {
 
-	// where all bows are stored
-	// bows need different bow IDs otherwise it just overrides
-	private static HashMap<String, MoarBow> map = new HashMap<String, MoarBow>();
-
-	// interfaces
-	public static WGPlugin wgPlugin;
-	private static NMSHandler nms;
-
-	// plugin
+	// interfaces & instances
 	public static MoarBows plugin;
+	private static NMSHandler nms;
+	private static WGPlugin wgPlugin;
 	private static LanguageManager language;
 	private static ServerVersion version;
 	private static SpigotPlugin spigotPlugin;
+
+	// bow cooldowns are stored here
+	private static Map<UUID, Map<MoarBow, Long>> bowCooldown = new HashMap<UUID, Map<MoarBow, Long>>();
+
+	// where all bows are stored
+	// bows need different bow IDs otherwise it just overrides
+	private static Map<String, MoarBow> map = new HashMap<String, MoarBow>();
+
+	// this list is calculated when the plugin LOADS and
+	// emptied when the plugin enables. the plugin enables each listener in this
+	// list
+	private static List<Listener> listeners = new ArrayList<Listener>();
 
 	// must register the bows before the plugin is enabled
 	// otherwise it can't generate the required config files
@@ -91,9 +101,6 @@ public class MoarBows extends JavaPlugin {
 		// otherwise the plugin can't create config files for the bows
 		registration = false;
 
-		for (VersionSound sound : VersionSound.values())
-			sound.getSound();
-
 		// check for latest version
 		spigotPlugin = new SpigotPlugin(this, 36387);
 		if (spigotPlugin.isOutOfDate())
@@ -128,7 +135,9 @@ public class MoarBows extends JavaPlugin {
 		if (getConfig().getBoolean("hand-particles.enabled"))
 			new HandParticles();
 
-		Bukkit.getServer().getPluginManager().registerEvents(new Marked_Bow(), this);
+		// register listeners of bows
+		for (Listener listener : listeners)
+			Bukkit.getServer().getPluginManager().registerEvents(listener, this);
 
 		// worldguard flags
 		if (getServer().getPluginManager().isPluginEnabled("WorldGuard"))
@@ -201,12 +210,12 @@ public class MoarBows extends JavaPlugin {
 		return map.containsKey(id);
 	}
 
-	public static MoarBow getBow(String id) {
+	public static MoarBow getFromID(String id) {
 		return map.get(id);
 	}
 
 	@Deprecated
-	public static MoarBow safeGetBow(String id) {
+	public static MoarBow safeGetFromID(String id) {
 		return map.containsKey(id) ? map.get(id) : null;
 	}
 
@@ -230,16 +239,61 @@ public class MoarBows extends JavaPlugin {
 		return spigotPlugin;
 	}
 
+	public static WGPlugin getWorldGuard() {
+		return wgPlugin;
+	}
+
+	public static Map<MoarBow, Long> getPlayerCooldowns(OfflinePlayer player) {
+		return bowCooldown.containsKey(player.getUniqueId()) ? bowCooldown.get(player.getUniqueId()) : new HashMap<MoarBow, Long>();
+	}
+
+	public static void setPlayerCooldowns(OfflinePlayer player, Map<MoarBow, Long> cd) {
+		bowCooldown.put(player.getUniqueId(), cd);
+	}
+
 	public static void registerBow(MoarBow bow) {
 
 		// check for register boolean
 		if (!canRegisterBows()) {
 			MoarBows.plugin.getLogger().log(Level.WARNING, "Failed attempt to register " + bow.getID() + "!");
-			MoarBows.plugin.getLogger().log(Level.WARNING, "Please register the bows when the plugin is loading.");
+			MoarBows.plugin.getLogger().log(Level.WARNING, "Please register the bows while the plugin is loading.");
 			return;
 		}
 
 		// register
 		map.put(bow.getID(), bow);
+		MoarBows.plugin.getLogger().log(Level.CONFIG, "Successfully registered " + bow.getID() + ".");
+	}
+
+	public static void addListener(Listener listener) {
+
+		// check for register boolean
+		if (!canRegisterBows()) {
+			MoarBows.plugin.getLogger().log(Level.WARNING, "Failed attempt to register " + listener.getClass().getSimpleName() + "!");
+			MoarBows.plugin.getLogger().log(Level.WARNING, "Please register bow listeners while the plugin is loading.");
+			return;
+		}
+
+		// register
+		listeners.add(listener);
+	}
+
+	public static MoarBow getFromItem(ItemStack item) {
+		for (MoarBow bow : MoarBows.getBows())
+			if (bow.getName().equals(item.getItemMeta().getDisplayName()))
+				return bow;
+
+		String tag = MoarBows.getNMS().getStringTag(item, "MMOITEMS_MOARBOWS_ID");
+		if (tag.equals(""))
+			return null;
+
+		return MoarBows.hasBow(tag) ? MoarBows.getFromID(tag) : null;
+	}
+
+	public static MoarBow getFromName(ItemStack item) {
+		for (MoarBow bow : MoarBows.getBows())
+			if (bow.getName().equals(item.getItemMeta().getDisplayName()))
+				return bow;
+		return null;
 	}
 }

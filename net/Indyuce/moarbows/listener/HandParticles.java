@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import net.Indyuce.moarbows.ParticleEffect;
-import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.BowUtils;
+import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.api.MoarBow;
 
 public class HandParticles {
@@ -24,32 +24,32 @@ public class HandParticles {
 
 		new BukkitRunnable() {
 			public void run() {
-				for (Player p : Bukkit.getOnlinePlayers())
-					loopHandParticles(p);
+				for (Player player : Bukkit.getOnlinePlayers())
+					loopHandParticles(player);
 			}
 		}.runTaskTimer(MoarBows.plugin, 0, delay);
 	}
 
-	private void loopHandParticles(Player p) {
-		ItemStack[] items = BowUtils.getHandItems(p);
+	private void loopHandParticles(Player player) {
+		ItemStack[] items = BowUtils.getHandItems(player);
 		for (int j = 0; j < items.length; j++) {
-			ItemStack i = items[j];
-			if (!BowUtils.isPluginItem(i, false))
+			ItemStack item = items[j];
+			if (!BowUtils.isPluginItem(item, false))
 				continue;
 
-			MoarBow b = MoarBow.get(i);
-			if (b == null)
+			MoarBow bow = MoarBows.getFromItem(item);
+			if (bow == null)
 				continue;
 
-			String eff = b.getParticleEffect();
+			String eff = bow.getParticleEffect();
 			if (eff == null || eff.equals(""))
 				continue;
 
-			Location loc = p.getLocation().clone().add(0, .8, 0);
-			loc.setYaw(p.getLocation().getYaw());
+			Location loc = player.getLocation().clone().add(0, .8, 0);
+			loc.setYaw(player.getLocation().getYaw());
 			loc.add(loc.getDirection().multiply(.2));
 			loc.setPitch(0);
-			loc.setYaw(p.getLocation().getYaw() + 90 - (j * 180));
+			loc.setYaw(player.getLocation().getYaw() + 90 - (j * 180));
 			loc.add(loc.getDirection().multiply(.3));
 			String[] s = eff.split(":");
 			ParticleEffect effName = null;

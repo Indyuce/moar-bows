@@ -1,5 +1,5 @@
 name: MoarBows
-version: 2.3.1
+version: 2.3.2
 main: net.Indyuce.moarbows.MoarBows
 author: Indyuce
 softdepend: [WorldGuard]

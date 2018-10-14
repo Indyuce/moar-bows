@@ -8,59 +8,58 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 
-import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.BowUtils;
-import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.MoarBows;
 
 // only use MoarBow.getFromDisplayName in this
 // class class since MMOItems already deals with
 // bows that have the MMOITEMS_MOAR_BOW_ID nbttag
 public class ItemPrevents implements Listener {
 	@EventHandler
-	public void a(InventoryClickEvent e) {
-		if (e.getClickedInventory() == null)
+	public void a(InventoryClickEvent event) {
+		if (event.getClickedInventory() == null)
 			return;
 
-		if (e.getClickedInventory().getType() != InventoryType.ANVIL || !MoarBows.plugin.getConfig().getBoolean("disable-repair") || e.getSlot() != 2)
+		if (event.getClickedInventory().getType() != InventoryType.ANVIL || !MoarBows.plugin.getConfig().getBoolean("disable-repair") || event.getSlot() != 2)
 			return;
 
-		Player p = (Player) e.getWhoClicked();
-		ItemStack i = e.getClickedInventory().getItem(0);
-		if (!p.hasPermission("moarbows.repair") && BowUtils.isPluginItem(i, false))
-			if (MoarBow.getFromDisplayName(i) != null)
-				e.setCancelled(true);
+		Player player = (Player) event.getWhoClicked();
+		ItemStack item = event.getClickedInventory().getItem(0);
+		if (!player.hasPermission("moarbows.repair") && BowUtils.isPluginItem(item, false))
+			if (MoarBows.getFromName(item) != null)
+				event.setCancelled(true);
 	}
 
 	@EventHandler
-	public void b(EnchantItemEvent e) {
+	public void b(EnchantItemEvent event) {
 		if (!MoarBows.plugin.getConfig().getBoolean("disable-enchanting"))
 			return;
 
-		ItemStack i = e.getItem();
-		if (!BowUtils.isPluginItem(i, false))
+		ItemStack item = event.getItem();
+		if (!BowUtils.isPluginItem(item, false))
 			return;
 
-		Player p = e.getEnchanter();
-		if (!p.hasPermission("moarbows.enchant") && BowUtils.isPluginItem(i, false))
-			if (MoarBow.getFromDisplayName(i) != null)
-				e.setCancelled(true);
+		Player player = event.getEnchanter();
+		if (!player.hasPermission("moarbows.enchant") && BowUtils.isPluginItem(item, false))
+			if (MoarBows.getFromName(item) != null)
+				event.setCancelled(true);
 	}
 
 	@EventHandler
-	public void c(InventoryClickEvent e) {
-		if (e.getClickedInventory() == null)
+	public void c(InventoryClickEvent event) {
+		if (event.getClickedInventory() == null)
 			return;
 
-		if (e.getClickedInventory().getType() != InventoryType.ANVIL || e.getSlot() != 2)
+		if (event.getClickedInventory().getType() != InventoryType.ANVIL || event.getSlot() != 2)
 			return;
 
-		ItemStack i = e.getCurrentItem();
-		if (!BowUtils.isPluginItem(i, false))
+		ItemStack item = event.getCurrentItem();
+		if (!BowUtils.isPluginItem(item, false))
 			return;
 
-		Player p = (Player) e.getWhoClicked();
-		if (!p.hasPermission("moarbows.anvil-create") && BowUtils.isPluginItem(i, false))
-			if (MoarBow.getFromDisplayName(i) != null)
-				e.setCancelled(true);
+		Player player = (Player) event.getWhoClicked();
+		if (!player.hasPermission("moarbows.anvil-create") && BowUtils.isPluginItem(item, false))
+			if (MoarBows.getFromName(item) != null)
+				event.setCancelled(true);
 	}
 }
