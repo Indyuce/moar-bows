@@ -15,6 +15,6 @@ public class UpdateNotify implements Listener {
 		if (player.hasPermission("moarbows.update-notify"))
 			if (MoarBows.getSpigotPlugin().isOutOfDate())
 				for (String s : MoarBows.getSpigotPlugin().getOutOfDateMessage())
-					player.sendMessage(ChatColor.GREEN + "(SuddenDeath) " + s);
+					player.sendMessage(ChatColor.GREEN + "(" + MoarBows.plugin.getName() + ") " + s);
 	}
 }
