@@ -113,9 +113,9 @@ public class BowUtils implements Listener {
 		return v.setX(x).setY(y);
 	}
 
-	public static Vector rotateFunc(Vector v, Location loc) {
-		double yaw = loc.getYaw() / 180 * Math.PI;
-		double pitch = loc.getPitch() / 180 * Math.PI;
+	public static Vector rotateFunc(Vector v, double yaw, double pitch) {
+		yaw *= Math.PI / 180;
+		pitch *= Math.PI / 180;
 		v = rotAxisX(v, pitch);
 		v = rotAxisY(v, -yaw);
 		return v;

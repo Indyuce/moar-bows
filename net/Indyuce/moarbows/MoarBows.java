@@ -37,7 +37,6 @@ import net.Indyuce.moarbows.listener.HandParticles;
 import net.Indyuce.moarbows.listener.HitEntity;
 import net.Indyuce.moarbows.listener.ItemPrevents;
 import net.Indyuce.moarbows.listener.ShootBow;
-import net.Indyuce.moarbows.listener.UpdateNotify;
 import net.Indyuce.moarbows.version.ServerVersion;
 import net.Indyuce.moarbows.version.SpigotPlugin;
 import net.Indyuce.moarbows.version.nms.NMSHandler;
@@ -50,7 +49,6 @@ public class MoarBows extends JavaPlugin {
 	private static WGPlugin wgPlugin;
 	private static LanguageManager language;
 	private static ServerVersion version;
-	private static SpigotPlugin spigotPlugin;
 
 	// bow cooldowns are stored here
 	private static Map<UUID, Map<MoarBow, Long>> bowCooldown = new HashMap<UUID, Map<MoarBow, Long>>();
@@ -101,11 +99,7 @@ public class MoarBows extends JavaPlugin {
 		// otherwise the plugin can't create config files for the bows
 		registration = false;
 
-		// check for latest version
-		spigotPlugin = new SpigotPlugin(this, 36387);
-		if (spigotPlugin.isOutOfDate())
-			for (String s : spigotPlugin.getOutOfDateMessage())
-				getLogger().log(Level.INFO, "\u001B[32m" + s + "\u001B[37m");
+		new SpigotPlugin(36387, this).checkForUpdate();
 
 		try {
 
@@ -130,8 +124,6 @@ public class MoarBows extends JavaPlugin {
 		Bukkit.getServer().getPluginManager().registerEvents(new ItemPrevents(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new HitEntity(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(version.isBelowOrEqual(1, 9) ? new ArrowLand_v1_8() : new ArrowLand(), this);
-		if (getConfig().getBoolean("update-notify"))
-			Bukkit.getServer().getPluginManager().registerEvents(new UpdateNotify(), this);
 		if (getConfig().getBoolean("hand-particles.enabled"))
 			new HandParticles();
 
@@ -233,10 +225,6 @@ public class MoarBows extends JavaPlugin {
 
 	public static ServerVersion getVersion() {
 		return version;
-	}
-
-	public static SpigotPlugin getSpigotPlugin() {
-		return spigotPlugin;
 	}
 
 	public static WGPlugin getWorldGuard() {
