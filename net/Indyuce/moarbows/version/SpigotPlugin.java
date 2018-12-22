@@ -57,7 +57,7 @@ public class SpigotPlugin {
 					@EventHandler(priority = EventPriority.MONITOR)
 					public void onPlayerJoin(PlayerJoinEvent event) {
 						Player player = event.getPlayer();
-						if (player.hasPermission("mmoitems.update-notify"))
+						if (player.hasPermission(plugin.getName().toLowerCase() + ".update-notify"))
 							player.sendMessage(ChatColor.GREEN + "A new update is available for " + plugin.getName() + ": " + version + " (you are running " + plugin.getDescription().getVersion() + "). Download it here: " + getResourceUrl());
 					}
 				}, plugin));
