@@ -33,7 +33,7 @@ public class SpigotPlugin {
 	public void checkForUpdate() {
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 			try {
-				HttpsURLConnection connection = (HttpsURLConnection) new URL(getResourceUrl()).openConnection();
+				HttpsURLConnection connection = (HttpsURLConnection) new URL("https://api.spigotmc.org/legacy/update.php?resource=" + id).openConnection();
 				connection.setRequestMethod("GET");
 				version = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine();
 			} catch (IOException e) {
@@ -57,7 +57,7 @@ public class SpigotPlugin {
 					@EventHandler(priority = EventPriority.MONITOR)
 					public void onPlayerJoin(PlayerJoinEvent event) {
 						Player player = event.getPlayer();
-						if (player.hasPermission(plugin.getName().toLowerCase() + ".update-notify"))
+						if (player.hasPermission("mmoitems.update-notify"))
 							player.sendMessage(ChatColor.GREEN + "A new update is available for " + plugin.getName() + ": " + version + " (you are running " + plugin.getDescription().getVersion() + "). Download it here: " + getResourceUrl());
 					}
 				}, plugin));
@@ -65,6 +65,6 @@ public class SpigotPlugin {
 	}
 
 	public String getResourceUrl() {
-		return "https://api.spigotmc.org/legacy/update.php?resource=" + id;
+		return "https://www.spigotmc.org/resources/" + id + "/";
 	}
 }

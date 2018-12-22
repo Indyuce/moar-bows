@@ -125,7 +125,7 @@ public class MoarBows extends JavaPlugin {
 		Bukkit.getServer().getPluginManager().registerEvents(new HitEntity(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(version.isBelowOrEqual(1, 9) ? new ArrowLand_v1_8() : new ArrowLand(), this);
 		if (getConfig().getBoolean("hand-particles.enabled"))
-			new HandParticles();
+			new HandParticles().runTaskTimer(plugin, 100, MoarBows.plugin.getConfig().getLong("hand-particles.delay"));
 
 		// register listeners of bows
 		for (Listener listener : listeners)
