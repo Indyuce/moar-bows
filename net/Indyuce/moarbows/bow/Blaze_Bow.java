@@ -25,17 +25,17 @@ public class Blaze_Bow extends MoarBow {
 	}
 
 	@Override
-	public boolean shoot(EntityShootBowEvent e, Arrow a, Player p, ItemStack i) {
-		e.setCancelled(true);
-		final double dmg = MoarBows.getLanguage().getBows().getDouble("BLAZE_BOW.damage");
+	public boolean shoot(EntityShootBowEvent event, Arrow arrow, Player player, ItemStack item) {
+		event.setCancelled(true);
+		final double dmg = MoarBows.getLanguage().getBows().getDouble("BLAZE_BOW.damage") * getPowerDamageMultiplier(item);
 		final double duration = MoarBows.getLanguage().getBows().getDouble("BLAZE_BOW.duration");
-		if (!BowUtils.consumeAmmo(p, new ItemStack(Material.ARROW)))
+		if (!BowUtils.consumeAmmo(player, new ItemStack(Material.ARROW)))
 			return false;
 
 		new BukkitRunnable() {
-			Location loc = p.getEyeLocation();
+			Location loc = player.getEyeLocation();
 			double ti = 0;
-			Vector v = p.getEyeLocation().getDirection().multiply(1.25);
+			Vector v = player.getEyeLocation().getDirection().multiply(1.25);
 
 			public void run() {
 				for (double j = 0; j < 3; j++) {
@@ -45,7 +45,7 @@ public class Blaze_Bow extends MoarBow {
 					ParticleEffect.SMOKE_NORMAL.display(0, 0, 0, 0, 1, loc, 150);
 					loc.getWorld().playSound(loc, VersionSound.BLOCK_NOTE_HAT.getSound(), 2, 2);
 					for (LivingEntity t : loc.getWorld().getEntitiesByClass(LivingEntity.class))
-						if (BowUtils.canDmgEntity(p, loc, t) && t != p) {
+						if (BowUtils.canDmgEntity(player, loc, t) && t != player) {
 							new BukkitRunnable() {
 								final Location loc2 = t.getLocation();
 								double y = 0;
@@ -65,12 +65,12 @@ public class Blaze_Bow extends MoarBow {
 							loc.getWorld().playSound(loc, VersionSound.ENTITY_FIREWORK_BLAST.getSound(), 2, 0);
 							ParticleEffect.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, t.getLocation().add(0, 1, 0), 100);
 							cancel();
-							MoarBows.getNMS().damageEntity(p, t, dmg);
+							MoarBows.getNMS().damageEntity(player, t, dmg);
 							t.setFireTicks((int) (duration * 20));
 							return;
 						}
 				}
-				if (ti >= 20 * e.getForce())
+				if (ti >= 20 * event.getForce())
 					cancel();
 			}
 		}.runTaskTimer(MoarBows.plugin, 0, 1);

@@ -28,7 +28,7 @@ public class Shadow_Bow extends MoarBow {
 	@Override
 	public boolean shoot(EntityShootBowEvent e, Arrow a, Player p, ItemStack i) {
 		e.setCancelled(true);
-		final double dmg = MoarBows.getLanguage().getBows().getDouble("SHADOW_BOW.damage");
+		final double dmg = MoarBows.getLanguage().getBows().getDouble("SHADOW_BOW.damage") * getPowerDamageMultiplier(i);
 		if (!BowUtils.consumeAmmo(p, new ItemStack(Material.ARROW)))
 			return false;
 

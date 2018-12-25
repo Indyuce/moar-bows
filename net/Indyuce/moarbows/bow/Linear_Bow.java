@@ -25,23 +25,24 @@ public class Linear_Bow extends MoarBow {
 	}
 
 	@Override
-	public boolean shoot(EntityShootBowEvent e, Arrow a, Player p, ItemStack i) {
-		double dmg = MoarBows.getLanguage().getBows().getDouble("LINEAR_BOW.damage");
-		if (!BowUtils.consumeAmmo(p, new ItemStack(Material.ARROW)))
+	public boolean shoot(EntityShootBowEvent event, Arrow arrow, Player player, ItemStack item) {
+		double dmg = MoarBows.getLanguage().getBows().getDouble("LINEAR_BOW.damage") * getPowerDamageMultiplier(item);
+		if (!BowUtils.consumeAmmo(player, new ItemStack(Material.ARROW)))
 			return false;
 
-		p.getWorld().playSound(p.getLocation(), VersionSound.ENTITY_ARROW_SHOOT.getSound(), 2, 0);
-		int range = (int) (56 * e.getForce());
-		Location loc = p.getEyeLocation();
+		player.getWorld().playSound(player.getLocation(), VersionSound.ENTITY_ARROW_SHOOT.getSound(), 2, 0);
+		int range = (int) (56 * event.getForce());
+		Location loc = player.getEyeLocation();
 		for (double j = 0; j < range; j++) {
-			loc.add(p.getEyeLocation().getDirection());
+			loc.add(player.getEyeLocation().getDirection());
 			ParticleEffect.REDSTONE.display(new ParticleEffect.OrdinaryColor(Color.SILVER), loc, 200);
 			if (loc.getBlock().getType().isSolid())
 				break;
-			for (Entity t : p.getNearbyEntities(30, 30, 30))
-				if (BowUtils.canDmgEntity(p, loc, t) && t instanceof LivingEntity) {
-					e.setCancelled(true);
-					MoarBows.getNMS().damageEntity(p, (LivingEntity) t, dmg);
+			
+			for (Entity t : player.getNearbyEntities(30, 30, 30))
+				if (BowUtils.canDmgEntity(player, loc, t) && t instanceof LivingEntity) {
+					event.setCancelled(true);
+					MoarBows.getNMS().damageEntity(player, (LivingEntity) t, dmg);
 					ParticleEffect.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, t.getLocation().add(0, 1, 0), 100);
 					break;
 				}
