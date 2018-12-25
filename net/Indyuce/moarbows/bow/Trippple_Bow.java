@@ -1,6 +1,5 @@
 package net.Indyuce.moarbows.bow;
 
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
@@ -26,8 +25,6 @@ public class Trippple_Bow extends MoarBow {
 			if (!BowUtils.consumeAmmo(p, new ItemStack(Material.ARROW)))
 				return false;
 
-			if (p.getGameMode() != GameMode.CREATIVE)
-				p.getInventory().removeItem(new ItemStack(Material.ARROW));
 			loc.setYaw(p.getLocation().getYaw() + j);
 			p.launchProjectile(Arrow.class).setVelocity(loc.getDirection().multiply(e.getForce() * 3.3));
 		}
