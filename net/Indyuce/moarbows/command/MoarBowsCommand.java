@@ -27,9 +27,9 @@ public class MoarBowsCommand implements CommandExecutor {
 			sender.sendMessage(ChatColor.LIGHT_PURPLE + "()" + ChatColor.GRAY + " = optional");
 			sender.sendMessage("");
 			sender.sendMessage(ChatColor.LIGHT_PURPLE + "/mb " + ChatColor.WHITE + "shows the help page.");
-			sender.sendMessage(ChatColor.LIGHT_PURPLE + "/mb get <bow> (player) " + ChatColor.WHITE + "gives a player a bow.");
+			sender.sendMessage(ChatColor.LIGHT_PURPLE + "/mb get <bow> (player) " + ChatColor.WHITE + "gives a bow to a player.");
 			sender.sendMessage(ChatColor.LIGHT_PURPLE + "/mb getall " + ChatColor.WHITE + "gives you all the available bows.");
-			sender.sendMessage(ChatColor.LIGHT_PURPLE + "/mb gui " + ChatColor.WHITE + "shows all available bows in a BowList.");
+			sender.sendMessage(ChatColor.LIGHT_PURPLE + "/mb gui " + ChatColor.WHITE + "shows all available bows (GUI).");
 			sender.sendMessage(ChatColor.LIGHT_PURPLE + "/mb list " + ChatColor.WHITE + "shows all available bows.");
 			sender.sendMessage(ChatColor.LIGHT_PURPLE + "/mb reload " + ChatColor.WHITE + "reloads the config file.");
 			return true;
@@ -37,7 +37,7 @@ public class MoarBowsCommand implements CommandExecutor {
 
 		if (args[0].equalsIgnoreCase("gui")) {
 			if (!(sender instanceof Player)) {
-				sender.sendMessage("This command is for players only.");
+				sender.sendMessage(ChatColor.RED + "This command is for players only.");
 				return true;
 			}
 

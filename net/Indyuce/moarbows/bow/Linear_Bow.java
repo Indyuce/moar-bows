@@ -10,15 +10,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 
-import net.Indyuce.moarbows.ParticleEffect;
-import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.BowUtils;
+import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.ParticleEffect;
+import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.version.VersionSound;
 
 public class Linear_Bow extends MoarBow {
 	public Linear_Bow() {
 		super(new String[] { "Fires instant linear arrows", "that deals 8 damage to", "the first entity it hits." }, 0, 0, "redstone:90,90,255", new String[] { "FLINT,STICK,FLINT", "STICK,BOW,STICK", "FLINT,STICK,FLINT" });
+
+		addModifier(new BowModifier("damage", 6));
 	}
 
 	@Override
