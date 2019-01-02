@@ -10,9 +10,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import net.Indyuce.moarbows.ParticleEffect;
-import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.BowUtils;
+import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.ParticleEffect;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.version.VersionSound;
@@ -27,8 +27,8 @@ public class Blaze_Bow extends MoarBow {
 	@Override
 	public boolean shoot(EntityShootBowEvent event, Arrow arrow, Player player, ItemStack item) {
 		event.setCancelled(true);
-		final double dmg = MoarBows.getLanguage().getBows().getDouble("BLAZE_BOW.damage") * getPowerDamageMultiplier(item);
-		final double duration = MoarBows.getLanguage().getBows().getDouble("BLAZE_BOW.duration");
+		final double damage = getValue("damage") * getPowerDamageMultiplier(item);
+		final double duration = getValue("duration");
 		if (!BowUtils.consumeAmmo(player, new ItemStack(Material.ARROW)))
 			return false;
 
@@ -44,10 +44,10 @@ public class Blaze_Bow extends MoarBow {
 					ParticleEffect.FLAME.display(.1f, .1f, .1f, 0, 8, loc, 100);
 					ParticleEffect.SMOKE_NORMAL.display(0, 0, 0, 0, 1, loc, 150);
 					loc.getWorld().playSound(loc, VersionSound.BLOCK_NOTE_HAT.getSound(), 2, 2);
-					for (LivingEntity t : loc.getWorld().getEntitiesByClass(LivingEntity.class))
-						if (BowUtils.canDmgEntity(player, loc, t) && t != player) {
+					for (LivingEntity target : loc.getWorld().getEntitiesByClass(LivingEntity.class))
+						if (BowUtils.canDmgEntity(player, loc, target) && target != player) {
 							new BukkitRunnable() {
-								final Location loc2 = t.getLocation();
+								final Location loc2 = target.getLocation();
 								double y = 0;
 
 								public void run() {
@@ -63,10 +63,10 @@ public class Blaze_Bow extends MoarBow {
 								}
 							}.runTaskTimer(MoarBows.plugin, 0, 1);
 							loc.getWorld().playSound(loc, VersionSound.ENTITY_FIREWORK_BLAST.getSound(), 2, 0);
-							ParticleEffect.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, t.getLocation().add(0, 1, 0), 100);
+							ParticleEffect.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, target.getLocation().add(0, 1, 0), 100);
 							cancel();
-							MoarBows.getNMS().damageEntity(player, t, dmg);
-							t.setFireTicks((int) (duration * 20));
+							MoarBows.getNMS().damageEntity(player, target, damage);
+							target.setFireTicks((int) (duration * 20));
 							return;
 						}
 				}

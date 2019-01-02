@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import net.Indyuce.moarbows.ParticleEffect;
-import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.version.VersionSound;
@@ -31,7 +30,7 @@ public class Cupidons_Bow extends MoarBow {
 		Marked_Bow.marked.remove(p.getUniqueId());
 		double max = ((Player) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
 		double health = ((Player) p).getHealth();
-		double heal = MoarBows.getLanguage().getBows().getDouble("CUPIDONS_BOW.heal");
+		double heal = getValue("heal");
 		if (health + heal > max) {
 			((Player) p).setHealth(max);
 			return;

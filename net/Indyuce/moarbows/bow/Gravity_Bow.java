@@ -20,8 +20,8 @@ public class Gravity_Bow extends MoarBow {
 
 	@Override
 	public void hit(EntityDamageByEntityEvent e, Arrow a, Entity p, Player t) {
-		double force = MoarBows.getLanguage().getBows().getDouble("GRAVITY_BOW.force");
-		double ystatic = MoarBows.getLanguage().getBows().getDouble("GRAVITY_BOW.y-static");
+		double force = getValue("force");
+		double ystatic = getValue("y-static");
 		new BukkitRunnable() {
 			public void run() {
 				Vector v = t.getLocation().toVector().subtract(p.getLocation().toVector()).normalize();

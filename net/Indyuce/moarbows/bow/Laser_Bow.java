@@ -29,7 +29,7 @@ public class Laser_Bow extends MoarBow {
 
 	@Override
 	public boolean shoot(EntityShootBowEvent event, Arrow arrow, Player player, ItemStack item) {
-		double damage = MoarBows.getLanguage().getBows().getDouble("LASER_BOW.damage") * getPowerDamageMultiplier(item);
+		double damage = getValue("damage") * getPowerDamageMultiplier(item);
 		if (!BowUtils.consumeAmmo(player, new ItemStack(Material.ARROW)))
 			return false;
 

@@ -2,7 +2,6 @@ package net.Indyuce.moarbows.api;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -11,32 +10,22 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.version.nms.ItemTag;
 
 public class MoarBow {
-
-	// main
-	private String id;
-	private List<BowModifier> mods = new ArrayList<BowModifier>();
-
-	// display
-	private String name;
-	private String[] lore;
+	private String id, name, formattedParticleData;
+	private List<BowModifier> mods = new ArrayList<>();
+	private String[] lore, craft;
 	private short data;
-
-	// bow values
-	private String pe;
+	private ParticleData particleData;
 	private double cooldown;
-	private String[] craft;
 
 	public MoarBow(String[] lore, int durability, double cooldown, String particleEffect, String[] craft) {
 		this("", "", lore, durability, cooldown, particleEffect, craft);
@@ -50,24 +39,22 @@ public class MoarBow {
 		this.name = name;
 		this.lore = lore;
 		this.data = (short) durability;
-		this.pe = particleEffect;
+		this.formattedParticleData = particleEffect;
+		this.particleData = new ParticleData(particleEffect);
 		this.cooldown = cooldown;
 		this.craft = craft;
-
-		if (this instanceof Listener)
-			MoarBows.addListener((Listener) this);
 	}
 
 	// true = arrow effects
 	// false = no arrow effects, arrow is NOT removed systematically
-	public boolean shoot(EntityShootBowEvent e, Arrow a, Player p, ItemStack i) {
+	public boolean shoot(EntityShootBowEvent event, Arrow arrow, Player player, ItemStack item) {
 		return true;
 	}
 
-	public void hit(EntityDamageByEntityEvent e, Arrow a, Entity p, Player t) {
+	public void hit(EntityDamageByEntityEvent event, Arrow arrow, Entity player, Player target) {
 	}
 
-	public void land(Player p, Arrow a) {
+	public void land(Player player, Arrow arrow) {
 	}
 
 	public String getID() {
@@ -107,18 +94,34 @@ public class MoarBow {
 		return cooldown;
 	}
 
+	public double getValue(String path) {
+		return MoarBows.getLanguage().getDoubleValue(getID() + "." + path);
+	}
+
+	public boolean getBooleanValue(String path) {
+		return MoarBows.getLanguage().getBooleanValue(getID() + "." + path);
+	}
+
+	public String getStringValue(String path) {
+		return MoarBows.getLanguage().getStringValue(getID() + "." + path);
+	}
+
 	public String[] getFormattedCraftingRecipe() {
 		return craft == null ? new String[0] : craft;
 	}
 
-	public String getParticleEffect() {
-		return pe;
+	public String getFormattedParticleData() {
+		return formattedParticleData;
+	}
+
+	public ParticleData createParticleData() {
+		return particleData.clone();
 	}
 
 	public void update(FileConfiguration config) {
 		name = config.getString(id + ".name");
 		lore = config.getStringList(id + ".lore").toArray(new String[0]);
-		pe = config.getString(id + ".eff");
+		particleData = new ParticleData(config.getString(id + ".eff"));
 		craft = config.getStringList(id + ".craft").toArray(new String[0]);
 		cooldown = config.getDouble(id + ".cooldown");
 		data = (short) config.getInt(id + ".durability");
@@ -142,29 +145,6 @@ public class MoarBow {
 			item = MoarBows.getNMS().addTag(item, new ItemTag("Unbreakable", true));
 
 		return item;
-	}
-
-	public boolean canUse(Player player, EntityShootBowEvent event) {
-		if (getCooldown() <= 0)
-			return true;
-
-		Map<MoarBow, Long> cd = MoarBows.getPlayerCooldowns(player);
-		Long last = cd.containsKey(this) ? cd.get(this) : 0;
-		double remaining = last + cooldown * 1000 - System.currentTimeMillis();
-
-		if (remaining > 0) {
-			event.setCancelled(true);
-			player.sendMessage(Message.ON_COOLDOWN.translate().replace("%left%", "" + BowUtils.truncation(remaining / 1000, 1)));
-			return false;
-		}
-
-		cd.put(this, System.currentTimeMillis());
-		MoarBows.setPlayerCooldowns(player, cd);
-		return true;
-	}
-
-	public void register() {
-		MoarBows.registerBow(this);
 	}
 
 	public double getPowerDamageMultiplier(ItemStack item) {

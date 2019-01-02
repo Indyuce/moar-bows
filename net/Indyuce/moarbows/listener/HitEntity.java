@@ -7,18 +7,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import net.Indyuce.moarbows.api.ArrowManager;
+import net.Indyuce.moarbows.manager.ArrowManager;
 
 public class HitEntity implements Listener {
 	@EventHandler
-	public void a(EntityDamageByEntityEvent e) {
-		if (e.getDamager().getType() != EntityType.ARROW)
+	public void a(EntityDamageByEntityEvent event) {
+		if (event.getDamager().getType() != EntityType.ARROW)
 			return;
 
-		Arrow arrow = (Arrow) e.getDamager();
-		if (!ArrowManager.isCustomArrow(arrow))
-			return;
-
-		ArrowManager.getArrowData(arrow).getBow().hit(e, arrow, e.getEntity(), (Player) arrow.getShooter());
+		Arrow arrow = (Arrow) event.getDamager();
+		if (ArrowManager.isCustomArrow(arrow))
+			ArrowManager.getArrowData(arrow).getBow().hit(event, arrow, event.getEntity(), (Player) arrow.getShooter());
 	}
 }

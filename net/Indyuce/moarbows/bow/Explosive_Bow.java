@@ -20,18 +20,18 @@ public class Explosive_Bow extends MoarBow {
 	}
 
 	@Override
-	public void hit(EntityDamageByEntityEvent e, Arrow a, Entity p, Player t) {
-		land(t, a);
+	public void hit(EntityDamageByEntityEvent e, Arrow arrow, Entity player, Player target) {
+		land(target, arrow);
 	}
 
 	@Override
-	public void land(Player p, Arrow a) {
-		double dmg = MoarBows.getLanguage().getBows().getDouble("EXPLOSIVE_BOW.damage");
-		a.remove();
-		ParticleEffect.EXPLOSION_LARGE.display(2, 2, 2, 0, 8, a.getLocation(), 200);
-		a.getWorld().playSound(p.getLocation(), VersionSound.ENTITY_GENERIC_EXPLODE.getSound(), 2, 1);
-		for (Entity ent : a.getNearbyEntities(5, 5, 5))
+	public void land(Player player, Arrow arrow) {
+		double dmg = getValue("damage");
+		arrow.remove();
+		ParticleEffect.EXPLOSION_LARGE.display(2, 2, 2, 0, 8, arrow.getLocation(), 200);
+		arrow.getWorld().playSound(player.getLocation(), VersionSound.ENTITY_GENERIC_EXPLODE.getSound(), 2, 1);
+		for (Entity ent : arrow.getNearbyEntities(5, 5, 5))
 			if (ent instanceof LivingEntity)
-				MoarBows.getNMS().damageEntity(p, (LivingEntity) ent, dmg);
+				MoarBows.getNMS().damageEntity(player, (LivingEntity) ent, dmg);
 	}
 }

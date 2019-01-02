@@ -26,7 +26,7 @@ public class Composite_Bow extends MoarBow {
 
 	@Override
 	public boolean shoot(EntityShootBowEvent event, Arrow arrow, Player player, ItemStack item) {
-		final double dmg = MoarBows.getLanguage().getBows().getDouble("COMPOSITE_BOW.damage") * getPowerDamageMultiplier(item);
+		final double damage = getValue("damage") * getPowerDamageMultiplier(item);
 		event.setCancelled(true);
 		if (!BowUtils.consumeAmmo(player, new ItemStack(Material.ARROW)))
 			return false;
@@ -49,7 +49,7 @@ public class Composite_Bow extends MoarBow {
 							t.getWorld().playSound(t.getLocation(), VersionSound.ENTITY_FIREWORK_BLAST.getSound(), 2, 0);
 							ParticleEffect.EXPLOSION_LARGE.display(0, 0, 0, 0, 1, t.getLocation().add(0, 1, 0), 100);
 							cancel();
-							MoarBows.getNMS().damageEntity(player, t, dmg);
+							MoarBows.getNMS().damageEntity(player, t, damage);
 							return;
 						}
 				}

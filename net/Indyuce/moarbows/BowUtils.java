@@ -90,11 +90,6 @@ public class BowUtils implements Listener {
 		return MoarBows.getVersion().isBelowOrEqual(1, 8) ? new ItemStack[] { p.getItemInHand() } : new ItemStack[] { p.getInventory().getItemInMainHand(), p.getInventory().getItemInOffHand() };
 	}
 
-	public static double truncation(double x, int n) {
-		double pow = Math.pow(10.0, n);
-		return Math.floor(x * pow) / pow;
-	}
-
 	public static Vector rotAxisX(Vector v, double a) {
 		double y = v.getY() * Math.cos(a) - v.getZ() * Math.sin(a);
 		double z = v.getY() * Math.sin(a) + v.getZ() * Math.cos(a);

@@ -7,7 +7,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
 
@@ -23,9 +22,9 @@ public class Silver_Bow extends MoarBow {
 		if (!(t instanceof LivingEntity))
 			return;
 
-		int id = MoarBows.getLanguage().getBows().getInt("SILVER_BOW.block-effect-id");
+		int id = (int) getValue("block-effect-id");
 		p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, id);
 		p.getWorld().playEffect(p.getLocation().add(0, 1, 0), Effect.STEP_SOUND, id);
-		e.setDamage(e.getDamage() * (1. + MoarBows.getLanguage().getBows().getDouble("SILVER_BOW.damage-percent") / 100.));
+		e.setDamage(e.getDamage() * (1. + getValue("damage-percent") / 100.));
 	}
 }

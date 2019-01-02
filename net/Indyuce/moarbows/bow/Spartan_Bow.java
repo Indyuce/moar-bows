@@ -38,7 +38,7 @@ public class Spartan_Bow extends MoarBow {
 		final Location loc1 = a.getLocation().clone();
 		double random = Math.PI * 4 * (r.nextDouble() - .5);
 		Location sky = a.getLocation().clone().add(Math.cos(random) * 6, 13, Math.sin(random) * 6);
-		final double duration = MoarBows.getLanguage().getBows().getDouble("SPARTAN_BOW.duration");
+		final double duration = getValue("duration");
 		new BukkitRunnable() {
 			double ti = 0;
 

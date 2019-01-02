@@ -62,7 +62,7 @@ public class MoarBowsCommand implements CommandExecutor {
 			MoarBows.getLanguage().reloadConfigFiles();
 
 			// reload bows
-			for (MoarBow bow : MoarBows.getBows())
+			for (MoarBow bow : MoarBows.getBowManager().getBows())
 				bow.update(MoarBows.getLanguage().getBows());
 
 			sender.sendMessage(ChatColor.YELLOW + "Config files & bows reloaded.");
@@ -72,16 +72,16 @@ public class MoarBowsCommand implements CommandExecutor {
 			sender.sendMessage(ChatColor.DARK_GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------------------");
 			sender.sendMessage(ChatColor.GREEN + "List of available bows:");
 			if (!(sender instanceof Player)) {
-				for (MoarBow bow : MoarBows.getBows())
+				for (MoarBow bow : MoarBows.getBowManager().getBows())
 					sender.sendMessage("* " + ChatColor.GREEN + " " + bow.getName());
 				return true;
 			}
 
-			for (MoarBow bow : MoarBows.getBows())
+			for (MoarBow bow : MoarBows.getBowManager().getBows())
 				MoarBows.getNMS().sendJson((Player) sender, "{\"text\":\"* " + ChatColor.GREEN + bow.getName() + ChatColor.WHITE + ", use /mb get " + bow.getLowerCaseID() + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/mb get " + bow.getID() + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click to get the " + ChatColor.GREEN + bow.getName() + ChatColor.WHITE + ".\",\"color\":\"white\"}]}}}");
 		}
 
-		if (args[0].equalsIgnoreCase("get")) {
+		if (args[0].equalsIgnoreCase("get") || args[0].equalsIgnoreCase("give")) {
 			if (args.length < 2) {
 				sender.sendMessage(ChatColor.RED + "Usage: /mb get <bow> (player)");
 				return true;
@@ -94,7 +94,7 @@ public class MoarBowsCommand implements CommandExecutor {
 
 			// bow
 			String bowFormat = args[1].toUpperCase().replace("-", "_");
-			MoarBow bow = MoarBows.hasBow(bowFormat) ? MoarBows.getFromID(bowFormat) : null;
+			MoarBow bow = MoarBows.getBowManager().safeGet(bowFormat);
 			if (bow == null) {
 				sender.sendMessage(ChatColor.RED + "Couldn't find the bow called " + bowFormat + ".");
 				return true;
@@ -128,7 +128,7 @@ public class MoarBowsCommand implements CommandExecutor {
 			}
 
 			Player player = (Player) sender;
-			for (MoarBow bow : MoarBows.getBows())
+			for (MoarBow bow : MoarBows.getBowManager().getBows())
 				for (ItemStack drop : player.getInventory().addItem(bow.getItem()).values())
 					player.getWorld().dropItem(player.getLocation(), drop);
 		}

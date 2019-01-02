@@ -20,7 +20,7 @@ public class BowList extends PluginInventory {
 	public Inventory getInventory() {
 		Inventory inv = Bukkit.createInventory(this, 54, ChatColor.UNDERLINE + Message.GUI_NAME.translate());
 
-		for (MoarBow bow : MoarBows.getBows())
+		for (MoarBow bow : MoarBows.getBowManager().getBows())
 			inv.setItem(getAvailableSlot(inv), bow.getItem());
 
 		player.openInventory(inv);

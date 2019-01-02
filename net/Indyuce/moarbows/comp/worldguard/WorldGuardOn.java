@@ -1,6 +1,7 @@
 package net.Indyuce.moarbows.comp.worldguard;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -14,8 +15,8 @@ import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import net.Indyuce.moarbows.MoarBows;
 
 public class WorldGuardOn implements WGPlugin {
-	public static WorldGuardPlugin wg;
-	public static HashMap<String, StateFlag> flags = new HashMap<String, StateFlag>();
+	public WorldGuardPlugin wg;
+	public Map<String, StateFlag> flags = new HashMap<>();
 
 	public WorldGuardOn() {
 		wg = (WorldGuardPlugin) MoarBows.plugin.getServer().getPluginManager().getPlugin("WorldGuard");

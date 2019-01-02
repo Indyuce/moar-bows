@@ -32,7 +32,7 @@ public class Pulsar_Bow extends MoarBow {
 
 	@Override
 	public void land(Player p, Arrow a) {
-		double duration = MoarBows.getLanguage().getBows().getDouble("PULSAR_BOW.duration") * 20;
+		double duration = getValue("duration") * 20;
 		a.remove();
 		a.getWorld().playSound(a.getLocation(), VersionSound.ENTITY_ENDERMEN_TELEPORT.getSound(), 3, 1);
 		new BukkitRunnable() {

@@ -11,7 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.ArrowManager;
+import net.Indyuce.moarbows.manager.ArrowManager;
 
 public class ArrowLand_v1_8 implements Listener {
 	@EventHandler

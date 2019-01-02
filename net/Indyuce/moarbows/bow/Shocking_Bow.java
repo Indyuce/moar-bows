@@ -20,13 +20,13 @@ public class Shocking_Bow extends MoarBow {
 
 	@Override
 	public void hit(EntityDamageByEntityEvent e, Arrow a, Entity p, Player t) {
-		int duration = MoarBows.getLanguage().getBows().getInt("SHOCKING_BOW.duration");
+		double duration = Math.min(getValue("duration") * 10, 300);
 		new BukkitRunnable() {
 			double ti = 0;
 
 			public void run() {
 				ti++;
-				if (ti >= (duration * 10 > 300 ? 300 : duration * 10))
+				if (ti >= duration)
 					cancel();
 				p.playEffect(EntityEffect.HURT);
 			}

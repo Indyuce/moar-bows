@@ -1,9 +1,12 @@
-package net.Indyuce.moarbows.api;
+package net.Indyuce.moarbows.manager;
 
 import java.util.HashMap;
 
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+
+import net.Indyuce.moarbows.api.ArrowData;
+import net.Indyuce.moarbows.api.MoarBow;
 
 public class ArrowManager {
 	private static HashMap<Integer, ArrowData> map = new HashMap<Integer, ArrowData>();

@@ -19,12 +19,9 @@ full-pull-restriction: false
 # Particles displayed when holding a bow.
 # Changing this requires /reload
 # 'amount' is the amount of particles displayed at once.
-# 'delay' is the delay between particles display. Using a higher
-# delay will improve performance better than using a lower amount.
 hand-particles:
     enabled: true
     amount: 2
-    delay: 2
 
 # Disables all crafting recipes of special bows.
 # You can still obtain the bows via /mb get...

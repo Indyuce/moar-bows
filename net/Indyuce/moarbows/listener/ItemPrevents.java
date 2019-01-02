@@ -26,7 +26,7 @@ public class ItemPrevents implements Listener {
 		Player player = (Player) event.getWhoClicked();
 		ItemStack item = event.getClickedInventory().getItem(0);
 		if (!player.hasPermission("moarbows.repair") && BowUtils.isPluginItem(item, false))
-			if (MoarBows.getFromName(item) != null)
+			if (MoarBows.getBowManager().getFromName(item) != null)
 				event.setCancelled(true);
 	}
 
@@ -41,7 +41,7 @@ public class ItemPrevents implements Listener {
 
 		Player player = event.getEnchanter();
 		if (!player.hasPermission("moarbows.enchant") && BowUtils.isPluginItem(item, false))
-			if (MoarBows.getFromName(item) != null)
+			if (MoarBows.getBowManager().getFromName(item) != null)
 				event.setCancelled(true);
 	}
 
@@ -59,7 +59,7 @@ public class ItemPrevents implements Listener {
 
 		Player player = (Player) event.getWhoClicked();
 		if (!player.hasPermission("moarbows.anvil-create") && BowUtils.isPluginItem(item, false))
-			if (MoarBows.getFromName(item) != null)
+			if (MoarBows.getBowManager().getFromName(item) != null)
 				event.setCancelled(true);
 	}
 }

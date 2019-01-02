@@ -8,13 +8,12 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 
-import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
 
 public class Railgun_Bow extends MoarBow {
 	public Railgun_Bow() {
-		super(new String[] { "Only works in minecarts. Arrows ", "explode upon landing, causing", "a powerful explosion." }, 0, 7.5, "villager_angry", new String[] { "TNT,RAILS,TNT", "RAILS,BOW,RAILS", "TNT,RAILS,TNT" });
+		super(new String[] { "Only works in minecarts. Arrows", "explode upon landing, causing", "a powerful explosion." }, 0, 7.5, "villager_angry", new String[] { "TNT,RAILS,TNT", "RAILS,BOW,RAILS", "TNT,RAILS,TNT" });
 
 		addModifier(new BowModifier("radius", 5));
 	}
@@ -31,8 +30,7 @@ public class Railgun_Bow extends MoarBow {
 
 	@Override
 	public void land(Player p, Arrow a) {
-		int radius = MoarBows.getLanguage().getBows().getInt("RAILGUN_BOW.radius");
 		a.remove();
-		a.getWorld().createExplosion(a.getLocation(), radius);
+		a.getWorld().createExplosion(a.getLocation(), (float) getValue("radius"));
 	}
 }

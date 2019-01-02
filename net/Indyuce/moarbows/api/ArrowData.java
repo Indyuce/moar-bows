@@ -22,6 +22,10 @@ public class ArrowData {
 		return sender;
 	}
 
+	public void setSender(Player sender) {
+		this.sender = sender;
+	}
+
 	public Arrow getArrow() {
 		return arrow;
 	}

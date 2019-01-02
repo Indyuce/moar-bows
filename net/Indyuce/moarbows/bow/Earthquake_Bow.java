@@ -33,8 +33,8 @@ public class Earthquake_Bow extends MoarBow {
 
 	@Override
 	public void land(Player p, Arrow a) {
-		double radius = MoarBows.getLanguage().getBows().getDouble("EARTHQUAKE_BOW.radius");
-		double knockup = MoarBows.getLanguage().getBows().getDouble("EARTHQUAKE_BOW.knockup");
+		double radius = getValue("radius");
+		double knockup = getValue("knockup");
 
 		Location loc = a.getLocation();
 		for (int j = 0; j < 20; j++)

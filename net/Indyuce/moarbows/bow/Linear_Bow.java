@@ -26,7 +26,7 @@ public class Linear_Bow extends MoarBow {
 
 	@Override
 	public boolean shoot(EntityShootBowEvent event, Arrow arrow, Player player, ItemStack item) {
-		double dmg = MoarBows.getLanguage().getBows().getDouble("LINEAR_BOW.damage") * getPowerDamageMultiplier(item);
+		double dmg = getValue("damage") * getPowerDamageMultiplier(item);
 		if (!BowUtils.consumeAmmo(player, new ItemStack(Material.ARROW)))
 			return false;
 

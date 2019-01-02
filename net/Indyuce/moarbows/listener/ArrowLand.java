@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.ArrowManager;
+import net.Indyuce.moarbows.manager.ArrowManager;
 
 public class ArrowLand implements Listener {
 	@EventHandler

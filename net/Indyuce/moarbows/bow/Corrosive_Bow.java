@@ -9,7 +9,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import net.Indyuce.moarbows.ParticleEffect;
-import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.version.VersionSound;
@@ -28,7 +27,7 @@ public class Corrosive_Bow extends MoarBow {
 
 	@Override
 	public void land(Player p, Arrow a) {
-		int duration = MoarBows.getLanguage().getBows().getInt("CORROSIVE_BOW.duration") * 20;
+		int duration = (int) (getValue("duration") * 20);
 		a.remove();
 		ParticleEffect.SLIME.display(2, 2, 2, 0, 48, a.getLocation(), 200);
 		ParticleEffect.VILLAGER_HAPPY.display(2, 2, 2, 0, 32, a.getLocation(), 200);
