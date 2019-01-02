@@ -6,7 +6,6 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.ParticleEffect;
@@ -36,10 +35,6 @@ public class ParticleData extends BukkitRunnable {
 		this.color = color;
 	}
 
-	public void display(Location location, Vector direction, float speed) {
-		particle.display(direction, speed, location);
-	}
-
 	public boolean isColorable() {
 		return particle == ParticleEffect.SPELL_MOB || particle == ParticleEffect.SPELL_MOB_AMBIENT || particle == ParticleEffect.REDSTONE || particle == ParticleEffect.NOTE;
 	}
@@ -60,7 +55,7 @@ public class ParticleData extends BukkitRunnable {
 
 	public void displayParticle(Location loc) {
 		if (isColorable() && color != null)
-			particle.display(color, loc);
+			particle.display(color, loc, 100);
 		else
 			particle.display(0, 0, 0, 0, 1, loc, 100);
 	}

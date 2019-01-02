@@ -67,7 +67,6 @@ public class MoarBows extends JavaPlugin {
 		}
 
 		new Metrics(this);
-
 		saveDefaultConfig();
 		language = new LanguageManager();
 
