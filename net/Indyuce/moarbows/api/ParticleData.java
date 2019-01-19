@@ -71,7 +71,7 @@ public class ParticleData extends BukkitRunnable {
 
 		if (isColorable() && color != null) {
 			for (int j = 0; j < amount; j++)
-				particle.display(color, loc.clone().add(random(), random(), random()));
+				particle.display(color, loc.clone().add(random(), random(), random()), 100);
 			return;
 		}
 

@@ -1,5 +1,5 @@
 name: MoarBows
-version: 2.4
+version: 2.4.2
 main: net.Indyuce.moarbows.MoarBows
 author: Indyuce
 softdepend: [WorldGuard]
@@ -56,4 +56,4 @@ permissions:
             moarbows.use.pulsar-bow: true
             moarbows.use.spartan-bow: true
             moarbows.use.earthquake-bow: true
-            moarbows.use.laser_bow: true
+            moarbows.use.laser-bow: true

@@ -17,10 +17,7 @@ import net.Indyuce.moarbows.MoarBows;
 public class ItemPrevents implements Listener {
 	@EventHandler
 	public void a(InventoryClickEvent event) {
-		if (event.getClickedInventory() == null)
-			return;
-
-		if (event.getClickedInventory().getType() != InventoryType.ANVIL || !MoarBows.plugin.getConfig().getBoolean("disable-repair") || event.getSlot() != 2)
+		if (event.getClickedInventory() == null || event.getClickedInventory().getType() != InventoryType.ANVIL || !MoarBows.plugin.getConfig().getBoolean("disable.repair") || event.getSlot() != 2)
 			return;
 
 		Player player = (Player) event.getWhoClicked();
@@ -32,7 +29,7 @@ public class ItemPrevents implements Listener {
 
 	@EventHandler
 	public void b(EnchantItemEvent event) {
-		if (!MoarBows.plugin.getConfig().getBoolean("disable-enchanting"))
+		if (!MoarBows.plugin.getConfig().getBoolean("disable.enchant"))
 			return;
 
 		ItemStack item = event.getItem();
@@ -58,7 +55,7 @@ public class ItemPrevents implements Listener {
 			return;
 
 		Player player = (Player) event.getWhoClicked();
-		if (!player.hasPermission("moarbows.anvil-create") && BowUtils.isPluginItem(item, false))
+		if (!player.hasPermission("moarbows.anvil") && BowUtils.isPluginItem(item, false))
 			if (MoarBows.getBowManager().getFromName(item) != null)
 				event.setCancelled(true);
 	}

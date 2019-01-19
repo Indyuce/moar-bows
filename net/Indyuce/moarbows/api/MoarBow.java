@@ -131,7 +131,13 @@ public class MoarBow {
 		ItemStack item = new ItemStack(Material.BOW, 1, (short) data);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(getName());
-		meta.addItemFlags(ItemFlag.values());
+
+		if (MoarBows.plugin.getConfig().getBoolean("bow-options.hide-unbreakable"))
+			meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+		if (MoarBows.plugin.getConfig().getBoolean("bow-options.hide-enchants"))
+			meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
 		if (this.lore != null) {
 			ArrayList<String> lore = new ArrayList<String>();
 			for (String s : this.lore)
@@ -141,7 +147,7 @@ public class MoarBow {
 		item.setItemMeta(meta);
 
 		// unbreakable?
-		if (MoarBows.plugin.getConfig().getBoolean("unbreakable-bows"))
+		if (MoarBows.plugin.getConfig().getBoolean("bow-options.unbreakable"))
 			item = MoarBows.getNMS().addTag(item, new ItemTag("Unbreakable", true));
 
 		return item;

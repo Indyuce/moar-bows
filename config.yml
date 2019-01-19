@@ -27,14 +27,18 @@ hand-particles:
 # You can still obtain the bows via /mb get...
 disable-bow-craftings: false
 
-# When set to true, all special bows will be unbreakable.
-unbreakable-bows: true
+# Edit bow options here.
+bow-options:
+    unbreakable: true
+    hide-unbreakable: true
+    hide-enchants: false
 
 # Disables particles displayed by custom arrows.
 arrow-particles: true
 
 # Disables interactions with custom bows.
+# Only players with specific perm nodes will be able to
+# perform these actions (moarbows.repair & moarbows.enchant).
 disable:
-    repair: false
-    craft: false
-    enchant: false
+    repair: true
+    enchant: true

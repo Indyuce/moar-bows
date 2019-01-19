@@ -34,6 +34,6 @@ public class Fire_Bow extends MoarBow {
 		a.getWorld().playSound(p.getLocation(), VersionSound.ENTITY_FIREWORK_LARGE_BLAST.getSound(), 2, 1);
 		for (Entity ent : a.getNearbyEntities(5, 5, 5))
 			if (ent instanceof LivingEntity)
-				ent.setFireTicks(Math.min(maxTicks, ent.getFireTicks() + duration));
+				ent.setFireTicks(Math.min(ent.getFireTicks() + duration, maxTicks));
 	}
 }

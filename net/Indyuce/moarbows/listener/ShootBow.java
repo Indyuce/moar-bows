@@ -2,6 +2,7 @@ package net.Indyuce.moarbows.listener;
 
 import java.text.DecimalFormat;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,7 @@ import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.Message;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.PlayerData;
+import net.Indyuce.moarbows.api.event.MoarBowShootEvent;
 import net.Indyuce.moarbows.api.runnable.ArrowParticles;
 import net.Indyuce.moarbows.comp.worldguard.CustomFlag;
 import net.Indyuce.moarbows.manager.ArrowManager;
@@ -39,6 +41,7 @@ public class ShootBow implements Listener {
 		if (!player.hasPermission("moarbows.use." + bow.getLowerCaseID())) {
 			player.sendMessage(Message.NOT_ENOUGH_PERMS.translate());
 			event.setCancelled(true);
+			return;
 		}
 
 		// worldguard flag
@@ -55,6 +58,13 @@ public class ShootBow implements Listener {
 			event.setCancelled(true);
 			return;
 		}
+
+		MoarBowShootEvent bowEvent = new MoarBowShootEvent(player, bow);
+		Bukkit.getPluginManager().callEvent(bowEvent);
+		if (bowEvent.isCancelled())
+			return;
+
+		bow = bowEvent.getBow();
 		playerData.applyCooldown(bow);
 
 		// shoot effect
