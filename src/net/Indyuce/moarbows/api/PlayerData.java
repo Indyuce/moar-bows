@@ -11,7 +11,7 @@ import net.Indyuce.moarbows.MoarBows;
 
 public class PlayerData {
 	private Player player;
-	private UUID uuid;
+	private final UUID uuid;
 
 	/*
 	 * used to check twice a second if the player changed the item he's been
@@ -23,9 +23,8 @@ public class PlayerData {
 	/*
 	 * where cooldowns from bows are all stored.
 	 */
-	private Map<MoarBow, Long> bowCooldown = new HashMap<>();
+	private Map<String, Long> cooldowns = new HashMap<>();
 
-	private static boolean offhandEnabled = MoarBows.getVersion().isStrictlyHigher(1, 8);
 	private static Map<UUID, PlayerData> playerDatas = new HashMap<>();
 
 	/*
@@ -58,22 +57,21 @@ public class PlayerData {
 		return player;
 	}
 
-	@SuppressWarnings("deprecation")
 	public void updateItems() {
-		if (mainhand == null || !mainhand.isSimilar(player.getInventory().getItemInHand())) {
-			mainhand = player.getInventory().getItemInHand();
+		if (mainhand == null || !mainhand.isSimilar(player.getInventory().getItemInMainHand())) {
+			mainhand = player.getInventory().getItemInMainHand();
 			if (mainparticles != null)
 				mainparticles.cancel();
-			MoarBow mainbow = MoarBows.getBowManager().get(mainhand);
+			MoarBow mainbow = MoarBows.plugin.getBowManager().get(mainhand);
 			if (mainbow != null)
 				(mainparticles = mainbow.createParticleData().setPlayer(player)).runTaskTimer(MoarBows.plugin, 0, 4);
 		}
 
-		if (offhandEnabled && (offhand == null || !offhand.isSimilar(player.getInventory().getItemInOffHand()))) {
+		if (offhand == null || !offhand.isSimilar(player.getInventory().getItemInOffHand())) {
 			offhand = player.getInventory().getItemInOffHand();
 			if (offparticles != null)
 				offparticles.cancel();
-			MoarBow offbow = MoarBows.getBowManager().get(offhand);
+			MoarBow offbow = MoarBows.plugin.getBowManager().get(offhand);
 			if (offbow != null)
 				(offparticles = offbow.createParticleData().setPlayer(player).setOffhand(true)).runTaskTimer(MoarBows.plugin, 0, 4);
 		}
@@ -89,15 +87,15 @@ public class PlayerData {
 			offparticles.cancel();
 	}
 
-	public boolean hasCooldown(MoarBow bow) {
-		return bowCooldown.containsKey(bow) && bowCooldown.get(bow) + bow.getCooldown() * 1000 > System.currentTimeMillis();
+	public boolean hasCooldown(MoarBow bow, int level) {
+		return cooldowns.containsKey(bow.getId()) && cooldowns.get(bow.getId()) + bow.getDouble("cooldown", level) * 1000 > System.currentTimeMillis();
 	}
 
-	public double getRemainingCooldown(MoarBow bow) {
-		return !hasCooldown(bow) ? 0 : (double) (bowCooldown.get(bow) + bow.getCooldown() * 1000 - System.currentTimeMillis()) / 1000;
+	public double getRemainingCooldown(MoarBow bow, int level) {
+		return cooldowns.containsKey(bow.getId()) ? (double) Math.max(0, cooldowns.get(bow.getId()) + bow.getDouble("cooldown", level) * 1000 - System.currentTimeMillis()) / 1000. : 0;
 	}
 
 	public void applyCooldown(MoarBow bow) {
-		bowCooldown.put(bow, System.currentTimeMillis());
+		cooldowns.put(bow.getId(), System.currentTimeMillis());
 	}
 }

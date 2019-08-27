@@ -1,30 +1,40 @@
 package net.Indyuce.moarbows.bow;
 
 import org.bukkit.Effect;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 
-import net.Indyuce.moarbows.api.BowModifier;
+import net.Indyuce.moarbows.api.ArrowData;
+import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 
 public class Silver_Bow extends MoarBow {
 	public Silver_Bow() {
-		super(new String[] { "Arrows deal 40% additional damage." }, 0, 0, "crit", new String[] { "IRON_INGOT,IRON_INGOT,IRON_INGOT", "IRON_INGOT,BOW,IRON_INGOT", "IRON_INGOT,IRON_INGOT,IRON_INGOT" });
+		super(new String[] { "Arrows deal &c{extra}% &7additional damage." }, 0, "crit", new String[] { "IRON_INGOT,IRON_INGOT,IRON_INGOT", "IRON_INGOT,BOW,IRON_INGOT", "IRON_INGOT,IRON_INGOT,IRON_INGOT" });
 
-		addModifier(new BowModifier("damage-percent", 40), new BowModifier("block-effect-id", 12));
+		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("extra", new LinearValue(40, 30)), new DoubleModifier("block-effect-id", new LinearValue(12, 0)));
 	}
 
 	@Override
-	public void hit(EntityDamageByEntityEvent e, Arrow a, Entity p, Player t) {
-		if (!(t instanceof LivingEntity))
+	public boolean canShoot(EntityShootBowEvent event, ArrowData data) {
+		return true;
+	}
+
+	@Override
+	public void whenHit(EntityDamageByEntityEvent event, ArrowData data, Entity target) {
+		if (!(target instanceof LivingEntity))
 			return;
 
-		int id = (int) getValue("block-effect-id");
-		p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, id);
-		p.getWorld().playEffect(p.getLocation().add(0, 1, 0), Effect.STEP_SOUND, id);
-		e.setDamage(e.getDamage() * (1. + getValue("damage-percent") / 100.));
+		int id = (int) data.getDouble("block-effect-id");
+		data.getSender().getWorld().playEffect(data.getSender().getLocation(), Effect.STEP_SOUND, id);
+		data.getSender().getWorld().playEffect(data.getSender().getLocation().add(0, 1, 0), Effect.STEP_SOUND, id);
+		event.setDamage(event.getDamage() * (1. + data.getDouble("damage-percent") / 100.));
+	}
+
+	@Override
+	public void whenLand(ArrowData data) {
 	}
 }

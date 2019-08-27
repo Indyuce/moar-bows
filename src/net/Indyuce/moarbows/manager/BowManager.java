@@ -32,7 +32,7 @@ public class BowManager {
 
 	public BowManager() {
 		try {
-			JarFile file = new JarFile(MoarBows.getJarFile());
+			JarFile file = new JarFile(MoarBows.plugin.getJarFile());
 			for (Enumeration<JarEntry> entry = file.entries(); entry.hasMoreElements();) {
 				JarEntry jarEntry = entry.nextElement();
 				String name = jarEntry.getName().replace("/", ".");
@@ -49,11 +49,11 @@ public class BowManager {
 
 	public void register(MoarBow bow) {
 		if (!registration) {
-			MoarBows.plugin.getLogger().log(Level.WARNING, "Could not register the bow called " + bow.getID() + ". Make sure you register it before MMOItems loads.");
+			MoarBows.plugin.getLogger().log(Level.WARNING, "Could not register the bow called " + bow.getId() + ". Make sure you register it before MMOItems loads.");
 			return;
 		}
 
-		map.put(bow.getID(), bow);
+		map.put(bow.getId(), bow);
 	}
 
 	public void stopRegistration() {
@@ -88,18 +88,6 @@ public class BowManager {
 			for (MoarBow bow : getBows())
 				if (bow.getName().equals(item.getItemMeta().getDisplayName()))
 					return bow;
-
-		String tag = MoarBows.getNMS().getStringTag(item, "MMOITEMS_MOARBOWS_ID");
-		if (tag.equals(""))
-			return null;
-
-		return tag.equals("") ? null : get(tag);
-	}
-
-	public MoarBow getFromName(ItemStack item) {
-		for (MoarBow bow : getBows())
-			if (bow.getName().equals(item.getItemMeta().getDisplayName()))
-				return bow;
 		return null;
 	}
 }

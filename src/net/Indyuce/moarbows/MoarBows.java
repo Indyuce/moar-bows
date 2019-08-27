@@ -11,7 +11,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.PlayerData;
@@ -29,21 +28,20 @@ import net.Indyuce.moarbows.listener.PlayerListener;
 import net.Indyuce.moarbows.listener.ShootBow;
 import net.Indyuce.moarbows.manager.ArrowManager;
 import net.Indyuce.moarbows.manager.BowManager;
-import net.Indyuce.moarbows.manager.LanguageManager;
+import net.Indyuce.moarbows.manager.ConfigManager;
 import net.Indyuce.moarbows.version.ServerVersion;
 import net.Indyuce.moarbows.version.SpigotPlugin;
 import net.Indyuce.moarbows.version.nms.NMSHandler;
-import net.Indyuce.moarbows.version.nms.NMSHandler_Reflection;
 
 public class MoarBows extends JavaPlugin {
 	public static MoarBows plugin;
 
-	private static NMSHandler nms;
-	private static WGPlugin wgPlugin;
-	private static LanguageManager language;
-	private static ServerVersion version;
-	private static BowManager bowManager;
-	private static ArrowManager arrowManager = new ArrowManager();
+	private NMSHandler nms;
+	private WGPlugin wgPlugin;
+	private ConfigManager language;
+	private ServerVersion version;
+	private BowManager bowManager;
+	private ArrowManager arrowManager = new ArrowManager();
 
 	public void onLoad() {
 		plugin = this;
@@ -52,7 +50,6 @@ public class MoarBows extends JavaPlugin {
 		bowManager = new BowManager();
 	}
 
-	@SuppressWarnings("deprecation")
 	public void onEnable() {
 		bowManager.stopRegistration();
 		new SpigotPlugin(36387, this).checkForUpdate();
@@ -62,15 +59,16 @@ public class MoarBows extends JavaPlugin {
 			// nms handle
 			getLogger().log(Level.INFO, "Detected Bukkit Version: " + version.toString());
 			nms = (NMSHandler) Class.forName("net.Indyuce.moarbows.version.nms.NMSHandler_" + version.toString().substring(1)).newInstance();
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			getLogger().log(Level.WARNING, "Your server version is not handled with NMS");
-			nms = new NMSHandler_Reflection();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException exception) {
+			getLogger().log(Level.WARNING, "Your server version is not compatible.");
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
 		}
 
 		new Metrics(this);
 
 		saveDefaultConfig();
-		language = new LanguageManager();
+		language = new ConfigManager();
 
 		Bukkit.getServer().getPluginManager().registerEvents(new BowUtils(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new GuiListener(), this);
@@ -80,11 +78,7 @@ public class MoarBows extends JavaPlugin {
 		Bukkit.getServer().getPluginManager().registerEvents(new HitEntity(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new ArrowLand(), this);
 		if (getConfig().getBoolean("hand-particles.enabled"))
-			new BukkitRunnable() {
-				public void run() {
-					Bukkit.getOnlinePlayers().forEach(player -> PlayerData.get(player).updateItems());
-				}
-			}.runTaskTimer(plugin, 100, 10);
+			Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.getOnlinePlayers().forEach(player -> PlayerData.get(player).updateItems()), 100, 10);
 
 		bowManager.getListeners().forEach(listener -> Bukkit.getServer().getPluginManager().registerEvents((Listener) listener, this));
 
@@ -106,82 +100,64 @@ public class MoarBows extends JavaPlugin {
 
 		// crafting recipes
 		if (!getConfig().getBoolean("disable-bow-craftings"))
-			for (MoarBow bow : bowManager.getBows())
-				if (getLanguage().getBows().getBoolean(bow.getID() + ".craft-enabled")) {
-					ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(MoarBows.plugin, "MoarBows_" + bow.getID()), bow.getItem());
+			bowLoop: for (MoarBow bow : bowManager.getBows())
+				if (getLanguage().getBows().getBoolean(bow.getId() + ".craft-enabled")) {
+					ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(MoarBows.plugin, "MoarBows_" + bow.getId()), bow.getItem(1));
 					recipe.shape(new String[] { "ABC", "DEF", "GHI" });
 					char[] chars = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' };
-					boolean check = true;
-					List<String> list = getLanguage().getBows().getStringList(bow.getID() + ".craft");
+					List<String> list = getLanguage().getBows().getStringList(bow.getId() + ".craft");
 					for (int j = 0; j < 9; j++) {
 						char c = chars[j];
 						if (list.size() != 3) {
-							getLogger().log(Level.WARNING, "Couldn't register the recipe of " + bow.getID() + " (format error)");
-							check = false;
-							break;
+							getLogger().log(Level.WARNING, "Couldn't register the recipe of " + bow.getId() + " (format error)");
+							continue bowLoop;
 						}
 
 						List<String> line = Arrays.asList(list.get(j / 3).split("\\,"));
 						if (line.size() < 3) {
-							getLogger().log(Level.WARNING, "Couldn't register the recipe of " + bow.getID() + " (format error)");
-							check = false;
-							break;
+							getLogger().log(Level.WARNING, "Couldn't register the recipe of " + bow.getId() + " (format error)");
+							continue bowLoop;
 						}
 
 						String s = line.get(j % 3);
 						Material material = null;
 						try {
-							material = Material.valueOf(s.split("\\:")[0].replace("-", "_").toUpperCase());
+							material = Material.valueOf(s.replace("-", "_").toUpperCase());
 						} catch (Exception e1) {
-							getLogger().log(Level.WARNING, "Couldn't register the recipe of " + bow.getID() + " (" + s.split("\\:")[0] + " is not a valid material)");
-							check = false;
-							break;
+							getLogger().log(Level.WARNING, "Couldn't register the recipe of " + bow.getId() + " (" + s.split("\\:")[0] + " is not a valid material)");
+							continue bowLoop;
 						}
 
-						if (s.contains(":")) {
-							int durability = 0;
-							try {
-								durability = Integer.parseInt(s.split("\\:")[1]);
-							} catch (Exception e1) {
-								getLogger().log(Level.WARNING, "Couldn't register the recipe of " + bow.getID() + " (" + s.split("\\:")[1] + " is not a valid number)");
-								check = false;
-								break;
-							}
-							recipe.setIngredient(c, material, durability);
-							continue;
-						}
 						recipe.setIngredient(c, material);
 					}
-					if (check)
-						getServer().addRecipe(recipe);
 				}
 	}
 
-	public static BowManager getBowManager() {
+	public BowManager getBowManager() {
 		return bowManager;
 	}
-	
-	public static ArrowManager getArrowManager() {
+
+	public ArrowManager getArrowManager() {
 		return arrowManager;
 	}
 
-	public static NMSHandler getNMS() {
+	public NMSHandler getNMS() {
 		return nms;
 	}
 
-	public static LanguageManager getLanguage() {
+	public ConfigManager getLanguage() {
 		return language;
 	}
 
-	public static ServerVersion getVersion() {
+	public ServerVersion getVersion() {
 		return version;
 	}
 
-	public static WGPlugin getWorldGuard() {
+	public WGPlugin getWorldGuard() {
 		return wgPlugin;
 	}
 
-	public static File getJarFile() {
+	public File getJarFile() {
 		return plugin.getFile();
 	}
 }

@@ -48,6 +48,9 @@ public class ParticleData extends BukkitRunnable {
 		return this;
 	}
 
+	/*
+	 * (public) used to display arrow particles
+	 */
 	public void displayParticle(Location loc) {
 		if (isColorable() && color != null)
 			loc.getWorld().spawnParticle(particle, loc, 0, new Particle.DustOptions(color, 1));
@@ -65,8 +68,8 @@ public class ParticleData extends BukkitRunnable {
 		loc.add(loc.getDirection().multiply(.3));
 
 		if (isColorable() && color != null)
-			loc.getWorld().spawnParticle(particle, loc, amount, new Particle.DustOptions(color, 1));
+			loc.getWorld().spawnParticle(particle, loc, amount, .1, .1, .1, 0, new Particle.DustOptions(color, 1));
 		else
-			loc.getWorld().spawnParticle(particle, loc, amount);
+			loc.getWorld().spawnParticle(particle, loc, amount, .1, .1, .1, 0);
 	}
 }

@@ -18,11 +18,11 @@ public class ReflectUtils {
 	}
 
 	public static Class<?> nms(String str) throws ClassNotFoundException {
-		return Class.forName("net.minecraft.server." + MoarBows.getVersion().toString() + "." + str);
+		return Class.forName("net.minecraft.server." + MoarBows.plugin.getVersion().toString() + "." + str);
 	}
 
 	public static Class<?> obc(String str) throws ClassNotFoundException {
-		return Class.forName("org.bukkit.craftbukkit." + MoarBows.getVersion().toString() + "." + str);
+		return Class.forName("org.bukkit.craftbukkit." + MoarBows.plugin.getVersion().toString() + "." + str);
 	}
 
 	// reflection that works >1.13 ONLY (not <1.11)

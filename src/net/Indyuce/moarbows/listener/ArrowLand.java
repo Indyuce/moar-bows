@@ -16,12 +16,12 @@ public class ArrowLand implements Listener {
 			return;
 
 		Arrow arrow = (Arrow) event.getEntity();
-		if (!MoarBows.getArrowManager().isCustomArrow(arrow))
+		if (!MoarBows.plugin.getArrowManager().isCustomArrow(arrow))
 			return;
 
 		// land effect
-		ArrowData arrowData = MoarBows.getArrowManager().getArrowData(arrow);
-		arrowData.getBow().land(arrowData.getSender(), arrow);
-		MoarBows.getArrowManager().unregisterArrow(arrow);
+		ArrowData arrowData = MoarBows.plugin.getArrowManager().getArrowData(arrow);
+		arrowData.getBow().whenLand(arrowData);
+		MoarBows.plugin.getArrowManager().unregisterArrow(arrow);
 	}
 }

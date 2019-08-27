@@ -1,70 +1,95 @@
 package net.Indyuce.moarbows.version.nms;
 
-import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_13_R2.inventory.CraftItemStack;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import java.util.List;
+import java.util.Set;
 
-import net.minecraft.server.v1_13_R2.IChatBaseComponent;
-import net.minecraft.server.v1_13_R2.IChatBaseComponent.ChatSerializer;
+import org.bukkit.craftbukkit.v1_13_R2.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+
+import net.minecraft.server.v1_13_R2.ItemStack;
 import net.minecraft.server.v1_13_R2.NBTTagCompound;
 import net.minecraft.server.v1_13_R2.PacketPlayOutChat;
-import net.minecraft.server.v1_13_R2.PacketPlayOutTitle;
-import net.minecraft.server.v1_13_R2.PacketPlayOutTitle.EnumTitleAction;
-import net.minecraft.server.v1_13_R2.PlayerConnection;
+import net.minecraft.server.v1_13_R2.IChatBaseComponent.ChatSerializer;
 
 public class NMSHandler_1_13_R2 implements NMSHandler {
 	@Override
-	public ItemStack addTag(ItemStack i, ItemTag... tags) {
-		net.minecraft.server.v1_13_R2.ItemStack nmsi = CraftItemStack.asNMSCopy(i);
-		NBTTagCompound compound = nmsi.hasTag() ? nmsi.getTag() : new NBTTagCompound();
+	public void sendJson(Player player, String message) {
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutChat(ChatSerializer.a(message)));
+	}
 
-		for (ItemTag tag : tags) {
-			if (tag.getValue() instanceof Boolean) {
-				compound.setBoolean(tag.getPath(), (boolean) tag.getValue());
-				continue;
-			}
-			if (tag.getValue() instanceof Double) {
-				compound.setDouble(tag.getPath(), (double) tag.getValue());
-				continue;
-			}
-			compound.setString(tag.getPath(), (String) tag.getValue());
+	@Override
+	public NBTItem getNBTItem(org.bukkit.inventory.ItemStack item) {
+		return new NBTItem_v1_13_2(item);
+	}
+
+	public class NBTItem_v1_13_2 extends NBTItem {
+		private ItemStack nms;
+		private NBTTagCompound compound;
+
+		public NBTItem_v1_13_2(org.bukkit.inventory.ItemStack item) {
+			super(item);
+
+			nms = CraftItemStack.asNMSCopy(item);
+			compound = nms.hasTag() ? nms.getTag() : new NBTTagCompound();
 		}
 
-		nmsi.setTag(compound);
-		i = CraftItemStack.asBukkitCopy(nmsi);
-		return i;
-	}
+		@Override
+		public String getString(String path) {
+			return compound.getString(path);
+		}
 
-	@Override
-	public String getStringTag(ItemStack i, String path) {
-		if (i == null || i.getType() == Material.AIR)
-			return "";
+		@Override
+		public boolean hasTag(String path) {
+			return compound.hasKey(path);
+		}
 
-		net.minecraft.server.v1_13_R2.ItemStack nmsi = CraftItemStack.asNMSCopy(i);
-		NBTTagCompound compound = nmsi.hasTag() ? nmsi.getTag() : new NBTTagCompound();
-		return compound.getString(path);
-	}
+		@Override
+		public boolean getBoolean(String path) {
+			return compound.getBoolean(path);
+		}
 
-	@Override
-	public void sendJson(Player p, String msg) {
-		PacketPlayOutChat packet = new PacketPlayOutChat(ChatSerializer.a(msg));
-		PlayerConnection co = ((CraftPlayer) p).getHandle().playerConnection;
-		co.sendPacket(packet);
-	}
+		@Override
+		public double getDouble(String path) {
+			return compound.getDouble(path);
+		}
 
-	@Override
-	public void sendTitle(Player player, String msgTitle, String msgSubTitle, int fadeIn, int ticks, int fadeOut) {
-		IChatBaseComponent chatTitle = ChatSerializer.a("{\"text\": \"" + msgTitle + "\"}");
-		IChatBaseComponent chatSubTitle = ChatSerializer.a("{\"text\": \"" + msgSubTitle + "\"}");
+		@Override
+		public int getInteger(String path) {
+			return compound.getInt(path);
+		}
 
-		PacketPlayOutTitle p = new PacketPlayOutTitle(EnumTitleAction.TITLE, chatTitle);
-		PacketPlayOutTitle p2 = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, chatSubTitle);
-		PacketPlayOutTitle p3 = new PacketPlayOutTitle(EnumTitleAction.TIMES, null, fadeIn, ticks, fadeOut);
+		@Override
+		public NBTItem addTag(List<ItemTag> tags) {
+			tags.forEach(tag -> {
+				if (tag.getValue() instanceof Boolean)
+					compound.setBoolean(tag.getPath(), (boolean) tag.getValue());
+				else if (tag.getValue() instanceof Double)
+					compound.setDouble(tag.getPath(), (double) tag.getValue());
+				else if (tag.getValue() instanceof String)
+					compound.setString(tag.getPath(), (String) tag.getValue());
+				else if (tag.getValue() instanceof Integer)
+					compound.setInt(tag.getPath(), (int) tag.getValue());
+			});
+			return this;
+		}
 
-		((CraftPlayer) player).getHandle().playerConnection.sendPacket(p);
-		((CraftPlayer) player).getHandle().playerConnection.sendPacket(p2);
-		((CraftPlayer) player).getHandle().playerConnection.sendPacket(p3);
+		@Override
+		public NBTItem removeTag(String... paths) {
+			for (String path : paths)
+				compound.remove(path);
+			return this;
+		}
+
+		@Override
+		public Set<String> getTags() {
+			return compound.getKeys();
+		}
+
+		@Override
+		public org.bukkit.inventory.ItemStack toItem() {
+			nms.setTag(compound);
+			return CraftItemStack.asBukkitCopy(nms);
+		}
 	}
 }

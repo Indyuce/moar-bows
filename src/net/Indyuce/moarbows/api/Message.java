@@ -24,6 +24,6 @@ public enum Message {
 	}
 
 	public String translate() {
-		return ChatColor.translateAlternateColorCodes('&', MoarBows.getLanguage().getTranslation(path));
+		return ChatColor.translateAlternateColorCodes('&', MoarBows.plugin.getLanguage().getTranslation(path));
 	}
 }

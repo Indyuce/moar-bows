@@ -4,39 +4,45 @@ import org.bukkit.EntityEffect;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import net.Indyuce.moarbows.MoarBows;
-import net.Indyuce.moarbows.api.BowModifier;
+import net.Indyuce.moarbows.api.ArrowData;
+import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 
 public class Pulsar_Bow extends MoarBow {
 	public Pulsar_Bow() {
-		super(new String[] { "Shoots arrows that summon a black", "hole that attracts nearby enemies." }, 0, 10.0, "smoke_normal", new String[] { "AIR,WITHER_SKELETON_SKULL,AIR", "WITHER_SKELETON_SKULL,BOW,WITHER_SKELETON_SKULL", "AIR,WITHER_SKELETON_SKULL,AIR" });
+		super(new String[] { "Shoots arrows that summon a black", "hole that attracts nearby enemies." }, 0, "smoke_normal", new String[] { "AIR,WITHER_SKELETON_SKULL,AIR", "WITHER_SKELETON_SKULL,BOW,WITHER_SKELETON_SKULL", "AIR,WITHER_SKELETON_SKULL,AIR" });
 
-		addModifier(new BowModifier("duration", 3));
+		addModifier(new DoubleModifier("cooldown", new LinearValue(10, -1, 3, 10)), new DoubleModifier("duration", new LinearValue(3, 1)));
 	}
 
 	@Override
-	public void hit(EntityDamageByEntityEvent e, Arrow a, Entity p, Player t) {
-		land(t, a);
+	public boolean canShoot(EntityShootBowEvent event, ArrowData data) {
+		return true;
 	}
 
 	@Override
-	public void land(Player p, Arrow a) {
-		double duration = getValue("duration") * 20;
-		a.remove();
-		a.getWorld().playSound(a.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 3, 1);
+	public void whenHit(EntityDamageByEntityEvent event, ArrowData data, Entity target) {
+		whenLand(data);
+	}
+
+	@Override
+	public void whenLand(ArrowData data) {
+		double duration = data.getDouble("duration") * 20;
+		data.getArrow().remove();
+		data.getArrow().getWorld().playSound(data.getArrow().getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 3, 1);
 		new BukkitRunnable() {
 			int ti = 0;
 			double r = 4;
-			final Location loc = a.getLocation().clone();
+			final Location loc = data.getArrow().getLocation().clone();
 
 			public void run() {
 				ti++;
@@ -51,11 +57,10 @@ public class Pulsar_Bow extends MoarBow {
 					Vector v = loc.toVector().subtract(loc1.toVector());
 					loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc1, 0, v.getX(), v.getY(), v.getZ(), .1);
 				}
-				for (Entity t : a.getNearbyEntities(5, 5, 5))
-					if (t instanceof LivingEntity) {
-						t.playEffect(EntityEffect.HURT);
-						Vector v = a.getLocation().toVector().subtract(t.getLocation().toVector()).normalize().multiply(.5);
-						t.setVelocity(v);
+				for (Entity target : data.getArrow().getNearbyEntities(5, 5, 5))
+					if (target instanceof LivingEntity) {
+						target.playEffect(EntityEffect.HURT);
+						target.setVelocity(data.getArrow().getLocation().toVector().subtract(target.getLocation().toVector()).normalize().multiply(.5));
 					}
 				if (ti > duration)
 					cancel();

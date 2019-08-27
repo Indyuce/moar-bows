@@ -11,6 +11,8 @@ public class ArrowParticles extends BukkitRunnable implements Listener {
 	private Arrow arrow;
 	private ParticleData particleData;
 
+	private static final double n = 3;
+
 	public ArrowParticles(MoarBow bow, Arrow arrow) {
 		this.particleData = bow.createParticleData();
 		this.arrow = arrow;
@@ -23,6 +25,7 @@ public class ArrowParticles extends BukkitRunnable implements Listener {
 			return;
 		}
 
-		particleData.displayParticle(arrow.getLocation().clone().add(0, .25, 0));
+		for (double j = 0; j < n; j++)
+			particleData.displayParticle(arrow.getLocation().add(0, .25, 0).add(arrow.getVelocity().multiply(j / n)));
 	}
 }

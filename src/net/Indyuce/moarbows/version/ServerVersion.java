@@ -1,13 +1,18 @@
 package net.Indyuce.moarbows.version;
 
 public class ServerVersion {
-	public String version;
-	public int[] integers;
+	private final String version;
+	private final int[] integers;
+
+	private final TextureHandler textureHandler;
 
 	public ServerVersion(Class<?> clazz) {
-		this.version = clazz.getPackage().getName().replace(".", ",").split(",")[3];
+		version = clazz.getPackage().getName().replace(".", ",").split(",")[3];
+		
 		String[] split = version.substring(1).split("\\_");
-		this.integers = new int[] { Integer.parseInt(split[0]), Integer.parseInt(split[1]) };
+		integers = new int[] { Integer.parseInt(split[0]), Integer.parseInt(split[1]) };
+
+		textureHandler = new TextureHandler(isStrictlyHigher(1, 13) ? "CustomModelData" : "Damage");
 	}
 
 	public boolean isBelowOrEqual(int... version) {
@@ -30,5 +35,9 @@ public class ServerVersion {
 	@Override
 	public String toString() {
 		return version;
+	}
+
+	public TextureHandler getTextureHandler() {
+		return textureHandler;
 	}
 }

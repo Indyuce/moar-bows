@@ -2,12 +2,12 @@ package net.Indyuce.moarbows.listener;
 
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.api.ArrowData;
 
 public class HitEntity implements Listener {
 	@EventHandler
@@ -16,7 +16,9 @@ public class HitEntity implements Listener {
 			return;
 
 		Arrow arrow = (Arrow) event.getDamager();
-		if (MoarBows.getArrowManager().isCustomArrow(arrow))
-			MoarBows.getArrowManager().getArrowData(arrow).getBow().hit(event, arrow, event.getEntity(), (Player) arrow.getShooter());
+		if (MoarBows.plugin.getArrowManager().isCustomArrow(arrow)) {
+			ArrowData data = MoarBows.plugin.getArrowManager().getArrowData(arrow);
+			data.getBow().whenHit(event, data, event.getEntity());
+		}
 	}
 }

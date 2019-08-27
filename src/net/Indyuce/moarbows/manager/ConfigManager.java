@@ -8,36 +8,37 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import net.Indyuce.moarbows.MoarBows;
-import net.Indyuce.moarbows.api.BowModifier;
 import net.Indyuce.moarbows.api.ConfigData;
 import net.Indyuce.moarbows.api.Message;
 import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.api.modifier.Modifier;
 
-public class LanguageManager {
+public class ConfigManager {
 	private FileConfiguration bows, language;
 
-	public LanguageManager() {
+	public ConfigManager() {
 		ConfigData bows = new ConfigData("bows");
-		for (MoarBow bow : MoarBows.getBowManager().getBows()) {
-			if (!bows.getConfig().contains(bow.getID()))
-				bows.getConfig().createSection(bow.getID());
+		for (MoarBow bow : MoarBows.plugin.getBowManager().getBows()) {
+			if (!bows.getConfig().contains(bow.getId()))
+				bows.getConfig().createSection(bow.getId());
 
 			List<String> lore = new ArrayList<>(Arrays.asList(bow.getLore()));
 			if (lore != null && !lore.isEmpty()) {
-				lore.add(0, "&8&m------------------------------");
-				lore.add("&8&m------------------------------");
+				lore.add(0, "");
+				lore.add("");
+				lore.add("&e{cooldown}s Cooldown");
 			}
 
-			String[] paths = { "name", "lore", "cooldown", "durability", "craft-enabled", "craft", "eff" };
-			Object[] values = { bow.getUncoloredName(), lore, bow.getCooldown(), bow.getDurability(), bow.getFormattedCraftingRecipe().length > 0, Arrays.asList(bow.getFormattedCraftingRecipe()), bow.getFormattedParticleData() };
-			ConfigurationSection section = bows.getConfig().getConfigurationSection(bow.getID());
+			String[] paths = { "name", "lore", "durability", "craft-enabled", "craft", "eff" };
+			Object[] values = { bow.getUncoloredName(), lore, bow.getData(), bow.getFormattedCraftingRecipe().length > 0, Arrays.asList(bow.getFormattedCraftingRecipe()), bow.getFormattedParticleData() };
+			ConfigurationSection section = bows.getConfig().getConfigurationSection(bow.getId());
 			for (int j = 0; j < paths.length; j++)
 				if (!section.contains(paths[j]))
-					bows.getConfig().set(bow.getID() + "." + paths[j], values[j]);
+					bows.getConfig().set(bow.getId() + "." + paths[j], values[j]);
 
-			for (BowModifier modifier : bow.getModifiers())
+			for (Modifier modifier : bow.getModifiers())
 				if (!section.contains(modifier.getPath()))
-					bows.getConfig().set(bow.getID() + "." + modifier.getPath(), modifier.getDefaultValue());
+					modifier.setup(section);
 
 			bow.update(bows.getConfig());
 		}

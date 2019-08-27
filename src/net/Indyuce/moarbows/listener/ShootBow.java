@@ -11,6 +11,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 
 import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.Message;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.PlayerData;
@@ -31,20 +32,20 @@ public class ShootBow implements Listener {
 
 		// check for bow
 		ItemStack item = event.getBow();
-		MoarBow bow = MoarBows.getBowManager().get(item);
+		MoarBow bow = MoarBows.plugin.getBowManager().get(item);
 		if (bow == null)
 			return;
 
 		// permission
 		Player player = (Player) event.getEntity();
-		if (!player.hasPermission("moarbows.use." + bow.getLowerCaseID())) {
+		if (!player.hasPermission("moarbows.use." + bow.getLowerCaseId())) {
 			player.sendMessage(Message.NOT_ENOUGH_PERMS.translate());
 			event.setCancelled(true);
 			return;
 		}
 
 		// worldguard flag
-		if (!MoarBows.getWorldGuard().isFlagAllowed(player, CustomFlag.MB_BOWS)) {
+		if (!MoarBows.plugin.getWorldGuard().isFlagAllowed(player, CustomFlag.MB_BOWS)) {
 			event.setCancelled(true);
 			player.sendMessage(Message.DISABLE_BOWS_FLAG.translate());
 			return;
@@ -52,32 +53,31 @@ public class ShootBow implements Listener {
 
 		// cooldown
 		PlayerData playerData = PlayerData.get(player);
-		if (playerData.hasCooldown(bow)) {
-			player.sendMessage(Message.ON_COOLDOWN.translate().replace("%left%", cooldownFormat.format(playerData.getRemainingCooldown(bow))));
+		ArrowData arrowData = new ArrowData(bow, playerData, (Arrow) event.getProjectile(), item);
+		if (playerData.hasCooldown(arrowData.getBow(), arrowData.getLevel())) {
+			player.sendMessage(Message.ON_COOLDOWN.translate().replace("%left%", cooldownFormat.format(playerData.getRemainingCooldown(bow, arrowData.getLevel()))));
 			event.setCancelled(true);
 			return;
 		}
 
-		MoarBowShootEvent bowEvent = new MoarBowShootEvent(player, bow);
+		MoarBowShootEvent bowEvent = new MoarBowShootEvent(playerData, arrowData);
 		Bukkit.getPluginManager().callEvent(bowEvent);
 		if (bowEvent.isCancelled())
 			return;
 
-		bow = bowEvent.getBow();
 		playerData.applyCooldown(bow);
 
 		// shoot effect
-		Arrow arrow = (Arrow) event.getProjectile();
-		if (!bow.shoot(event, arrow, player, item)) {
+		if (!bow.canShoot(event, arrowData)) {
 			event.setCancelled(true);
 			return;
 		}
 
 		// register arrow
-		MoarBows.getArrowManager().registerArrow(arrow, bow, player);
+		MoarBows.plugin.getArrowManager().registerArrow(arrowData);
 
 		// arrow particles
 		if (MoarBows.plugin.getConfig().getBoolean("arrow-particles"))
-			new ArrowParticles(bow, arrow).runTaskTimer(MoarBows.plugin, 0, 1);
+			new ArrowParticles(bow, arrowData.getArrow()).runTaskTimer(MoarBows.plugin, 0, 1);
 	}
 }

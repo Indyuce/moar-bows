@@ -3,38 +3,44 @@ package net.Indyuce.moarbows.bow;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 
-import net.Indyuce.moarbows.api.BowModifier;
+import net.Indyuce.moarbows.api.ArrowData;
+import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 
 public class Cupidons_Bow extends MoarBow {
 	public Cupidons_Bow() {
-		super("CUPIDONS_BOW", "&fCupidon's Bow", new String[] { "Arrows heal players for 3 hearts.", "Also unmarks (&nMarked Bow&7) players." }, 0, 0, "heart", new String[] { "GLISTERING_MELON_SLICE,GLISTERING_MELON_SLICE,GLISTERING_MELON_SLICE", "GLISTERING_MELON_SLICE,BOW,GLISTERING_MELON_SLICE", "GLISTERING_MELON_SLICE,GLISTERING_MELON_SLICE,GLISTERING_MELON_SLICE" });
+		super("CUPIDONS_BOW", "&fCupidon's Bow", new String[] { "Arrows heal players for &a{heal} &7hearts.", "Also unmarks (&nMarked Bow&7) players." }, 0, "heart", new String[] { "GLISTERING_MELON_SLICE,GLISTERING_MELON_SLICE,GLISTERING_MELON_SLICE", "GLISTERING_MELON_SLICE,BOW,GLISTERING_MELON_SLICE", "GLISTERING_MELON_SLICE,GLISTERING_MELON_SLICE,GLISTERING_MELON_SLICE" });
 
-		addModifier(new BowModifier("heal", 4));
+		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("heal", new LinearValue(4, 3)));
 	}
 
 	@Override
-	public void hit(EntityDamageByEntityEvent e, Arrow a, Entity p, Player t) {
-		if (p.getType() != EntityType.PLAYER)
+	public boolean canShoot(EntityShootBowEvent event, ArrowData data) {
+		return true;
+	}
+
+	@Override
+	public void whenHit(EntityDamageByEntityEvent event, ArrowData data, Entity target) {
+		if (!(target instanceof LivingEntity))
 			return;
 
-		e.setDamage(0);
-		p.getWorld().spawnParticle(Particle.HEART, p.getLocation().add(0, 1, 0), 16, 1, 1, 1);
-		p.getWorld().playSound(p.getLocation(), Sound.ENTITY_BLAZE_AMBIENT, 2, 2);
-		Marked_Bow.marked.remove(p.getUniqueId());
-		double max = ((Player) p).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-		double health = ((Player) p).getHealth();
-		double heal = getValue("heal");
-		if (health + heal > max) {
-			((Player) p).setHealth(max);
-			return;
-		}
-		((Player) p).setHealth(health + heal);
+		event.setDamage(0);
+		target.getWorld().spawnParticle(Particle.HEART, target.getLocation().add(0, target.getHeight(), 0), 16, 1, 1, 1);
+		target.getWorld().playSound(target.getLocation(), Sound.ENTITY_BLAZE_AMBIENT, 2, 2);
+		double max = ((LivingEntity) target).getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+		((LivingEntity) target).setHealth(Math.min(max, ((LivingEntity) target).getHealth() + data.getDouble("heal")));
+
+		if (Marked_Bow.isMarked(target))
+			Marked_Bow.getMark(target).close();
+	}
+
+	@Override
+	public void whenLand(ArrowData data) {
 	}
 }

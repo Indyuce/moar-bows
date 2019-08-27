@@ -3,55 +3,73 @@ package net.Indyuce.moarbows.bow;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.MoarBows;
-import net.Indyuce.moarbows.api.BowModifier;
+import net.Indyuce.moarbows.api.ArrowData;
+import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 
 public class Meteor_Bow extends MoarBow {
 	public Meteor_Bow() {
-		super(new String[] { "Shoots arrows that summon a fire", "comet upon landing, dealing damage", "and knockback to nearby entities." }, 0, 10.0, "lava", new String[] { "FIRE_CHARGE,FIRE_CHARGE,FIRE_CHARGE", "FIRE_CHARGE,BOW,FIRE_CHARGE", "FIRE_CHARGE,FIRE_CHARGE,FIRE_CHARGE" });
+		super(new String[] { "Shoots arrows that summon a fire", "comet upon landing, dealing damage", "and knockback to nearby entities." }, 0, "lava", new String[] { "FIRE_CHARGE,FIRE_CHARGE,FIRE_CHARGE", "FIRE_CHARGE,BOW,FIRE_CHARGE", "FIRE_CHARGE,FIRE_CHARGE,FIRE_CHARGE" });
 
-		addModifier(new BowModifier("damage", 8), new BowModifier("knockback", 1));
+		addModifier(new DoubleModifier("cooldown", new LinearValue(10, -1, 3, 10)), new DoubleModifier("damage", new LinearValue(8, 4)), new DoubleModifier("knockback", new LinearValue(1, 1.3)));
 	}
 
 	@Override
-	public void hit(EntityDamageByEntityEvent event, Arrow arrow, Entity target, Player player) {
-		land(player, arrow);
+	public boolean canShoot(EntityShootBowEvent event, ArrowData data) {
+		return true;
 	}
 
 	@Override
-	public void land(Player player, Arrow arrow) {
-		arrow.remove();
-		double dmg = getValue("damage");
-		double knockback = getValue("knockback");
-		arrow.getWorld().playSound(arrow.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 3, 1);
+	public void whenHit(EntityDamageByEntityEvent event, ArrowData data, Entity target) {
+		whenLand(data);
+	}
+
+	@Override
+	public void whenLand(ArrowData data) {
+		double damage = data.getDouble("damage");
+		double knockback = data.getDouble("knockback");
+
+		data.getArrow().getWorld().playSound(data.getArrow().getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 2, 1);
 		new BukkitRunnable() {
-			Location loc = arrow.getLocation().clone();
-			Location source = arrow.getLocation().clone().add(0, 20, 0);
-			Vector v = loc.toVector().subtract(source.toVector()).multiply(.06);
-			double ti = 0;
+			final Location loc = data.getArrow().getLocation();
+			final Location source = loc.clone().add(5 * Math.cos(random.nextDouble() * 2 * Math.PI), 20, 5 * Math.sin(random.nextDouble() * 2 * Math.PI));
+			final Vector vec = loc.subtract(source).toVector().multiply((double) 1 / 30);
+
+			int ti = 0;
 
 			public void run() {
-				ti += .06;
-				source.add(v);
-				loc.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, source, 0);
-				loc.getWorld().spawnParticle(Particle.FLAME, source, 4, .2, .2, .2, 0);
-				if (ti >= 1) {
-					loc.getWorld().playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 3, 1);
-					loc.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, loc, 16, 2, 2, 2);
-					loc.getWorld().spawnParticle(Particle.FLAME, loc, 32, 0, 0, 0, .25);
-					loc.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, loc, 32, 0, 0, 0, .25);
-					for (LivingEntity entity : arrow.getWorld().getEntitiesByClass(LivingEntity.class))
+				if (ti == 0)
+					loc.setDirection(vec);
+
+				for (int k = 0; k < 2; k++) {
+					ti++;
+					source.add(vec);
+					for (double i = 0; i < Math.PI * 2; i += Math.PI / 6) {
+						Vector vec = BowUtils.rotateFunc(new Vector(Math.cos(i), Math.sin(i), 0), loc);
+						source.getWorld().spawnParticle(Particle.SMOKE_LARGE, source, 0, vec.getX(), vec.getY(), vec.getZ(), .1);
+					}
+				}
+
+				if (ti >= 30) {
+					source.getWorld().playSound(source, Sound.ENTITY_GENERIC_EXPLODE, 3, 1);
+					source.getWorld().spawnParticle(Particle.FLAME, source, 64, 0, 0, 0, .25);
+					source.getWorld().spawnParticle(Particle.LAVA, source, 32);
+					for (double j = 0; j < Math.PI * 2; j += Math.PI / 24)
+						source.getWorld().spawnParticle(Particle.SMOKE_LARGE, source, 0, Math.cos(j), 0, Math.sin(j), .5);
+
+					for (LivingEntity entity : data.getArrow().getWorld().getEntitiesByClass(LivingEntity.class))
 						if (entity.getLocation().add(0, 1, 0).distanceSquared(loc) < 25) {
-							entity.damage(dmg, player);
+							entity.damage(damage, data.getSender());
 							entity.setVelocity(entity.getLocation().toVector().subtract(loc.toVector()).setY(.75).normalize().multiply(knockback));
 						}
 					cancel();

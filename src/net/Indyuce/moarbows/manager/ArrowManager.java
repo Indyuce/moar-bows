@@ -4,16 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
 
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.MoarBow;
 
 public class ArrowManager {
 	private Map<Integer, ArrowData> map = new HashMap<>();
 
-	public void registerArrow(Arrow arrow, MoarBow bow, Player sender) {
-		map.put(arrow.getEntityId(), new ArrowData(bow, sender, arrow));
+	public void registerArrow(ArrowData data) {
+		map.put(data.getArrow().getEntityId(), data);
 	}
 
 	public void unregisterArrow(Arrow arrow) {

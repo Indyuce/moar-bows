@@ -1,5 +1,6 @@
 package net.Indyuce.moarbows.command;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -59,11 +60,11 @@ public class MoarBowsCommand implements CommandExecutor {
 
 			// reload config files
 			MoarBows.plugin.reloadConfig();
-			MoarBows.getLanguage().reloadConfigFiles();
+			MoarBows.plugin.getLanguage().reloadConfigFiles();
 
 			// reload bows
-			for (MoarBow bow : MoarBows.getBowManager().getBows())
-				bow.update(MoarBows.getLanguage().getBows());
+			for (MoarBow bow : MoarBows.plugin.getBowManager().getBows())
+				bow.update(MoarBows.plugin.getLanguage().getBows());
 
 			sender.sendMessage(ChatColor.YELLOW + "Config files & bows reloaded.");
 		}
@@ -72,18 +73,18 @@ public class MoarBowsCommand implements CommandExecutor {
 			sender.sendMessage(ChatColor.DARK_GRAY + "" + ChatColor.STRIKETHROUGH + "------------------------------------------------");
 			sender.sendMessage(ChatColor.GREEN + "List of available bows:");
 			if (!(sender instanceof Player)) {
-				for (MoarBow bow : MoarBows.getBowManager().getBows())
+				for (MoarBow bow : MoarBows.plugin.getBowManager().getBows())
 					sender.sendMessage("* " + ChatColor.GREEN + " " + bow.getName());
 				return true;
 			}
 
-			for (MoarBow bow : MoarBows.getBowManager().getBows())
-				MoarBows.getNMS().sendJson((Player) sender, "{\"text\":\"* " + ChatColor.GREEN + bow.getName() + ChatColor.WHITE + ", use /mb get " + bow.getLowerCaseID() + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/mb get " + bow.getID() + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click to get the " + ChatColor.GREEN + bow.getName() + ChatColor.WHITE + ".\",\"color\":\"white\"}]}}}");
+			for (MoarBow bow : MoarBows.plugin.getBowManager().getBows())
+				MoarBows.plugin.getNMS().sendJson((Player) sender, "{\"text\":\"* " + ChatColor.GREEN + bow.getName() + ChatColor.WHITE + ", use /mb get " + bow.getLowerCaseId() + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/mb get " + bow.getId() + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click to get the " + ChatColor.GREEN + bow.getName() + ChatColor.WHITE + ".\",\"color\":\"white\"}]}}}");
 		}
 
 		if (args[0].equalsIgnoreCase("get") || args[0].equalsIgnoreCase("give")) {
 			if (args.length < 2) {
-				sender.sendMessage(ChatColor.RED + "Usage: /mb get <bow> (player)");
+				sender.sendMessage(ChatColor.RED + "Usage: /mb get <bow> (player) (level)");
 				return true;
 			}
 
@@ -94,23 +95,32 @@ public class MoarBowsCommand implements CommandExecutor {
 
 			// bow
 			String bowFormat = args[1].toUpperCase().replace("-", "_");
-			MoarBow bow = MoarBows.getBowManager().safeGet(bowFormat);
+			MoarBow bow = MoarBows.plugin.getBowManager().safeGet(bowFormat);
 			if (bow == null) {
 				sender.sendMessage(ChatColor.RED + "Couldn't find the bow called " + bowFormat + ".");
 				return true;
 			}
 
 			// player
-			Player target = args.length > 2 ? null : ((Player) sender);
-			if (args.length > 2)
-				target = Bukkit.getPlayer(args[2]);
+			Player target = args.length > 2 ? Bukkit.getPlayer(args[2]) : ((Player) sender);
 			if (target == null) {
 				sender.sendMessage(ChatColor.RED + "Couldn't find the player called " + args[2] + ".");
 				return true;
 			}
 
+			// level
+			int level = 0;
+			if (args.length > 3)
+				try {
+					level = Integer.parseInt(args[3]);
+					Validate.isTrue(level > 0);
+				} catch (IllegalArgumentException exception) {
+					sender.sendMessage(ChatColor.RED + args[3] + " is not a valid number.");
+					return true;
+				}
+
 			// give item
-			ItemStack item = bow.getItem();
+			ItemStack item = bow.getItem(level);
 			for (ItemStack drop : target.getInventory().addItem(item).values())
 				target.getWorld().dropItem(target.getLocation(), drop);
 			sender.sendMessage(ChatColor.YELLOW + target.getName() + " was given " + ChatColor.WHITE + bow.getName() + ChatColor.YELLOW + ".");
@@ -128,8 +138,8 @@ public class MoarBowsCommand implements CommandExecutor {
 			}
 
 			Player player = (Player) sender;
-			for (MoarBow bow : MoarBows.getBowManager().getBows())
-				for (ItemStack drop : player.getInventory().addItem(bow.getItem()).values())
+			for (MoarBow bow : MoarBows.plugin.getBowManager().getBows())
+				for (ItemStack drop : player.getInventory().addItem(bow.getItem(1)).values())
 					player.getWorld().dropItem(player.getLocation(), drop);
 		}
 

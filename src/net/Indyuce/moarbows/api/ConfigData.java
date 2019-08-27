@@ -11,9 +11,10 @@ import org.bukkit.plugin.Plugin;
 import net.Indyuce.moarbows.MoarBows;
 
 public class ConfigData {
-	private Plugin plugin;
-	private String path, name;
-	private FileConfiguration config;
+	private final Plugin plugin;
+	private final String path, name;
+
+	private final FileConfiguration config;
 
 	public ConfigData(String name) {
 		this("", name);

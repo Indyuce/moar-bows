@@ -2,29 +2,46 @@ package net.Indyuce.moarbows.bow;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.WitherSkull;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 
 import net.Indyuce.moarbows.BowUtils;
+import net.Indyuce.moarbows.api.ArrowData;
+import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 
 public class Wither_Bow extends MoarBow {
 	public Wither_Bow() {
-		super(new String[] { "Shoots an exploding wither skull." }, 0, 4.0, "redstone:0,0,0", new String[] { "WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL", "WITHER_SKELETON_SKULL,BOW,WITHER_SKELETON_SKULL", "WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL" });
+		super(new String[] { "Shoots an exploding wither skull." }, 0, "redstone:0,0,0", new String[] { "WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL", "WITHER_SKELETON_SKULL,BOW,WITHER_SKELETON_SKULL", "WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL" });
+
+		addModifier(new DoubleModifier("cooldown", new LinearValue(4, -8., 2, 4)));
 	}
 
 	@Override
-	public boolean shoot(EntityShootBowEvent e, Arrow a, Player p, ItemStack i) {
-		e.setCancelled(true);
-		if (!BowUtils.consumeAmmo(p, new ItemStack(Material.ARROW)))
+	public boolean canShoot(EntityShootBowEvent event, ArrowData data) {
+		event.setCancelled(true);
+		if (!BowUtils.consumeAmmo(data.getSender(), new ItemStack(Material.ARROW)))
 			return false;
 
-		p.getWorld().playSound(p.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1, 1);
-		WitherSkull ws = p.launchProjectile(WitherSkull.class);
-		ws.setVelocity(p.getEyeLocation().getDirection().multiply(3.3 * e.getForce()));
+		data.getSender().getWorld().playSound(data.getSender().getLocation(), Sound.ENTITY_WITHER_SHOOT, 1, 1);
+		WitherSkull skull = data.getSender().launchProjectile(WitherSkull.class);
+		skull.setVelocity(data.getSender().getEyeLocation().getDirection().multiply(3.3 * event.getForce()));
 		return false;
+	}
+
+	@Override
+	public void whenHit(EntityDamageByEntityEvent event, ArrowData data, Entity target) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void whenLand(ArrowData data) {
+		// TODO Auto-generated method stub
+
 	}
 }
