@@ -24,8 +24,8 @@ public class NMSHandler_1_13_R2 implements NMSHandler {
 	}
 
 	public class NBTItem_v1_13_2 extends NBTItem {
-		private ItemStack nms;
-		private NBTTagCompound compound;
+		private final ItemStack nms;
+		private final NBTTagCompound compound;
 
 		public NBTItem_v1_13_2(org.bukkit.inventory.ItemStack item) {
 			super(item);

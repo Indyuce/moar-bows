@@ -17,17 +17,19 @@ public class NMSHandler_1_13_R1 implements NMSHandler {
 	public void sendJson(Player player, String message) {
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutChat(ChatSerializer.a(message)));
 	}
+
 	@Override
 	public NBTItem getNBTItem(org.bukkit.inventory.ItemStack item) {
 		return new NBTItem_v1_13_2(item);
 	}
 
 	public class NBTItem_v1_13_2 extends NBTItem {
-		private ItemStack nms;
-		private NBTTagCompound compound;
+		private final ItemStack nms;
+		private final NBTTagCompound compound;
 
 		public NBTItem_v1_13_2(org.bukkit.inventory.ItemStack item) {
 			super(item);
+
 			nms = CraftItemStack.asNMSCopy(item);
 			compound = nms.hasTag() ? nms.getTag() : new NBTTagCompound();
 		}
