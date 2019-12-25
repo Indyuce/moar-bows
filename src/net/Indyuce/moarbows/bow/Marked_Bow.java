@@ -49,6 +49,9 @@ public class Marked_Bow extends MoarBow implements Listener {
 	@Override
 	public void whenHit(EntityDamageByEntityEvent event, ArrowData data, Entity target) {
 
+		if (isMarked(target))
+			return;
+		
 		playEffect(target.getLocation());
 		new Mark(target, data.getDouble("extra"), data.getDouble("duration"));
 		target.getWorld().playSound(target.getLocation(), Sound.ENTITY_ENDERMAN_HURT, 2, 1.5f);
