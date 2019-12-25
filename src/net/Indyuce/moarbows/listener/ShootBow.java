@@ -15,7 +15,7 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.PlayerData;
 import net.Indyuce.moarbows.api.event.MoarBowShootEvent;
-import net.Indyuce.moarbows.api.runnable.ArrowParticles;
+import net.Indyuce.moarbows.api.particle.ArrowParticles;
 import net.Indyuce.moarbows.api.util.Message;
 import net.Indyuce.moarbows.comp.worldguard.CustomFlag;
 

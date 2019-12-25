@@ -1,11 +1,10 @@
-package net.Indyuce.moarbows.api.runnable;
+package net.Indyuce.moarbows.api.particle;
 
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.api.ParticleData;
 
 public class ArrowParticles extends BukkitRunnable implements Listener {
 	private final Arrow arrow;
@@ -14,7 +13,7 @@ public class ArrowParticles extends BukkitRunnable implements Listener {
 	private static final double n = 3;
 
 	public ArrowParticles(MoarBow bow, Arrow arrow) {
-		this.particleData = bow.createParticleData();
+		this.particleData = bow.getParticleData();
 		this.arrow = arrow;
 	}
 

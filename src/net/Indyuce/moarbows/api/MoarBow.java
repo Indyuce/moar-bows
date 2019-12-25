@@ -23,6 +23,7 @@ import net.Indyuce.moarbows.api.modifier.BooleanModifier;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.modifier.Modifier;
 import net.Indyuce.moarbows.api.modifier.StringModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.version.nms.ItemTag;
 import net.Indyuce.moarbows.version.nms.NBTItem;
 
@@ -131,7 +132,7 @@ public abstract class MoarBow {
 	public String[] getFormattedCraftingRecipe() {
 		return craft == null ? new String[0] : craft;
 	}
-	
+
 	public boolean isCraftEnabled() {
 		return craftEnabled;
 	}
@@ -140,8 +141,8 @@ public abstract class MoarBow {
 		return formattedParticleData;
 	}
 
-	public ParticleData createParticleData() {
-		return particleData.clone();
+	public ParticleData getParticleData() {
+		return particleData;
 	}
 
 	public void update(ConfigurationSection config) {

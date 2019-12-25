@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.api.particle.ParticleData.ParticleRunnable;
 
 public class PlayerData {
 	private final UUID uuid;
@@ -19,7 +20,7 @@ public class PlayerData {
 	 * holding.
 	 */
 	private ItemStack mainhand, offhand;
-	private ParticleData mainparticles, offparticles;
+	private ParticleRunnable mainparticles, offparticles;
 
 	/*
 	 * where cooldowns from bows are all stored.
@@ -52,7 +53,7 @@ public class PlayerData {
 				mainparticles.cancel();
 			MoarBow mainbow = MoarBows.plugin.getBowManager().get(mainhand);
 			if (mainbow != null)
-				(mainparticles = mainbow.createParticleData().setPlayer(player)).runTaskTimer(MoarBows.plugin, 0, 4);
+				(mainparticles = mainbow.getParticleData().newRunnable(player, false)).runTaskTimer(MoarBows.plugin, 0, 4);
 		}
 
 		if (offhand == null || !offhand.isSimilar(player.getInventory().getItemInOffHand())) {
@@ -61,7 +62,7 @@ public class PlayerData {
 				offparticles.cancel();
 			MoarBow offbow = MoarBows.plugin.getBowManager().get(offhand);
 			if (offbow != null)
-				(offparticles = offbow.createParticleData().setPlayer(player).setOffhand(true)).runTaskTimer(MoarBows.plugin, 0, 4);
+				(offparticles = offbow.getParticleData().newRunnable(player, true)).runTaskTimer(MoarBows.plugin, 0, 4);
 		}
 	}
 
