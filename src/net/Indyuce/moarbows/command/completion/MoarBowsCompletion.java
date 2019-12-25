@@ -25,6 +25,7 @@ public class MoarBowsCompletion implements TabCompleter {
 			list.add("gui");
 			list.add("list");
 			list.add("reload");
+			list.add("equip");
 
 		} else if (args.length == 2) {
 			if (args[0].equalsIgnoreCase("get"))

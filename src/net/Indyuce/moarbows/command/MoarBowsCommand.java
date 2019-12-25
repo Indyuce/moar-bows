@@ -1,11 +1,16 @@
 package net.Indyuce.moarbows.command;
 
+import java.util.Optional;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -72,6 +77,31 @@ public class MoarBowsCommand implements CommandExecutor {
 
 			for (MoarBow bow : MoarBows.plugin.getBowManager().getBows())
 				MoarBows.plugin.getNMS().sendJson((Player) sender, "{\"text\":\"* " + ChatColor.GREEN + bow.getName() + ChatColor.WHITE + ", use /mb get " + bow.getLowerCaseId() + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/mb get " + bow.getId() + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click to get the " + ChatColor.GREEN + bow.getName() + ChatColor.WHITE + ".\",\"color\":\"white\"}]}}}");
+		}
+
+		if (args[0].equalsIgnoreCase("equip")) {
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(ChatColor.RED + "This command is for players only.");
+				return true;
+			}
+
+			Player player = (Player) sender;
+			if (player.getEquipment().getItemInMainHand() == null || player.getEquipment().getItemInMainHand().getType() == Material.AIR) {
+				sender.sendMessage(ChatColor.RED + "Hold something in your hands first.");
+				return true;
+			}
+
+			Optional<Entity> found = player.getNearbyEntities(10, 10, 10).stream().filter(entity -> entity instanceof LivingEntity).findFirst();
+			if (!found.isPresent()) {
+				sender.sendMessage(ChatColor.RED + "Couldn't find an entity to equip.");
+				return true;
+			}
+
+			LivingEntity target = (LivingEntity) found.get();
+			ItemStack hand = target.getEquipment().getItemInMainHand();
+			target.getEquipment().setItemInMainHand(player.getEquipment().getItemInMainHand());
+			if (hand != null)
+				target.getWorld().dropItem(target.getLocation(), hand);
 		}
 
 		if (args[0].equalsIgnoreCase("get") || args[0].equalsIgnoreCase("give")) {
