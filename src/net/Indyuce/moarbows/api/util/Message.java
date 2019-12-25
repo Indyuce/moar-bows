@@ -1,4 +1,4 @@
-package net.Indyuce.moarbows.api;
+package net.Indyuce.moarbows.api.util;
 
 import org.bukkit.ChatColor;
 

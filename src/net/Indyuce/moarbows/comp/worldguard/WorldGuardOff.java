@@ -13,4 +13,9 @@ public class WorldGuardOff implements WGPlugin {
 	public boolean isFlagAllowed(Player p, CustomFlag cf) {
 		return true;
 	}
+
+	@Override
+	public boolean isFlagAllowed(Location loc, CustomFlag customFlag) {
+		return true;
+	}
 }

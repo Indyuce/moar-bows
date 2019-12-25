@@ -53,4 +53,11 @@ public class WorldGuardOn implements WGPlugin {
 		com.sk89q.worldguard.protection.regions.RegionContainer container = worldguard.getPlatform().getRegionContainer();
 		return container.createQuery().getApplicableRegions(BukkitAdapter.adapt(loc));
 	}
+
+	@Override
+	public boolean isFlagAllowed(Location loc, CustomFlag customFlag) {
+		ApplicableRegionSet regions = getApplicableRegion(loc);
+		StateFlag flag = flags.get(customFlag.getPath());
+		return regions.queryValue(null, flag) != StateFlag.State.DENY;
+	}
 }
