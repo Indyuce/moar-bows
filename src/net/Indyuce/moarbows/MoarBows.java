@@ -101,11 +101,11 @@ public class MoarBows extends JavaPlugin {
 		// crafting recipes
 		if (!getConfig().getBoolean("disable-bow-craftings"))
 			bowLoop: for (MoarBow bow : bowManager.getBows())
-				if (getLanguage().getBows().getBoolean(bow.getId() + ".craft-enabled")) {
+				if (bow.isCraftEnabled()) {
 					ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(MoarBows.plugin, "MoarBows_" + bow.getId()), bow.getItem(1));
 					recipe.shape(new String[] { "ABC", "DEF", "GHI" });
 					char[] chars = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' };
-					List<String> list = getLanguage().getBows().getStringList(bow.getId() + ".craft");
+					List<String> list = Arrays.asList(bow.getFormattedCraftingRecipe());
 					for (int j = 0; j < 9; j++) {
 						char c = chars[j];
 						if (list.size() != 3) {
@@ -155,6 +155,11 @@ public class MoarBows extends JavaPlugin {
 
 	public WGPlugin getWorldGuard() {
 		return wgPlugin;
+	}
+
+	public void reloadPlugin() {
+		reloadConfig();
+		language = new ConfigManager();
 	}
 
 	public File getJarFile() {

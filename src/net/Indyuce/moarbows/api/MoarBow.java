@@ -10,8 +10,7 @@ import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.enchantments.Enchantment;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -35,10 +34,11 @@ public abstract class MoarBow {
 	private String[] lore, craft;
 	private int data;
 	private ParticleData particleData;
+	private boolean craftEnabled;
 
 	protected static final Random random = new Random();
 
-	public MoarBow(String[] lore, int durability,  String particleEffect, String[] craft) {
+	public MoarBow(String[] lore, int durability, String particleEffect, String[] craft) {
 		this.id = getClass().getSimpleName().toUpperCase();
 		this.name = "&f" + getClass().getSimpleName().replace("_", " ");
 
@@ -49,8 +49,8 @@ public abstract class MoarBow {
 		this.craft = craft;
 	}
 
-	public MoarBow(String id, String name, String[] lore, int durability,  String particleEffect, String[] craft) {
-		this.id = id.toUpperCase().replace("-", "_");
+	public MoarBow(String id, String name, String[] lore, int durability, String particleEffect, String[] craft) {
+		this.id = id;
 		this.name = name;
 
 		this.lore = lore;
@@ -58,6 +58,7 @@ public abstract class MoarBow {
 		this.formattedParticleData = particleEffect;
 		this.particleData = new ParticleData(particleEffect);
 		this.craft = craft;
+		this.craftEnabled = false;
 	}
 
 	public abstract boolean canShoot(EntityShootBowEvent event, ArrowData data);
@@ -130,6 +131,10 @@ public abstract class MoarBow {
 	public String[] getFormattedCraftingRecipe() {
 		return craft == null ? new String[0] : craft;
 	}
+	
+	public boolean isCraftEnabled() {
+		return craftEnabled;
+	}
 
 	public String getFormattedParticleData() {
 		return formattedParticleData;
@@ -139,31 +144,33 @@ public abstract class MoarBow {
 		return particleData.clone();
 	}
 
-	public void update(FileConfiguration config) {
-		name = config.getString(id + ".name");
-		lore = config.getStringList(id + ".lore").toArray(new String[0]);
-		particleData = new ParticleData(config.getString(id + ".eff"));
-		craft = config.getStringList(id + ".craft").toArray(new String[0]);
-		data = (short) config.getInt(id + ".durability");
-		
-		
+	public void update(ConfigurationSection config) {
+		name = config.getString("name");
+		lore = config.getStringList("lore").toArray(new String[0]);
+		particleData = new ParticleData(config.getString("eff"));
+		craft = config.getStringList("craft").toArray(new String[0]);
+		data = (short) config.getInt("durability");
+		craftEnabled = config.getBoolean("craft-enabled");
+
+		// reload modifiers
+		mods.forEach((key, modifier) -> modifier.load(config.get(key)));
 	}
-	
+
 	public ItemStack getItem() {
 		return getItem(1);
 	}
 
 	public ItemStack getItem(int level) {
 		level = Math.max(1, level);
-		
+
 		ItemStack item = hasData() ? MoarBows.plugin.getVersion().getTextureHandler().textureItem(Material.BOW, data) : new ItemStack(Material.BOW);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(getName());
 
-		if (MoarBows.plugin.getConfig().getBoolean("bow-options.hide-unbreakable"))
+		if (MoarBows.plugin.getLanguage().hideUnbreakable)
 			meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
 
-		if (MoarBows.plugin.getConfig().getBoolean("bow-options.hide-enchants"))
+		if (MoarBows.plugin.getLanguage().hideEnchants)
 			meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
 		if (this.lore != null) {
@@ -176,13 +183,13 @@ public abstract class MoarBow {
 
 		// unbreakable?
 		NBTItem nbt = NBTItem.get(item);
-		if (MoarBows.plugin.getConfig().getBoolean("bow-options.unbreakable"))
+		if (MoarBows.plugin.getLanguage().unbreakable)
 			nbt.addTag(new ItemTag("Unbreakable", true)).toItem();
 
 		return nbt.addTag(new ItemTag("MoarBowLevel", level), new ItemTag("MoarBow", getId())).toItem();
 	}
 
-	public String applyPlaceholders(String str, int x) {
+	private String applyPlaceholders(String str, int x) {
 
 		Modifier modifier;
 		while (str.contains("{") && str.substring(str.indexOf("{")).contains("}")) {
@@ -191,9 +198,5 @@ public abstract class MoarBow {
 		}
 
 		return ChatColor.translateAlternateColorCodes('&', str);
-	}
-
-	public double getPowerDamageMultiplier(ItemStack item) {
-		return item == null || item.getType() == Material.AIR || !item.hasItemMeta() || !item.getItemMeta().hasEnchant(Enchantment.ARROW_DAMAGE) ? 1 : 1 + .25 * (item.getItemMeta().getEnchantLevel(Enchantment.ARROW_DAMAGE) + 1);
 	}
 }
