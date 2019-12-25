@@ -19,12 +19,10 @@ public class ArrowParticles extends BukkitRunnable implements Listener {
 
 	@Override
 	public void run() {
-		if (arrow.isDead() || arrow.isOnGround()) {
+		if (arrow.isDead() || arrow.isOnGround())
 			cancel();
-			return;
-		}
-
-		for (double j = 0; j < n; j++)
-			particleData.displayParticle(arrow.getLocation().add(0, .25, 0).add(arrow.getVelocity().multiply(j / n)));
+		else
+			for (double j = 0; j < n; j++)
+				particleData.displayParticle(arrow.getLocation().add(0, .25, 0).add(arrow.getVelocity().multiply(j / n)));
 	}
 }
