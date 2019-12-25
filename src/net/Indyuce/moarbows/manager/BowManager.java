@@ -49,7 +49,7 @@ public class BowManager {
 
 	public void register(MoarBow bow) {
 		if (!registration) {
-			MoarBows.plugin.getLogger().log(Level.WARNING, "Could not register the bow called " + bow.getId() + ". Make sure you register it before MMOItems loads.");
+			MoarBows.plugin.getLogger().log(Level.WARNING, "Could not register the bow called " + bow.getId() + ". Make sure you register it before MoarBows loads.");
 			return;
 		}
 
