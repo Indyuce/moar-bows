@@ -10,9 +10,9 @@ import org.bukkit.inventory.ItemStack;
 
 import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Wither_Bow extends MoarBow {
 	public Wither_Bow() {
@@ -24,12 +24,12 @@ public class Wither_Bow extends MoarBow {
 	@Override
 	public boolean canShoot(EntityShootBowEvent event, ArrowData data) {
 		event.setCancelled(true);
-		if (!BowUtils.consumeAmmo(data.getSender(), new ItemStack(Material.ARROW)))
+		if (!BowUtils.consumeAmmo(data.getShooter(), new ItemStack(Material.ARROW)))
 			return false;
 
-		data.getSender().getWorld().playSound(data.getSender().getLocation(), Sound.ENTITY_WITHER_SHOOT, 1, 1);
-		WitherSkull skull = data.getSender().launchProjectile(WitherSkull.class);
-		skull.setVelocity(data.getSender().getEyeLocation().getDirection().multiply(3.3 * event.getForce()));
+		data.getShooter().getWorld().playSound(data.getShooter().getLocation(), Sound.ENTITY_WITHER_SHOOT, 1, 1);
+		WitherSkull skull = data.getShooter().launchProjectile(WitherSkull.class);
+		skull.setVelocity(data.getShooter().getEyeLocation().getDirection().multiply(3.3 * event.getForce()));
 		return false;
 	}
 

@@ -15,9 +15,9 @@ import org.bukkit.util.Vector;
 import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Composite_Bow extends MoarBow {
 	public Composite_Bow() {
@@ -28,17 +28,17 @@ public class Composite_Bow extends MoarBow {
 
 	@Override
 	public boolean canShoot(EntityShootBowEvent event, ArrowData data) {
-		final double dmg = data.getDouble("damage") * getPowerDamageMultiplier(data.getSource().getItem());
+		final double dmg = data.getDouble("damage") * BowUtils.getPowerDamageMultiplier(data.getSource().getItem());
 		event.setCancelled(true);
-		if (!BowUtils.consumeAmmo(data.getSender(), new ItemStack(Material.ARROW)))
+		if (!BowUtils.consumeAmmo(data.getShooter(), new ItemStack(Material.ARROW)))
 			return false;
 
-		data.getSender().getWorld().playSound(data.getSender().getLocation(), Sound.ENTITY_ARROW_SHOOT, 2, 0);
+		data.getShooter().getWorld().playSound(data.getShooter().getLocation(), Sound.ENTITY_ARROW_SHOOT, 2, 0);
 		new BukkitRunnable() {
-			Location loc = data.getSender().getEyeLocation();
+			Location loc = data.getShooter().getEyeLocation();
 			double ti = 0;
 			double max = 20 * event.getForce();
-			Vector v = data.getSender().getEyeLocation().getDirection().multiply(1.25);
+			Vector v = data.getShooter().getEyeLocation().getDirection().multiply(1.25);
 
 			public void run() {
 				for (double j = 0; j < 3; j++) {
@@ -47,11 +47,11 @@ public class Composite_Bow extends MoarBow {
 					loc.getWorld().spawnParticle(Particle.CRIT, loc, 8, .1, .1, .1, .1);
 					loc.getWorld().playSound(loc, Sound.BLOCK_NOTE_BLOCK_HAT, 3, 2);
 					for (LivingEntity entity : loc.getWorld().getEntitiesByClass(LivingEntity.class))
-						if (BowUtils.canDmgEntity(data.getSender(), loc, entity) && !entity.equals(data.getSender())) {
+						if (BowUtils.canTarget(data.getShooter(), loc, entity) && !entity.equals(data.getShooter())) {
 							entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 3, 0);
 							loc.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, loc, 0);
 							cancel();
-							entity.damage(dmg, data.getSender());
+							entity.damage(dmg, data.getShooter());
 							return;
 						}
 				}

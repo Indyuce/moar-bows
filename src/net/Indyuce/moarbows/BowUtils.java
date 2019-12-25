@@ -2,7 +2,10 @@ package net.Indyuce.moarbows;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -27,45 +30,57 @@ public class BowUtils implements Listener {
 		return builder.toString();
 	}
 
-	public static boolean consumeAmmo(Player p, ItemStack i) {
+	public static boolean consumeAmmo(LivingEntity entity, ItemStack i) {
 
-		// does not consume ammo if the
-		// player is in creative mode
-		if (p.getGameMode() == GameMode.CREATIVE || p.getGameMode() == GameMode.SPECTATOR)
+		/*
+		 * if sender is not a player, then do not consume anyammo
+		 */
+		if (!(entity instanceof Player))
 			return true;
 
-		// returns false if the
-		// player does not have the item
-		if (!p.getInventory().containsAtLeast(i, 1))
+		/*
+		 * does not consume ammo if the player is in creative mode
+		 */
+		Player player = (Player) entity;
+		if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR)
+			return true;
+
+		/*
+		 * returns false if the player has no item
+		 */
+		if (!player.getInventory().containsAtLeast(i, 1))
 			return false;
 
-		// consume the ammo
-		// and return true
-		p.getInventory().removeItem(i);
+		/*
+		 * returns true and consumes the ammo if the player has enough
+		 */
+		player.getInventory().removeItem(i);
 		return true;
 	}
 
-	public static boolean isPluginItem(ItemStack i, boolean lore) {
-		if (i != null)
-			if (i.hasItemMeta())
-				if (i.getItemMeta().hasDisplayName())
-					return !lore || i.getItemMeta().getLore() != null;
-		return false;
+	public static boolean isPluginItem(ItemStack item, boolean lore) {
+		return item != null && item.hasItemMeta() && item.getItemMeta().hasDisplayName() && (!lore || item.getItemMeta().hasLore());
 	}
 
-	public static ItemStack removeDisplayName(ItemStack i) {
-		ItemMeta meta = i.getItemMeta();
+	public static ItemStack removeDisplayName(ItemStack item) {
+		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(null);
-		i.setItemMeta(meta);
-		return i;
+		
+		ItemStack clone = item.clone();
+		clone.setItemMeta(meta);
+		return clone;
 	}
 
-	public static boolean canDmgEntity(Player player, Location loc, Entity target) {
+	public static double getPowerDamageMultiplier(ItemStack item) {
+		return item == null || item.getType() == Material.AIR || !item.hasItemMeta() || !item.getItemMeta().hasEnchant(Enchantment.ARROW_DAMAGE) ? 1 : 1 + .25 * (item.getItemMeta().getEnchantLevel(Enchantment.ARROW_DAMAGE) + 1);
+	}
+
+	public static boolean canTarget(LivingEntity shooter, Location loc, Entity target) {
 		if (target.hasMetadata("NPC"))
 			return false;
 
 		BoundingBox box = target.getBoundingBox();
-		return (loc == null ? true : loc.getX() >= box.getMinX() - .5 && loc.getY() >= box.getMinY() - .5 && loc.getZ() >= box.getMinZ() - .5 && loc.getX() <= box.getMaxX() + .5 && loc.getY() <= box.getMaxY() + .5 && loc.getZ() <= box.getMaxZ() + .5) && !target.equals(player);
+		return (loc == null ? true : loc.getX() >= box.getMinX() - .5 && loc.getY() >= box.getMinY() - .5 && loc.getZ() >= box.getMinZ() - .5 && loc.getX() <= box.getMaxX() + .5 && loc.getY() <= box.getMaxY() + .5 && loc.getZ() <= box.getMaxZ() + .5) && !target.equals(shooter);
 	}
 
 	public static double truncation(double x, int n) {

@@ -13,9 +13,9 @@ import org.bukkit.util.Vector;
 import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Meteor_Bow extends MoarBow {
 	public Meteor_Bow() {
@@ -69,7 +69,7 @@ public class Meteor_Bow extends MoarBow {
 
 					for (LivingEntity entity : data.getArrow().getWorld().getEntitiesByClass(LivingEntity.class))
 						if (entity.getLocation().add(0, 1, 0).distanceSquared(loc) < 25) {
-							entity.damage(damage, data.getSender());
+							entity.damage(damage, data.getShooter());
 							entity.setVelocity(entity.getLocation().toVector().subtract(loc.toVector()).setY(.75).normalize().multiply(knockback));
 						}
 					cancel();

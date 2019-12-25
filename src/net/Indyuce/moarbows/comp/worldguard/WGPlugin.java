@@ -4,7 +4,9 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public interface WGPlugin {
-	public boolean isPvpAllowed(Location loc);
+	boolean isPvpAllowed(Location loc);
 
-	public boolean isFlagAllowed(Player player, CustomFlag customFlag);
+	boolean isFlagAllowed(Player player, CustomFlag customFlag);
+
+	boolean isFlagAllowed(Location loc, CustomFlag customFlag);
 }

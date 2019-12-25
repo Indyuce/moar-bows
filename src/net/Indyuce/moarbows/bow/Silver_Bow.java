@@ -7,9 +7,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Silver_Bow extends MoarBow {
 	public Silver_Bow() {
@@ -29,8 +29,8 @@ public class Silver_Bow extends MoarBow {
 			return;
 
 		int id = (int) data.getDouble("block-effect-id");
-		data.getSender().getWorld().playEffect(data.getSender().getLocation(), Effect.STEP_SOUND, id);
-		data.getSender().getWorld().playEffect(data.getSender().getLocation().add(0, 1, 0), Effect.STEP_SOUND, id);
+		data.getShooter().getWorld().playEffect(data.getShooter().getLocation(), Effect.STEP_SOUND, id);
+		data.getShooter().getWorld().playEffect(data.getShooter().getLocation().add(0, 1, 0), Effect.STEP_SOUND, id);
 		event.setDamage(event.getDamage() * (1. + data.getDouble("damage-percent") / 100.));
 	}
 

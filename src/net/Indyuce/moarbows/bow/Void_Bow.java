@@ -9,9 +9,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Void_Bow extends MoarBow {
 	public Void_Bow() {
@@ -36,7 +36,7 @@ public class Void_Bow extends MoarBow {
 		Location loc = data.getArrow().getLocation();
 		loc.setPitch(((Player) data.getArrow().getShooter()).getLocation().getPitch());
 		loc.setYaw(((Player) data.getArrow().getShooter()).getLocation().getYaw());
-		data.getSender().teleport(loc);
+		data.getShooter().teleport(loc);
 		loc.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, loc, 0);
 		data.getArrow().getWorld().playSound(data.getArrow().getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 3, 1);
 	}

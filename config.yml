@@ -1,8 +1,3 @@
-# --------------------------------------------------------------
-#
-# Thanks for using MoarBows!
-#
-# --------------------------------------------------------------
 
 # Notifies players with the 'moarbows.update-notify' perm node when
 # they join the server if a new update is available for download.
@@ -36,6 +31,7 @@ arrow-particles: true
 # Disables interactions with custom bows.
 # Only players with specific perm nodes will be able to
 # perform these actions (moarbows.repair & moarbows.enchant).
+# Make sure you restart your server after changing these.
 disable:
     repair: true
     enchant: true

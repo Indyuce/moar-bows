@@ -9,7 +9,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.Indyuce.moarbows.MoarBows;
 
 public class ParticleData extends BukkitRunnable {
-	private Particle particle;
+	private final Particle particle;
+	
 	private Color color = null;
 	private Player player;
 	private boolean offhand;

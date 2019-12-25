@@ -14,9 +14,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Autobow extends MoarBow {
 	public Autobow() {
@@ -32,17 +32,17 @@ public class Autobow extends MoarBow {
 			int ti = 0;
 
 			public void run() {
-				if (ti++ > 20 * event.getForce() || !BowUtils.consumeAmmo(data.getSender(), new ItemStack(Material.ARROW))) {
+				if (ti++ > 20 * event.getForce() || !BowUtils.consumeAmmo(data.getShooter(), new ItemStack(Material.ARROW))) {
 					cancel();
 					return;
 				}
 
-				Location loc = data.getSender().getEyeLocation().clone();
+				Location loc = data.getShooter().getEyeLocation().clone();
 				loc.getWorld().spawnParticle(Particle.CRIT, loc, 6, .2, .2, .2, 0);
-				data.getSender().getWorld().playSound(data.getSender().getLocation(), Sound.ENTITY_ARROW_SHOOT, 1, 1.5f);
+				data.getShooter().getWorld().playSound(data.getShooter().getLocation(), Sound.ENTITY_ARROW_SHOOT, 1, 1.5f);
 				loc.setPitch(loc.getPitch() + random.nextInt(3) - 1);
 				loc.setYaw(loc.getYaw() + random.nextInt(3) - 1);
-				data.getSender().launchProjectile(Arrow.class).setVelocity(loc.getDirection().multiply(3.3 * event.getForce()));
+				data.getShooter().launchProjectile(Arrow.class).setVelocity(loc.getDirection().multiply(3.3 * event.getForce()));
 			}
 		}.runTaskTimer(MoarBows.plugin, 0, 2);
 		return false;

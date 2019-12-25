@@ -1,6 +1,6 @@
 package net.Indyuce.moarbows.api.modifier;
 
-import net.Indyuce.moarbows.api.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class IntegerModifier extends DoubleModifier {
 	public IntegerModifier(String path, LinearValue value) {

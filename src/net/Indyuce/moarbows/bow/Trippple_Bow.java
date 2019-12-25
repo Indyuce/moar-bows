@@ -11,9 +11,9 @@ import org.bukkit.inventory.ItemStack;
 
 import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Trippple_Bow extends MoarBow {
 	public Trippple_Bow() {
@@ -25,14 +25,14 @@ public class Trippple_Bow extends MoarBow {
 	@Override
 	public boolean canShoot(EntityShootBowEvent event, ArrowData data) {
 		event.setCancelled(true);
-		data.getSender().getWorld().playSound(data.getSender().getLocation(), Sound.ENTITY_ARROW_SHOOT, 2, 1);
-		Location loc = data.getSender().getLocation().add(0, 1.2, 0);
+		data.getShooter().getWorld().playSound(data.getShooter().getLocation(), Sound.ENTITY_ARROW_SHOOT, 2, 1);
+		Location loc = data.getShooter().getLocation().add(0, 1.2, 0);
 		for (int j = -1; j < 2; j++) {
-			if (!BowUtils.consumeAmmo(data.getSender(), new ItemStack(Material.ARROW)))
+			if (!BowUtils.consumeAmmo(data.getShooter(), new ItemStack(Material.ARROW)))
 				return false;
 
-			loc.setYaw(data.getSender().getLocation().getYaw() + j);
-			data.getSender().launchProjectile(Arrow.class).setVelocity(loc.getDirection().multiply(event.getForce() * 3.3));
+			loc.setYaw(data.getShooter().getLocation().getYaw() + j);
+			data.getShooter().launchProjectile(Arrow.class).setVelocity(loc.getDirection().multiply(event.getForce() * 3.3));
 		}
 		return true;
 	}

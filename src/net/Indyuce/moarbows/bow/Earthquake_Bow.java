@@ -13,9 +13,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Earthquake_Bow extends MoarBow {
 	public Earthquake_Bow() {

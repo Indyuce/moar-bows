@@ -16,9 +16,9 @@ import org.bukkit.util.Vector;
 import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Shadow_Bow extends MoarBow {
 	public Shadow_Bow() {
@@ -30,14 +30,14 @@ public class Shadow_Bow extends MoarBow {
 	@Override
 	public boolean canShoot(EntityShootBowEvent event, ArrowData data) {
 		event.setCancelled(true);
-		final double damage = data.getDouble("damage") * getPowerDamageMultiplier(data.getSource().getItem());
-		if (!BowUtils.consumeAmmo(data.getSender(), new ItemStack(Material.ARROW)))
+		final double damage = data.getDouble("damage") * BowUtils.getPowerDamageMultiplier(data.getSource().getItem());
+		if (!BowUtils.consumeAmmo(data.getShooter(), new ItemStack(Material.ARROW)))
 			return false;
 
 		new BukkitRunnable() {
-			Location loc = data.getSender().getEyeLocation();
+			Location loc = data.getShooter().getEyeLocation();
 			double ti = 0;
-			Vector v = data.getSender().getEyeLocation().getDirection().multiply(1.25);
+			Vector v = data.getShooter().getEyeLocation().getDirection().multiply(1.25);
 
 			public void run() {
 				for (double j = 0; j < 3; j++) {
@@ -46,7 +46,7 @@ public class Shadow_Bow extends MoarBow {
 					loc.getWorld().spawnParticle(Particle.SPELL_WITCH, loc, 8, .1, .1, .1, 0);
 					loc.getWorld().playSound(loc, Sound.ENTITY_ENDERMAN_HURT, 3, 2);
 					for (LivingEntity entity : loc.getWorld().getEntitiesByClass(LivingEntity.class))
-						if (BowUtils.canDmgEntity(data.getSender(), loc, entity)) {
+						if (BowUtils.canTarget(data.getShooter(), loc, entity)) {
 							new BukkitRunnable() {
 								final Location loc2 = entity.getLocation();
 								double y = 0;

@@ -8,8 +8,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
 import net.Indyuce.moarbows.MoarBows;
-import net.Indyuce.moarbows.api.Message;
 import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.api.util.Message;
 
 public class BowList extends PluginInventory {
 	public BowList(Player player) {

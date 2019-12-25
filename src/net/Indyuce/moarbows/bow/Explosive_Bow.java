@@ -8,9 +8,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Explosive_Bow extends MoarBow {
 	public Explosive_Bow() {
@@ -38,6 +38,6 @@ public class Explosive_Bow extends MoarBow {
 		data.getArrow().getWorld().playSound(data.getArrow().getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 3, 1);
 		for (Entity ent : data.getArrow().getNearbyEntities(5, 5, 5))
 			if (ent instanceof LivingEntity)
-				((LivingEntity) ent).damage(dmg, data.getSender());
+				((LivingEntity) ent).damage(dmg, data.getShooter());
 	}
 }

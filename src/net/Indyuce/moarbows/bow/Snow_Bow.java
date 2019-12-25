@@ -11,9 +11,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Snow_Bow extends MoarBow {
 	public Snow_Bow() {
@@ -32,10 +32,10 @@ public class Snow_Bow extends MoarBow {
 				if (ti++ > 20 * event.getForce())
 					cancel();
 
-				Location loc = data.getSender().getEyeLocation().clone();
+				Location loc = data.getShooter().getEyeLocation().clone();
 				loc.getWorld().spawnParticle(Particle.SNOWBALL, loc, 6, .2, .2, .2, 0);
-				data.getSender().getWorld().playSound(data.getSender().getLocation(), Sound.ENTITY_ARROW_SHOOT, 1, 1.5f);
-				Snowball snowball = data.getSender().launchProjectile(Snowball.class);
+				data.getShooter().getWorld().playSound(data.getShooter().getLocation(), Sound.ENTITY_ARROW_SHOOT, 1, 1.5f);
+				Snowball snowball = data.getShooter().launchProjectile(Snowball.class);
 				loc.setPitch(loc.getPitch() + random.nextInt(3) - 1);
 				loc.setYaw(loc.getYaw() + random.nextInt(3) - 1);
 				snowball.setVelocity(loc.getDirection().multiply(3.3 * event.getForce()));

@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.ConfigurationSection;
 
-import net.Indyuce.moarbows.api.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class DoubleModifier extends Modifier {
 	private LinearValue value;

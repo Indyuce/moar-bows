@@ -8,10 +8,10 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.api.SmallParticleEffect;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.SmallParticleEffect;
 
 public class Fire_Bow extends MoarBow {
 	public Fire_Bow() {

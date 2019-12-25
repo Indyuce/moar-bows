@@ -10,8 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import net.Indyuce.moarbows.MoarBows;
-import net.Indyuce.moarbows.api.Message;
 import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.api.util.Message;
 import net.Indyuce.moarbows.gui.BowList;
 
 public class MoarBowsCommand implements CommandExecutor {
@@ -57,15 +57,7 @@ public class MoarBowsCommand implements CommandExecutor {
 		}
 
 		if (args[0].equalsIgnoreCase("reload")) {
-
-			// reload config files
-			MoarBows.plugin.reloadConfig();
-			MoarBows.plugin.getLanguage().reloadConfigFiles();
-
-			// reload bows
-			for (MoarBow bow : MoarBows.plugin.getBowManager().getBows())
-				bow.update(MoarBows.plugin.getLanguage().getBows());
-
+			MoarBows.plugin.reloadPlugin();
 			sender.sendMessage(ChatColor.YELLOW + "Config files & bows reloaded.");
 		}
 

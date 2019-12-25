@@ -3,20 +3,30 @@ package net.Indyuce.moarbows.manager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import net.Indyuce.moarbows.MoarBows;
-import net.Indyuce.moarbows.api.ConfigData;
-import net.Indyuce.moarbows.api.Message;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.Modifier;
+import net.Indyuce.moarbows.api.util.ConfigData;
+import net.Indyuce.moarbows.api.util.Message;
 
 public class ConfigManager {
-	private FileConfiguration bows, language;
+
+	/*
+	 * cache message config TODO store inside a map
+	 */
+	private final ConfigData language;
+
+	/*
+	 * cache config options for easier access later
+	 */
+	public final boolean fullPullRestriction, arrowParticles, disableEnchant, disableRepair, unbreakable, hideUnbreakable, hideEnchants;
 
 	public ConfigManager() {
+
 		ConfigData bows = new ConfigData("bows");
 		for (MoarBow bow : MoarBows.plugin.getBowManager().getBows()) {
 			if (!bows.getConfig().contains(bow.getId()))
@@ -40,11 +50,17 @@ public class ConfigManager {
 				if (!section.contains(modifier.getPath()))
 					modifier.setup(section);
 
-			bow.update(bows.getConfig());
+			try {
+				// update all bows, very important
+				bow.update(bows.getConfig());
+
+			} catch (IllegalArgumentException exception) {
+				MoarBows.plugin.getLogger().log(Level.WARNING, "Could not load " + bow.getId() + ": " + exception.getMessage());
+			}
 		}
 		bows.save();
 
-		ConfigData language = new ConfigData("language");
+		language = new ConfigData("language");
 		for (Message message : Message.values()) {
 			String path = message.name().toLowerCase().replace("_", "-");
 			if (!language.getConfig().contains(path))
@@ -52,31 +68,17 @@ public class ConfigManager {
 		}
 		language.save();
 
-		reloadConfigFiles();
-	}
+		fullPullRestriction = MoarBows.plugin.getConfig().getBoolean("full-pull-restriction");
+		arrowParticles = MoarBows.plugin.getConfig().getBoolean("hand-particles.enabled");
+		disableEnchant = MoarBows.plugin.getConfig().getBoolean("disable.enchant");
+		disableRepair = MoarBows.plugin.getConfig().getBoolean("disable.repair");
 
-	public FileConfiguration getBows() {
-		return bows;
-	}
-
-	public double getDoubleValue(String path) {
-		return bows.getDouble(path);
-	}
-
-	public String getStringValue(String path) {
-		return bows.getString(path);
-	}
-
-	public boolean getBooleanValue(String path) {
-		return bows.getBoolean(path);
+		unbreakable = MoarBows.plugin.getConfig().getBoolean("bow-options.unbreakable");
+		hideUnbreakable = MoarBows.plugin.getConfig().getBoolean("bow-options.hide-unbreakable");
+		hideEnchants = MoarBows.plugin.getConfig().getBoolean("bow-options.hide-enchants");
 	}
 
 	public String getTranslation(String path) {
-		return language.getString(path);
-	}
-
-	public void reloadConfigFiles() {
-		bows = new ConfigData("bows").getConfig();
-		language = new ConfigData("language").getConfig();
+		return language.getConfig().getString(path);
 	}
 }

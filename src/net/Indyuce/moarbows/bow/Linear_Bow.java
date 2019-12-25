@@ -13,9 +13,9 @@ import org.bukkit.inventory.ItemStack;
 
 import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Linear_Bow extends MoarBow {
 	public Linear_Bow() {
@@ -26,23 +26,23 @@ public class Linear_Bow extends MoarBow {
 
 	@Override
 	public boolean canShoot(EntityShootBowEvent event, ArrowData data) {
-		double dmg = data.getDouble("damage") * getPowerDamageMultiplier(data.getSource().getItem());
-		if (!BowUtils.consumeAmmo(data.getSender(), new ItemStack(Material.ARROW)))
+		double dmg = data.getDouble("damage") * BowUtils.getPowerDamageMultiplier(data.getSource().getItem());
+		if (!BowUtils.consumeAmmo(data.getShooter(), new ItemStack(Material.ARROW)))
 			return false;
 
-		data.getSender().getWorld().playSound(data.getSender().getLocation(), Sound.ENTITY_ARROW_SHOOT, 2, 0);
+		data.getShooter().getWorld().playSound(data.getShooter().getLocation(), Sound.ENTITY_ARROW_SHOOT, 2, 0);
 		int range = (int) (56 * event.getForce());
-		Location loc = data.getSender().getEyeLocation();
+		Location loc = data.getShooter().getEyeLocation();
 		for (double j = 0; j < range; j++) {
-			loc.add(data.getSender().getEyeLocation().getDirection());
+			loc.add(data.getShooter().getEyeLocation().getDirection());
 			loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 0, new Particle.DustOptions(Color.GRAY, 2));
 			if (loc.getBlock().getType().isSolid())
 				break;
 
-			for (Entity entity : data.getSender().getNearbyEntities(30, 30, 30))
-				if (BowUtils.canDmgEntity(data.getSender(), loc, entity) && entity instanceof LivingEntity) {
+			for (Entity entity : data.getShooter().getNearbyEntities(30, 30, 30))
+				if (BowUtils.canTarget(data.getShooter(), loc, entity) && entity instanceof LivingEntity) {
 					event.setCancelled(true);
-					((LivingEntity) entity).damage(dmg, data.getSender());
+					((LivingEntity) entity).damage(dmg, data.getShooter());
 					loc.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, loc, 0);
 					break;
 				}

@@ -6,9 +6,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Railgun_Bow extends MoarBow {
 	public Railgun_Bow() {
@@ -19,7 +19,7 @@ public class Railgun_Bow extends MoarBow {
 
 	@Override
 	public boolean canShoot(EntityShootBowEvent event, ArrowData data) {
-		return data.getSender().getVehicle() != null && data.getSender().getVehicle().getType() == EntityType.MINECART;
+		return data.getShooter().getVehicle() != null && data.getShooter().getVehicle().getType() == EntityType.MINECART;
 	}
 
 	@Override

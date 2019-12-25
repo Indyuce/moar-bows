@@ -8,9 +8,9 @@ import org.bukkit.util.Vector;
 
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Gravity_Bow extends MoarBow {
 	public Gravity_Bow() {
@@ -30,7 +30,7 @@ public class Gravity_Bow extends MoarBow {
 		double ystatic = data.getDouble("y-static");
 		new BukkitRunnable() {
 			public void run() {
-				Vector v = data.getSender().getLocation().toVector().subtract(target.getLocation().toVector()).normalize();
+				Vector v = data.getShooter().getLocation().toVector().subtract(target.getLocation().toVector()).normalize();
 				v.setX(v.getX() * force);
 				v.setY(ystatic);
 				v.setZ(v.getZ() * force);

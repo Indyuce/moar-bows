@@ -14,9 +14,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.LinearValue;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Chicken_Bow extends MoarBow {
 	public Chicken_Bow() {
@@ -32,16 +32,16 @@ public class Chicken_Bow extends MoarBow {
 			int ti = 0;
 
 			public void run() {
-				if (ti++ > 20 * event.getForce() || !BowUtils.consumeAmmo(data.getSender(), new ItemStack(Material.EGG))) {
+				if (ti++ > 20 * event.getForce() || !BowUtils.consumeAmmo(data.getShooter(), new ItemStack(Material.EGG))) {
 					cancel();
 					return;
 				}
 
-				Location loc = data.getSender().getEyeLocation().clone();
+				Location loc = data.getShooter().getEyeLocation().clone();
 				loc.getWorld().spawnParticle(Particle.CRIT, loc, 6, .2, .2, .2, 0);
-				data.getSender().getWorld().playSound(data.getSender().getLocation(), Sound.ENTITY_EGG_THROW, 1, 1.5f);
+				data.getShooter().getWorld().playSound(data.getShooter().getLocation(), Sound.ENTITY_EGG_THROW, 1, 1.5f);
 
-				Egg egg = data.getSender().launchProjectile(Egg.class);
+				Egg egg = data.getShooter().launchProjectile(Egg.class);
 				loc.setPitch(loc.getPitch() + random.nextInt(3) - 1);
 				loc.setYaw(loc.getYaw() + random.nextInt(3) - 1);
 				egg.setVelocity(loc.getDirection().multiply(3.3 * event.getForce()));
