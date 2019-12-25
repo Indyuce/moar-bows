@@ -52,7 +52,7 @@ public class ConfigManager {
 
 			try {
 				// update all bows, very important
-				bow.update(bows.getConfig());
+				bow.update(bows.getConfig().getConfigurationSection(bow.getId()));
 
 			} catch (IllegalArgumentException exception) {
 				MoarBows.plugin.getLogger().log(Level.WARNING, "Could not load " + bow.getId() + ": " + exception.getMessage());
