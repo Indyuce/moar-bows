@@ -8,8 +8,8 @@ import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.ParticleData;
 
 public class ArrowParticles extends BukkitRunnable implements Listener {
-	private Arrow arrow;
-	private ParticleData particleData;
+	private final Arrow arrow;
+	private final ParticleData particleData;
 
 	private static final double n = 3;
 
