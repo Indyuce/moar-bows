@@ -10,8 +10,9 @@ import org.bukkit.inventory.ItemStack;
 import net.Indyuce.moarbows.MoarBows;
 
 public class PlayerData {
-	private Player player;
 	private final UUID uuid;
+
+	private Player player;
 
 	/*
 	 * used to check twice a second if the player changed the item he's been
@@ -34,19 +35,6 @@ public class PlayerData {
 	private PlayerData(Player player) {
 		this.player = player;
 		this.uuid = player.getUniqueId();
-	}
-
-	public static PlayerData get(Player player) {
-		return playerDatas.get(player.getUniqueId());
-	}
-
-	public static void setup(Player player) {
-		if (!playerDatas.containsKey(player.getUniqueId()))
-			playerDatas.put(player.getUniqueId(), new PlayerData(player));
-	}
-
-	public void setPlayer(Player player) {
-		this.player = player;
 	}
 
 	public UUID getUniqueId() {
@@ -97,5 +85,28 @@ public class PlayerData {
 
 	public void applyCooldown(MoarBow bow) {
 		cooldowns.put(bow.getId(), System.currentTimeMillis());
+	}
+
+	public static PlayerData get(Player player) {
+		return playerDatas.get(player.getUniqueId());
+	}
+
+	public static PlayerData setup(Player player) {
+
+		/*
+		 * creates player data if it does not exist
+		 */
+		if (!playerDatas.containsKey(player.getUniqueId())) {
+			PlayerData data = new PlayerData(player);
+			playerDatas.put(player.getUniqueId(), data);
+			return data;
+		}
+
+		/*
+		 * refreshes player if the data already exists
+		 */
+		PlayerData data = new PlayerData(player);
+		data.player = player;
+		return data;
 	}
 }

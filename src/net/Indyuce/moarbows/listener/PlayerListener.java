@@ -11,7 +11,6 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void a(PlayerJoinEvent event) {
 		PlayerData.setup(event.getPlayer());
-		PlayerData.get(event.getPlayer()).setPlayer(event.getPlayer());
 	}
 
 	@EventHandler
