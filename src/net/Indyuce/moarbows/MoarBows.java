@@ -130,6 +130,8 @@ public class MoarBows extends JavaPlugin {
 
 						recipe.setIngredient(c, material);
 					}
+					
+					Bukkit.addRecipe(recipe);
 				}
 	}
 
