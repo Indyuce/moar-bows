@@ -1,5 +1,8 @@
 package net.Indyuce.moarbows;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -65,14 +68,15 @@ public class BowUtils implements Listener {
 	public static ItemStack removeDisplayName(ItemStack item) {
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(null);
-		
+
 		ItemStack clone = item.clone();
 		clone.setItemMeta(meta);
 		return clone;
 	}
 
 	public static double getPowerDamageMultiplier(ItemStack item) {
-		return item == null || item.getType() == Material.AIR || !item.hasItemMeta() || !item.getItemMeta().hasEnchant(Enchantment.ARROW_DAMAGE) ? 1 : 1 + .25 * (item.getItemMeta().getEnchantLevel(Enchantment.ARROW_DAMAGE) + 1);
+		return item == null || item.getType() == Material.AIR || !item.hasItemMeta() || !item.getItemMeta().hasEnchant(Enchantment.ARROW_DAMAGE) ? 1
+				: 1 + .25 * (item.getItemMeta().getEnchantLevel(Enchantment.ARROW_DAMAGE) + 1);
 	}
 
 	public static boolean canTarget(LivingEntity shooter, Location loc, Entity target) {
@@ -80,7 +84,9 @@ public class BowUtils implements Listener {
 			return false;
 
 		BoundingBox box = target.getBoundingBox();
-		return (loc == null ? true : loc.getX() >= box.getMinX() - .5 && loc.getY() >= box.getMinY() - .5 && loc.getZ() >= box.getMinZ() - .5 && loc.getX() <= box.getMaxX() + .5 && loc.getY() <= box.getMaxY() + .5 && loc.getZ() <= box.getMaxZ() + .5) && !target.equals(shooter);
+		return (loc == null || (loc.getX() >= box.getMinX() - .5 && loc.getY() >= box.getMinY() - .5 && loc.getZ() >= box.getMinZ() - .5
+				&& loc.getX() <= box.getMaxX() + .5 && loc.getY() <= box.getMaxY() + .5 && loc.getZ() <= box.getMaxZ() + .5))
+				&& !target.equals(shooter);
 	}
 
 	public static double truncation(double x, int n) {
@@ -112,5 +118,33 @@ public class BowUtils implements Listener {
 		v = rotAxisX(v, pitch);
 		v = rotAxisY(v, -yaw);
 		return v;
+	}
+
+	/*
+	 * method to get all entities surrounding a location. this method does not
+	 * take every entity in the world but rather takes all the entities from the
+	 * 9 chunks around the entity, so even if the location is at the border of a
+	 * chunk (worst case border of 4 chunks), the entity will still be included
+	 */
+	public static List<Entity> getNearbyChunkEntities(Location loc) {
+
+		/*
+		 * another method to save performance is if an entity bounding box
+		 * calculation is made twice in the same tick then the method does not
+		 * need to be called twice, it can utilize the same entity list since
+		 * the entities have not moved (e.g fireball which does 2+ calculations
+		 * per tick)
+		 */
+		List<Entity> entities = new ArrayList<>();
+
+		int cx = loc.getChunk().getX();
+		int cz = loc.getChunk().getZ();
+
+		for (int x = -1; x < 2; x++)
+			for (int z = -1; z < 2; z++)
+				for (Entity entity : loc.getWorld().getChunkAt(cx + x, cz + z).getEntities())
+					entities.add(entity);
+
+		return entities;
 	}
 }
