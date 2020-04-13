@@ -10,14 +10,18 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 import net.Indyuce.moarbows.api.util.SmallParticleEffect;
 
 public class Fire_Bow extends MoarBow {
 	public Fire_Bow() {
-		super(new String[] { "Shoots burning arrows that cause a", "first burst upon landing, igniting", "any entity within &c{radius} &7blocks.", "Ignite duration: &c{ignite} &7seconds" }, 0, "flame", new String[] { "BLAZE_ROD,BLAZE_ROD,BLAZE_ROD", "BLAZE_ROD,BOW,BLAZE_ROD", "BLAZE_ROD,BLAZE_ROD,BLAZE_ROD" });
+		super(new String[] { "Shoots burning arrows that cause a", "first burst upon landing, igniting", "any entity within &c{radius} &7blocks.",
+				"Ignite duration: &c{ignite} &7seconds" }, new ParticleData(Particle.FLAME),
+				new String[] { "BLAZE_ROD,BLAZE_ROD,BLAZE_ROD", "BLAZE_ROD,BOW,BLAZE_ROD", "BLAZE_ROD,BLAZE_ROD,BLAZE_ROD" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("radius", new LinearValue(5, 1)), new DoubleModifier("ignite", new LinearValue(4, 2)), new DoubleModifier("max-burning-time", new LinearValue(8, 2)));
+		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("radius", new LinearValue(5, 1)),
+				new DoubleModifier("ignite", new LinearValue(4, 2)), new DoubleModifier("max-burning-time", new LinearValue(8, 2)));
 	}
 
 	@Override

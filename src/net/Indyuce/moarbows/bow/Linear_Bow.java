@@ -15,11 +15,14 @@ import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Linear_Bow extends MoarBow {
 	public Linear_Bow() {
-		super(new String[] { "Fires instant linear arrows", "that deals &c{damage} &7damage to", "the first entity it hits." }, 0, "redstone:90,90,255", new String[] { "FLINT,STICK,FLINT", "STICK,BOW,STICK", "FLINT,STICK,FLINT" });
+		super(new String[] { "Fires instant linear arrows", "that deals &c{damage} &7damage to", "the first entity it hits." },
+				new ParticleData(Particle.REDSTONE, Color.fromRGB(90, 90, 255)),
+				new String[] { "FLINT,STICK,FLINT", "STICK,BOW,STICK", "FLINT,STICK,FLINT" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("damage", new LinearValue(8, 3)));
 	}

@@ -17,13 +17,17 @@ import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Blaze_Bow extends MoarBow {
 	public Blaze_Bow() {
-		super(new String[] { "Shoots a long ranged firebolt that", "deals &c{damage} &7damage to the first entity it", "hits, igniting him for &c{duration} &7seconds." }, 0, "flame", new String[] { "MAGMA_CREAM,MAGMA_CREAM,MAGMA_CREAM", "MAGMA_CREAM,BOW,MAGMA_CREAM", "MAGMA_CREAM,MAGMA_CREAM,MAGMA_CREAM" });
+		super(new String[] { "Shoots a long ranged firebolt that", "deals &c{damage} &7damage to the first entity it",
+				"hits, igniting him for &c{duration} &7seconds." }, new ParticleData(Particle.FLAME),
+				new String[] { "MAGMA_CREAM,MAGMA_CREAM,MAGMA_CREAM", "MAGMA_CREAM,BOW,MAGMA_CREAM", "MAGMA_CREAM,MAGMA_CREAM,MAGMA_CREAM" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(10, -1, 3, 10)), new DoubleModifier("damage", new LinearValue(8, 2)), new DoubleModifier("duration", new LinearValue(4, .3)));
+		addModifier(new DoubleModifier("cooldown", new LinearValue(10, -1, 3, 10)), new DoubleModifier("damage", new LinearValue(8, 2)),
+				new DoubleModifier("duration", new LinearValue(4, .3)));
 	}
 
 	@Override
@@ -57,7 +61,8 @@ public class Blaze_Bow extends MoarBow {
 										y += .05;
 										for (int j = 0; j < 2; j++) {
 											double xz = y * Math.PI * .8 + (j * Math.PI);
-											loc.getWorld().spawnParticle(Particle.FLAME, loc2.clone().add(Math.cos(xz) * 1.3, y, Math.sin(xz) * 1.3), 0);
+											loc.getWorld().spawnParticle(Particle.FLAME, loc2.clone().add(Math.cos(xz) * 1.3, y, Math.sin(xz) * 1.3),
+													0);
 
 										}
 									}

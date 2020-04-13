@@ -15,13 +15,17 @@ import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Meteor_Bow extends MoarBow {
 	public Meteor_Bow() {
-		super(new String[] { "Shoots arrows that summon a fire", "comet upon landing, dealing damage", "and knockback to nearby entities." }, 0, "lava", new String[] { "FIRE_CHARGE,FIRE_CHARGE,FIRE_CHARGE", "FIRE_CHARGE,BOW,FIRE_CHARGE", "FIRE_CHARGE,FIRE_CHARGE,FIRE_CHARGE" });
+		super(new String[] { "Shoots arrows that summon a fire", "comet upon landing, dealing damage", "and knockback to nearby entities." },
+				new ParticleData(Particle.LAVA),
+				new String[] { "FIRE_CHARGE,FIRE_CHARGE,FIRE_CHARGE", "FIRE_CHARGE,BOW,FIRE_CHARGE", "FIRE_CHARGE,FIRE_CHARGE,FIRE_CHARGE" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(10, -1, 3, 10)), new DoubleModifier("damage", new LinearValue(8, 4)), new DoubleModifier("knockback", new LinearValue(1, 1.3)));
+		addModifier(new DoubleModifier("cooldown", new LinearValue(10, -1, 3, 10)), new DoubleModifier("damage", new LinearValue(8, 4)),
+				new DoubleModifier("knockback", new LinearValue(1, 1.3)));
 	}
 
 	@Override
@@ -42,7 +46,8 @@ public class Meteor_Bow extends MoarBow {
 		data.getArrow().getWorld().playSound(data.getArrow().getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 2, 1);
 		new BukkitRunnable() {
 			final Location loc = data.getArrow().getLocation();
-			final Location source = loc.clone().add(5 * Math.cos(random.nextDouble() * 2 * Math.PI), 20, 5 * Math.sin(random.nextDouble() * 2 * Math.PI));
+			final Location source = loc.clone().add(5 * Math.cos(random.nextDouble() * 2 * Math.PI), 20,
+					5 * Math.sin(random.nextDouble() * 2 * Math.PI));
 			final Vector vec = loc.subtract(source).toVector().multiply((double) 1 / 30);
 
 			int ti = 0;

@@ -14,13 +14,16 @@ public class ParticleData {
 
 	private static int amount = MoarBows.plugin.getConfig().getInt("hand-particles.amount");
 
-	/*
-	 * may only throw IllegalArgumentExceptions
-	 */
 	public ParticleData(String formatted) {
 		String[] split = formatted.split("\\:");
 		particle = Particle.valueOf(split[0].toUpperCase().replace("-", "_"));
-		color = split.length > 1 ? Color.fromRGB(Integer.parseInt((split = split[1].split("\\,"))[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2])) : null;
+		color = split.length > 1
+				? Color.fromRGB(Integer.parseInt((split = split[1].split("\\,"))[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2]))
+				: null;
+	}
+
+	public ParticleData(Particle particle) {
+		this(particle, null);
 	}
 
 	public ParticleData(Particle particle, Color color) {
@@ -31,7 +34,7 @@ public class ParticleData {
 	public boolean isColorable() {
 		return particle == Particle.SPELL_MOB || particle == Particle.SPELL_MOB_AMBIENT || particle == Particle.REDSTONE || particle == Particle.NOTE;
 	}
-	
+
 	public ParticleRunnable newRunnable(Player player, boolean offhand) {
 		return new ParticleRunnable(player, offhand);
 	}
@@ -41,6 +44,11 @@ public class ParticleData {
 			loc.getWorld().spawnParticle(particle, loc, 0, new Particle.DustOptions(color, 1));
 		else
 			loc.getWorld().spawnParticle(particle, loc, 0);
+	}
+
+	@Override
+	public String toString() {
+		return particle.name().toLowerCase() + (color != null ? ":" + color.getRed() + "," + color.getGreen() + "," + color.getBlue() : "");
 	}
 
 	public class ParticleRunnable extends BukkitRunnable {

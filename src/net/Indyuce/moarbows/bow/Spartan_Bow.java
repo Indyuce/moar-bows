@@ -1,5 +1,6 @@
 package net.Indyuce.moarbows.bow;
 
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
@@ -13,11 +14,14 @@ import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Spartan_Bow extends MoarBow {
 	public Spartan_Bow() {
-		super(new String[] { "Summons a flurry of arrows from", "the sky when hitting a target." }, 0,  "redstone:180,180,180", new String[] { "BOW,EMERALD,BOW", "EMERALD,BOW,EMERALD", "BOW,EMERALD,BOW" });
+		super(new String[] { "Summons a flurry of arrows from", "the sky when hitting a target." },
+				new ParticleData(Particle.REDSTONE, Color.fromRGB(180, 180, 180)),
+				new String[] { "BOW,EMERALD,BOW", "EMERALD,BOW,EMERALD", "BOW,EMERALD,BOW" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearValue(25, -3, 10, 25)), new DoubleModifier("duration", new LinearValue(1.5, .5)));
 	}
@@ -51,14 +55,17 @@ public class Spartan_Bow extends MoarBow {
 				Arrow arrow1 = (Arrow) sky.getWorld().spawnEntity(sky, EntityType.ARROW);
 				// arrow1.setColor(Color.BLACK);
 
-//				EntityShootBowEvent event = new EntityShootBowEvent(data.getSender(), new ItemStack(Material.BOW), arrow1, 1);
-//				MoarBows.plugin.getServer().getPluginManager().callEvent(event);
-//				if (event.isCancelled()) {
-//					arrow1.remove();
-//					return;
-//				}
+				// EntityShootBowEvent event = new
+				// EntityShootBowEvent(data.getSender(), new
+				// ItemStack(Material.BOW), arrow1, 1);
+				// MoarBows.plugin.getServer().getPluginManager().callEvent(event);
+				// if (event.isCancelled()) {
+				// arrow1.remove();
+				// return;
+				// }
 
-				arrow1.setVelocity(loc1.clone().add(8 * (random.nextDouble() - .5), 0, 8 * (random.nextDouble() - .5)).toVector().subtract(sky.toVector()).normalize());
+				arrow1.setVelocity(loc1.clone().add(8 * (random.nextDouble() - .5), 0, 8 * (random.nextDouble() - .5)).toVector()
+						.subtract(sky.toVector()).normalize());
 			}
 		}.runTaskTimer(MoarBows.plugin, 0, 3);
 	}

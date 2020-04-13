@@ -1,6 +1,7 @@
 package net.Indyuce.moarbows.bow;
 
 import org.bukkit.EntityEffect;
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -10,11 +11,13 @@ import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Shocking_Bow extends MoarBow {
 	public Shocking_Bow() {
-		super(new String[] { "Fires enchanted arrows", "that shock your targets." }, 0,  "smoke_normal", new String[] { "FLINT,FLINT,FLINT", "FLINT,BOW,FLINT", "FLINT,FLINT,FLINT" });
+		super(new String[] { "Fires enchanted arrows", "that shock your targets." }, new ParticleData(Particle.SMOKE_NORMAL),
+				new String[] { "FLINT,FLINT,FLINT", "FLINT,BOW,FLINT", "FLINT,FLINT,FLINT" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearValue(5, -1, 1, 5)), new DoubleModifier("duration", new LinearValue(2, 1)));
 	}

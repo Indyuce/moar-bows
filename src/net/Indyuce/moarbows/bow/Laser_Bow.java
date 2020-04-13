@@ -18,11 +18,14 @@ import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Laser_Bow extends MoarBow {
 	public Laser_Bow() {
-		super(new String[] { "Fires instant laser arrows", "that deals &c{damage} &7damage to", "every entity it hits." }, 0, "redstone:255,0,0", new String[] { "REDSTONE_BLOCK,REDSTONE_BLOCK,REDSTONE_BLOCK", "REDSTONE_BLOCK,BOW,REDSTONE_BLOCK", "REDSTONE_BLOCK,REDSTONE_BLOCK,REDSTONE_BLOCK" });
+		super(new String[] { "Fires instant laser arrows", "that deals &c{damage} &7damage to", "every entity it hits." },
+				new ParticleData(Particle.REDSTONE, Color.fromRGB(255, 0, 0)), new String[] { "REDSTONE_BLOCK,REDSTONE_BLOCK,REDSTONE_BLOCK",
+						"REDSTONE_BLOCK,BOW,REDSTONE_BLOCK", "REDSTONE_BLOCK,REDSTONE_BLOCK,REDSTONE_BLOCK" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("damage", new LinearValue(5, 3)));
 	}

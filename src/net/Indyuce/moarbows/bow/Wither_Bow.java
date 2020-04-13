@@ -1,6 +1,8 @@
 package net.Indyuce.moarbows.bow;
 
+import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.WitherSkull;
@@ -12,11 +14,14 @@ import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Wither_Bow extends MoarBow {
 	public Wither_Bow() {
-		super(new String[] { "Shoots an exploding wither skull." }, 0, "redstone:0,0,0", new String[] { "WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL", "WITHER_SKELETON_SKULL,BOW,WITHER_SKELETON_SKULL", "WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL" });
+		super(new String[] { "Shoots an exploding wither skull." }, new ParticleData(Particle.REDSTONE, Color.fromRGB(0, 0, 0)),
+				new String[] { "WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL", "WITHER_SKELETON_SKULL,BOW,WITHER_SKELETON_SKULL",
+						"WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearValue(4, -8., 2, 4)));
 	}

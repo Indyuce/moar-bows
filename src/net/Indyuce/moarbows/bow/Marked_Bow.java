@@ -22,15 +22,18 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.BooleanModifier;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Marked_Bow extends MoarBow implements Listener {
 	private static final Map<Integer, Mark> marked = new HashMap<>();
 
 	public Marked_Bow() {
-		super(new String[] { "Arrows mark players. Hitting a", "marked player deals &c{extra}% &7additional", "damage. Milk dispels the mark." }, 0,  "spell_witch", new String[] { "COAL,COAL,COAL", "COAL,BOW,COAL", "COAL,COAL,COAL" });
+		super(new String[] { "Arrows mark players. Hitting a", "marked player deals &c{extra}% &7additional", "damage. Milk dispels the mark." },
+				new ParticleData(Particle.SPELL_WITCH), new String[] { "COAL,COAL,COAL", "COAL,BOW,COAL", "COAL,COAL,COAL" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(10, -1, 3, 10)), new DoubleModifier("extra", new LinearValue(40, 20)), new DoubleModifier("duration", new LinearValue(6, 1)), new BooleanModifier("particles", true));
+		addModifier(new DoubleModifier("cooldown", new LinearValue(10, -1, 3, 10)), new DoubleModifier("extra", new LinearValue(40, 20)),
+				new DoubleModifier("duration", new LinearValue(6, 1)), new BooleanModifier("particles", true));
 	}
 
 	public static boolean isMarked(Entity entity) {
@@ -51,7 +54,7 @@ public class Marked_Bow extends MoarBow implements Listener {
 
 		if (isMarked(target))
 			return;
-		
+
 		playEffect(target.getLocation());
 		new Mark(target, data.getDouble("extra"), data.getDouble("duration"));
 		target.getWorld().playSound(target.getLocation(), Sound.ENTITY_ENDERMAN_HURT, 2, 1.5f);
@@ -71,7 +74,8 @@ public class Marked_Bow extends MoarBow implements Listener {
 				for (int j1 = 0; j1 < 3; j1++) {
 					y += .07;
 					for (int j = 0; j < 3; j++)
-						loc.getWorld().spawnParticle(Particle.REDSTONE, loc.clone().add(Math.cos(y * Math.PI + (j * Math.PI * 2 / 3)) * (3 - y) / 2.5, y, Math.sin(y * Math.PI + (j * Math.PI * 2 / 3)) * (3 - y) / 2.5), 0, new Particle.DustOptions(Color.BLACK, 1));
+						loc.getWorld().spawnParticle(Particle.REDSTONE, loc.clone().add(Math.cos(y * Math.PI + (j * Math.PI * 2 / 3)) * (3 - y) / 2.5,
+								y, Math.sin(y * Math.PI + (j * Math.PI * 2 / 3)) * (3 - y) / 2.5), 0, new Particle.DustOptions(Color.BLACK, 1));
 				}
 				if (y > 3)
 					cancel();

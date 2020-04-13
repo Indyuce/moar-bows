@@ -15,11 +15,13 @@ import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Pulsar_Bow extends MoarBow {
 	public Pulsar_Bow() {
-		super(new String[] { "Shoots arrows that summon a black", "hole that attracts nearby enemies." }, 0, "smoke_normal", new String[] { "AIR,WITHER_SKELETON_SKULL,AIR", "WITHER_SKELETON_SKULL,BOW,WITHER_SKELETON_SKULL", "AIR,WITHER_SKELETON_SKULL,AIR" });
+		super(new String[] { "Shoots arrows that summon a black", "hole that attracts nearby enemies." }, new ParticleData(Particle.SMOKE_NORMAL),
+				new String[] { "AIR,WITHER_SKELETON_SKULL,AIR", "WITHER_SKELETON_SKULL,BOW,WITHER_SKELETON_SKULL", "AIR,WITHER_SKELETON_SKULL,AIR" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearValue(10, -1, 3, 10)), new DoubleModifier("duration", new LinearValue(3, 1)));
 	}
@@ -60,7 +62,8 @@ public class Pulsar_Bow extends MoarBow {
 				for (Entity target : data.getArrow().getNearbyEntities(5, 5, 5))
 					if (target instanceof LivingEntity) {
 						target.playEffect(EntityEffect.HURT);
-						target.setVelocity(data.getArrow().getLocation().toVector().subtract(target.getLocation().toVector()).normalize().multiply(.5));
+						target.setVelocity(
+								data.getArrow().getLocation().toVector().subtract(target.getLocation().toVector()).normalize().multiply(.5));
 					}
 				if (ti > duration)
 					cancel();

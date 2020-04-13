@@ -12,11 +12,13 @@ import org.bukkit.potion.PotionEffectType;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Corrosive_Bow extends MoarBow {
 	public Corrosive_Bow() {
-		super(new String[] { "Arrows poison your targets and", "nearby entities for &c{duration} &7seconds." }, 0, "villager_happy", new String[] { "AIR,SLIME_BALL,AIR", "SLIME_BALL,BOW,SLIME_BALL", "AIR,SLIME_BALL,AIR" });
+		super(new String[] { "Arrows poison your targets and", "nearby entities for &c{duration} &7seconds." },
+				new ParticleData(Particle.VILLAGER_HAPPY), new String[] { "AIR,SLIME_BALL,AIR", "SLIME_BALL,BOW,SLIME_BALL", "AIR,SLIME_BALL,AIR" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("duration", new LinearValue(4, .2)));
 	}

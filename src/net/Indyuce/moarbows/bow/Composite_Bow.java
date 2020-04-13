@@ -1,5 +1,6 @@
 package net.Indyuce.moarbows.bow;
 
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -17,11 +18,13 @@ import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Composite_Bow extends MoarBow {
 	public Composite_Bow() {
-		super(new String[] { "Fires enchanted arrows that", "follow a linear trajectory.", "Deals &c{damage} &7damage." }, 0, "redstone:91,60,17", new String[] { "AIR,AIR,AIR", "BOW,NETHER_STAR,BOW", "AIR,AIR,AIR" });
+		super(new String[] { "Fires enchanted arrows that", "follow a linear trajectory.", "Deals &c{damage} &7damage." },
+				new ParticleData(Particle.REDSTONE, Color.fromRGB(91, 60, 17)), new String[] { "AIR,AIR,AIR", "BOW,NETHER_STAR,BOW", "AIR,AIR,AIR" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearValue(2, 0)), new DoubleModifier("damage", new LinearValue(8, 2)));
 	}

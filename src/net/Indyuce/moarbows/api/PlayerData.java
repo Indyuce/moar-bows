@@ -53,7 +53,7 @@ public class PlayerData {
 				mainparticles.cancel();
 			MoarBow mainbow = MoarBows.plugin.getBowManager().get(mainhand);
 			if (mainbow != null)
-				(mainparticles = mainbow.getParticleData().newRunnable(player, false)).runTaskTimer(MoarBows.plugin, 0, 4);
+				(mainparticles = mainbow.getParticles().newRunnable(player, false)).runTaskTimer(MoarBows.plugin, 0, 4);
 		}
 
 		if (offhand == null || !offhand.isSimilar(player.getInventory().getItemInOffHand())) {
@@ -62,7 +62,7 @@ public class PlayerData {
 				offparticles.cancel();
 			MoarBow offbow = MoarBows.plugin.getBowManager().get(offhand);
 			if (offbow != null)
-				(offparticles = offbow.getParticleData().newRunnable(player, true)).runTaskTimer(MoarBows.plugin, 0, 4);
+				(offparticles = offbow.getParticles().newRunnable(player, true)).runTaskTimer(MoarBows.plugin, 0, 4);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package net.Indyuce.moarbows.bow;
 
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -16,11 +17,13 @@ import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Chicken_Bow extends MoarBow {
 	public Chicken_Bow() {
-		super(new String[] { "Shoots a few eggs. The number", "depends on the bow pull force." }, 0, "redstone:240,230,140", new String[] { "EGG,EGG,EGG", "EGG,BOW,EGG", "EGG,EGG,EGG" });
+		super(new String[] { "Shoots a few eggs. The number", "depends on the bow pull force." },
+				new ParticleData(Particle.REDSTONE, Color.fromRGB(240, 230, 140)), new String[] { "EGG,EGG,EGG", "EGG,BOW,EGG", "EGG,EGG,EGG" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearValue(3, 0)));
 	}

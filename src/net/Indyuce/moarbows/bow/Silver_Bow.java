@@ -1,6 +1,7 @@
 package net.Indyuce.moarbows.bow;
 
 import org.bukkit.Effect;
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -9,13 +10,16 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Silver_Bow extends MoarBow {
 	public Silver_Bow() {
-		super(new String[] { "Arrows deal &c{extra}% &7additional damage." }, 0, "crit", new String[] { "IRON_INGOT,IRON_INGOT,IRON_INGOT", "IRON_INGOT,BOW,IRON_INGOT", "IRON_INGOT,IRON_INGOT,IRON_INGOT" });
+		super(new String[] { "Arrows deal &c{extra}% &7additional damage." }, new ParticleData(Particle.CRIT),
+				new String[] { "IRON_INGOT,IRON_INGOT,IRON_INGOT", "IRON_INGOT,BOW,IRON_INGOT", "IRON_INGOT,IRON_INGOT,IRON_INGOT" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("extra", new LinearValue(40, 30)), new DoubleModifier("block-effect-id", new LinearValue(12, 0)));
+		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("extra", new LinearValue(40, 30)),
+				new DoubleModifier("block-effect-id", new LinearValue(12, 0)));
 	}
 
 	@Override

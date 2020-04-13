@@ -1,6 +1,8 @@
 package net.Indyuce.moarbows.bow;
 
+import org.bukkit.Color;
 import org.bukkit.Effect;
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
@@ -10,11 +12,14 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Hunter_Bow extends MoarBow {
 	public Hunter_Bow() {
-		super(new String[] { "Arrows deal &c{extra}% &7additional", "damage to friendly mobs." }, 0, "redstone:255,0,0", new String[] { "CHICKEN,BEEF,CHICKEN", "BEEF,BOW,BEEF", "CHICKEN,BEEF,CHICKEN" });
+		super(new String[] { "Arrows deal &c{extra}% &7additional", "damage to friendly mobs." },
+				new ParticleData(Particle.REDSTONE, Color.fromRGB(255, 0, 0)),
+				new String[] { "CHICKEN,BEEF,CHICKEN", "BEEF,BOW,BEEF", "CHICKEN,BEEF,CHICKEN" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("extra", new LinearValue(75, 25)));
 	}

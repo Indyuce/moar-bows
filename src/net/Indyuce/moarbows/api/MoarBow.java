@@ -31,33 +31,30 @@ public abstract class MoarBow {
 	private final String id;
 	private final Map<String, Modifier> mods = new HashMap<>();
 
-	private String name, formattedParticleData;
+	private String name;
 	private String[] lore, craft;
 	private int data;
-	private ParticleData particleData;
+	private ParticleData particles;
 	private boolean craftEnabled;
 
 	protected static final Random random = new Random();
 
-	public MoarBow(String[] lore, int durability, String particleEffect, String[] craft) {
+	public MoarBow(String[] lore, ParticleData particles, String[] craft) {
 		this.id = getClass().getSimpleName().toUpperCase();
 		this.name = "&f" + getClass().getSimpleName().replace("_", " ");
 
 		this.lore = lore;
-		this.data = (short) durability;
-		this.formattedParticleData = particleEffect;
-		this.particleData = new ParticleData(particleEffect);
+		this.particles = particles;
 		this.craft = craft;
 	}
 
-	public MoarBow(String id, String name, String[] lore, int durability, String particleEffect, String[] craft) {
+	public MoarBow(String id, String name, String[] lore, int data, ParticleData particles, String[] craft) {
 		this.id = id;
 		this.name = name;
 
 		this.lore = lore;
-		this.data = (short) durability;
-		this.formattedParticleData = particleEffect;
-		this.particleData = new ParticleData(particleEffect);
+		this.data = data;
+		this.particles = particles;
 		this.craft = craft;
 		this.craftEnabled = false;
 	}
@@ -137,18 +134,14 @@ public abstract class MoarBow {
 		return craftEnabled;
 	}
 
-	public String getFormattedParticleData() {
-		return formattedParticleData;
-	}
-
-	public ParticleData getParticleData() {
-		return particleData;
+	public ParticleData getParticles() {
+		return particles;
 	}
 
 	public void update(ConfigurationSection config) {
 		name = config.getString("name");
 		lore = config.getStringList("lore").toArray(new String[0]);
-		particleData = new ParticleData(config.getString("eff"));
+		particles = new ParticleData(config.getString("eff"));
 		craft = config.getStringList("craft").toArray(new String[0]);
 		data = (short) config.getInt("durability");
 		craftEnabled = config.getBoolean("craft-enabled");
@@ -195,7 +188,9 @@ public abstract class MoarBow {
 		Modifier modifier;
 		while (str.contains("{") && str.substring(str.indexOf("{")).contains("}")) {
 			String holder = str.substring(str.indexOf("{") + 1, str.indexOf("}")).replace("_", "-");
-			str = str.replace("{" + holder + "}", hasModifier(holder) && (modifier = getModifier(holder)) instanceof DoubleModifier ? ((DoubleModifier) modifier).getDisplay(x) : "PHE");
+			str = str.replace("{" + holder + "}",
+					hasModifier(holder) && (modifier = getModifier(holder)) instanceof DoubleModifier ? ((DoubleModifier) modifier).getDisplay(x)
+							: "PHE");
 		}
 
 		return ChatColor.translateAlternateColorCodes('&', str);

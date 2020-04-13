@@ -40,7 +40,7 @@ public class ConfigManager {
 			}
 
 			String[] paths = { "name", "lore", "durability", "craft-enabled", "craft", "eff" };
-			Object[] values = { bow.getUncoloredName(), lore, bow.getData(), bow.getFormattedCraftingRecipe().length > 0, Arrays.asList(bow.getFormattedCraftingRecipe()), bow.getFormattedParticleData() };
+			Object[] values = { bow.getUncoloredName(), lore, bow.getData(), bow.getFormattedCraftingRecipe().length > 0, Arrays.asList(bow.getFormattedCraftingRecipe()), bow.getParticles().toString() };
 			ConfigurationSection section = bows.getConfig().getConfigurationSection(bow.getId());
 			for (int j = 0; j < paths.length; j++)
 				if (!section.contains(paths[j]))

@@ -12,13 +12,16 @@ import org.bukkit.potion.PotionEffectType;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Ice_Bow extends MoarBow {
 	public Ice_Bow() {
-		super(new String[] { "Shoots ice arrows that cause an ice", "explosion upon landing, temporarily", "slowing every nearby entity." }, 0, "snow_shovel", new String[] { "ICE,ICE,ICE", "ICE,BOW,ICE", "ICE,ICE,ICE" });
+		super(new String[] { "Shoots ice arrows that cause an ice", "explosion upon landing, temporarily", "slowing every nearby entity." },
+				new ParticleData(Particle.SNOW_SHOVEL), new String[] { "ICE,ICE,ICE", "ICE,BOW,ICE", "ICE,ICE,ICE" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("amplifier", new LinearValue(2, .4)), new DoubleModifier("duration", new LinearValue(5, 1)));
+		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("amplifier", new LinearValue(2, .4)),
+				new DoubleModifier("duration", new LinearValue(5, 1)));
 	}
 
 	@Override

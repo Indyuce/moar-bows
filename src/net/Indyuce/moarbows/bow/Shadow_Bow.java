@@ -18,11 +18,14 @@ import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Shadow_Bow extends MoarBow {
 	public Shadow_Bow() {
-		super(new String[] { "Shoots a long ranged linear", "cursed arrow that deals &c{damage}", "damage tothe first entity it hits." }, 0, "redstone:128,0,128", new String[] { "ENDER_EYE,ENDER_EYE,ENDER_EYE", "ENDER_EYE,BOW,ENDER_EYE", "ENDER_EYE,ENDER_EYE,ENDER_EYE" });
+		super(new String[] { "Shoots a long ranged linear", "cursed arrow that deals &c{damage}", "damage tothe first entity it hits." },
+				new ParticleData(Particle.REDSTONE, Color.fromRGB(128, 0, 128)),
+				new String[] { "ENDER_EYE,ENDER_EYE,ENDER_EYE", "ENDER_EYE,BOW,ENDER_EYE", "ENDER_EYE,ENDER_EYE,ENDER_EYE" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearValue(10, -1, 3, 10)), new DoubleModifier("damage", new LinearValue(8, 4)));
 	}
@@ -56,7 +59,9 @@ public class Shadow_Bow extends MoarBow {
 										y += .05;
 										for (int j = 0; j < 2; j++) {
 											double xz = y * Math.PI * .8 + (j * Math.PI);
-											loc.getWorld().spawnParticle(Particle.REDSTONE, loc2.clone().add(Math.cos(xz) * 1.3, y, Math.sin(xz) * 1.3), 0, new Particle.DustOptions(Color.PURPLE, 1));
+											loc.getWorld().spawnParticle(Particle.REDSTONE,
+													loc2.clone().add(Math.cos(xz) * 1.3, y, Math.sin(xz) * 1.3), 0,
+													new Particle.DustOptions(Color.PURPLE, 1));
 										}
 									}
 									if (y >= 2.5) {

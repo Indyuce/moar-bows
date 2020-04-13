@@ -1,5 +1,6 @@
 package net.Indyuce.moarbows.bow;
 
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -10,13 +11,16 @@ import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Gravity_Bow extends MoarBow {
 	public Gravity_Bow() {
-		super(new String[] { "Shoots arrows that attract", "your target to yourself." }, 0, "spell_instant", new String[] { "AIR,FISHING_ROD,AIR", "AIR,BOW,AIR", "AIR,AIR,AIR" });
+		super(new String[] { "Shoots arrows that attract", "your target to yourself." }, new ParticleData(Particle.SPELL_INSTANT),
+				new String[] { "AIR,FISHING_ROD,AIR", "AIR,BOW,AIR", "AIR,AIR,AIR" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("force", new LinearValue(2.5, .5)), new DoubleModifier("y-static", new LinearValue(.3, .05)));
+		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("force", new LinearValue(2.5, .5)),
+				new DoubleModifier("y-static", new LinearValue(.3, .05)));
 	}
 
 	@Override

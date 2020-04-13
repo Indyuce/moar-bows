@@ -13,7 +13,7 @@ public class ArrowParticles extends BukkitRunnable implements Listener {
 	private static final double n = 3;
 
 	public ArrowParticles(MoarBow bow, Arrow arrow) {
-		this.particleData = bow.getParticleData();
+		this.particleData = bow.getParticles();
 		this.arrow = arrow;
 	}
 

@@ -10,11 +10,13 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
 import net.Indyuce.moarbows.api.util.LinearValue;
 
 public class Explosive_Bow extends MoarBow {
 	public Explosive_Bow() {
-		super(new String[] { "Arrows explode when landing, deal", "&c{damage} &7damage to nearby entities." }, 0, "explosion_normal", new String[] { "TNT,TNT,TNT", "TNT,BOW,TNT", "TNT,TNT,TNT" });
+		super(new String[] { "Arrows explode when landing, deal", "&c{damage} &7damage to nearby entities." },
+				new ParticleData(Particle.EXPLOSION_NORMAL), new String[] { "TNT,TNT,TNT", "TNT,BOW,TNT", "TNT,TNT,TNT" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("damage", new LinearValue(8, 4)));
 	}
