@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -98,40 +99,26 @@ public class MoarBows extends JavaPlugin {
 
 		// crafting recipes
 		if (!getConfig().getBoolean("disable-bow-craftings"))
-			bowLoop: for (MoarBow bow : bowManager.getBows())
-				if (bow.isCraftEnabled()) {
-					ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(MoarBows.plugin, "MoarBows_" + bow.getId()), bow.getItem(1));
-					recipe.shape(new String[] { "ABC", "DEF", "GHI" });
-					char[] chars = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' };
-					List<String> list = Arrays.asList(bow.getFormattedCraftingRecipe());
-					for (int j = 0; j < 9; j++) {
-						char c = chars[j];
-						if (list.size() != 3) {
-							getLogger().log(Level.WARNING, "Couldn't register the recipe of " + bow.getId() + " (format error)");
-							continue bowLoop;
+			for (MoarBow bow : bowManager.getBows())
+				if (bow.isCraftEnabled())
+					try {
+						ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(MoarBows.plugin, "MoarBows_" + bow.getId()), bow.getItem(1));
+						recipe.shape(new String[] { "ABC", "DEF", "GHI" });
+						char[] chars = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' };
+						List<String> list = Arrays.asList(bow.getFormattedCraftingRecipe());
+						Validate.isTrue(list.size() == 3, "Crafting recipe must have 3 lines");
+
+						for (int i = 0; i < 3; i++) {
+							List<String> line = Arrays.asList(list.get(i).split("\\,"));
+							Validate.isTrue(line.size() == 3, "Line n" + (i + 1) + " does not have 3 elements");
+							for (int j = 0; j < 3; j++)
+								recipe.setIngredient(chars[i * 3 + j], Material.valueOf(line.get(j).replace("-", "_").toUpperCase()));
 						}
 
-						List<String> line = Arrays.asList(list.get(j / 3).split("\\,"));
-						if (line.size() < 3) {
-							getLogger().log(Level.WARNING, "Couldn't register the recipe of " + bow.getId() + " (format error)");
-							continue bowLoop;
-						}
-
-						String s = line.get(j % 3);
-						Material material = null;
-						try {
-							material = Material.valueOf(s.replace("-", "_").toUpperCase());
-						} catch (Exception e1) {
-							getLogger().log(Level.WARNING,
-									"Couldn't register the recipe of " + bow.getId() + " (" + s.split("\\:")[0] + " is not a valid material)");
-							continue bowLoop;
-						}
-
-						recipe.setIngredient(c, material);
+						Bukkit.addRecipe(recipe);
+					} catch (IllegalArgumentException exception) {
+						getLogger().log(Level.WARNING, "Could not register recipe of '" + bow.getId() + "': " + exception.getMessage());
 					}
-
-					Bukkit.addRecipe(recipe);
-				}
 	}
 
 	public BowManager getBowManager() {
