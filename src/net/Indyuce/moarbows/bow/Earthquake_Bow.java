@@ -17,7 +17,7 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Earthquake_Bow extends MoarBow {
 	public Earthquake_Bow() {
@@ -25,8 +25,8 @@ public class Earthquake_Bow extends MoarBow {
 				"Knock-up Force: &c{knockup}" }, new ParticleData(Particle.REDSTONE, Color.fromRGB(128, 0, 0)),
 				new String[] { "DIRT,DIRT,DIRT", "DIRT,BOW,DIRT", "DIRT,DIRT,DIRT" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(10, -1, 3, 10)), new DoubleModifier("knockup", new LinearValue(1, .5)),
-				new DoubleModifier("radius", new LinearValue(5, .2)));
+		addModifier(new DoubleModifier("cooldown", new LinearFormula(10, -1, 3, 10)), new DoubleModifier("knockup", new LinearFormula(1, .5)),
+				new DoubleModifier("radius", new LinearFormula(5, .2)));
 	}
 
 	@Override

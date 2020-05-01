@@ -17,7 +17,7 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Corona_Bow extends MoarBow {
 	public Corona_Bow() {
@@ -26,8 +26,8 @@ public class Corona_Bow extends MoarBow {
 				new ParticleData(Particle.REDSTONE, Color.fromRGB(0, 255, 0)),
 				new String[] { "SLIME_BALL,SLIME_BALL,SLIME_BALL", "SLIME_BALL,BOW,SLIME_BALL", "SLIME_BALL,SLIME_BALL,SLIME_BALL" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(10, 0)), new DoubleModifier("radius", new LinearValue(5, 1)),
-				new DoubleModifier("damage", new LinearValue(2, 1)), new DoubleModifier("duration", new LinearValue(5, 1)));
+		addModifier(new DoubleModifier("cooldown", new LinearFormula(10, 0)), new DoubleModifier("radius", new LinearFormula(5, 1)),
+				new DoubleModifier("damage", new LinearFormula(2, 1)), new DoubleModifier("duration", new LinearFormula(5, 1)));
 	}
 
 	@Override

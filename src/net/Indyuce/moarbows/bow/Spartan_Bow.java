@@ -15,7 +15,7 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Spartan_Bow extends MoarBow {
 	public Spartan_Bow() {
@@ -23,7 +23,7 @@ public class Spartan_Bow extends MoarBow {
 				new ParticleData(Particle.REDSTONE, Color.fromRGB(180, 180, 180)),
 				new String[] { "BOW,EMERALD,BOW", "EMERALD,BOW,EMERALD", "BOW,EMERALD,BOW" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(25, -3, 10, 25)), new DoubleModifier("duration", new LinearValue(1.5, .5)));
+		addModifier(new DoubleModifier("cooldown", new LinearFormula(25, -3, 10, 25)), new DoubleModifier("duration", new LinearFormula(1.5, .5)));
 	}
 
 	@Override

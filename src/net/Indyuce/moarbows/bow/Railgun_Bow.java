@@ -10,14 +10,14 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Railgun_Bow extends MoarBow {
 	public Railgun_Bow() {
 		super(new String[] { "Only works in minecarts. Arrows ", "explode upon landing, causing", "a powerful explosion." },
 				new ParticleData(Particle.VILLAGER_ANGRY), new String[] { "TNT,RAIL,TNT", "RAIL,BOW,RAIL", "TNT,RAIL,TNT" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(8, -1, 3, 8)), new DoubleModifier("radius", new LinearValue(5, 1)));
+		addModifier(new DoubleModifier("cooldown", new LinearFormula(8, -1, 3, 8)), new DoubleModifier("radius", new LinearFormula(5, 1)));
 	}
 
 	@Override

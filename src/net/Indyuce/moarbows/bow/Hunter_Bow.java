@@ -13,7 +13,7 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Hunter_Bow extends MoarBow {
 	public Hunter_Bow() {
@@ -21,7 +21,7 @@ public class Hunter_Bow extends MoarBow {
 				new ParticleData(Particle.REDSTONE, Color.fromRGB(255, 0, 0)),
 				new String[] { "CHICKEN,BEEF,CHICKEN", "BEEF,BOW,BEEF", "CHICKEN,BEEF,CHICKEN" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("extra", new LinearValue(75, 25)));
+		addModifier(new DoubleModifier("cooldown", new LinearFormula(0, 0)), new DoubleModifier("extra", new LinearFormula(75, 25)));
 	}
 
 	@Override

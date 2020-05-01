@@ -14,14 +14,14 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Snow_Bow extends MoarBow {
 	public Snow_Bow() {
 		super(new String[] { "Shoots a few snowballs.", "The number depends on", "the bow pull force." }, new ParticleData(Particle.SNOW_SHOVEL),
 				new String[] { "SNOW_BLOCK,SNOW_BLOCK,SNOW_BLOCK", "SNOW_BLOCK,BOW,SNOW_BLOCK", "SNOW_BLOCK,SNOW_BLOCK,SNOW_BLOCK" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(2, 0)));
+		addModifier(new DoubleModifier("cooldown", new LinearFormula(2, 0)));
 	}
 
 	@Override

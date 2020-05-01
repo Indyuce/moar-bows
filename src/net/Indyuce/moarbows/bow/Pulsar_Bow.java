@@ -16,14 +16,14 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Pulsar_Bow extends MoarBow {
 	public Pulsar_Bow() {
 		super(new String[] { "Shoots arrows that summon a black", "hole that attracts nearby enemies." }, new ParticleData(Particle.SMOKE_NORMAL),
 				new String[] { "AIR,WITHER_SKELETON_SKULL,AIR", "WITHER_SKELETON_SKULL,BOW,WITHER_SKELETON_SKULL", "AIR,WITHER_SKELETON_SKULL,AIR" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(10, -1, 3, 10)), new DoubleModifier("duration", new LinearValue(3, 1)));
+		addModifier(new DoubleModifier("cooldown", new LinearFormula(10, -1, 3, 10)), new DoubleModifier("duration", new LinearFormula(3, 1)));
 	}
 
 	@Override

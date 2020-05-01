@@ -23,7 +23,7 @@ import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.BooleanModifier;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Marked_Bow extends MoarBow implements Listener {
 	private static final Map<Integer, Mark> marked = new HashMap<>();
@@ -32,8 +32,8 @@ public class Marked_Bow extends MoarBow implements Listener {
 		super(new String[] { "Arrows mark players. Hitting a", "marked player deals &c{extra}% &7additional", "damage. Milk dispels the mark." },
 				new ParticleData(Particle.SPELL_WITCH), new String[] { "COAL,COAL,COAL", "COAL,BOW,COAL", "COAL,COAL,COAL" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(10, -1, 3, 10)), new DoubleModifier("extra", new LinearValue(40, 20)),
-				new DoubleModifier("duration", new LinearValue(6, 1)), new BooleanModifier("particles", true));
+		addModifier(new DoubleModifier("cooldown", new LinearFormula(10, -1, 3, 10)), new DoubleModifier("extra", new LinearFormula(40, 20)),
+				new DoubleModifier("duration", new LinearFormula(6, 1)), new BooleanModifier("particles", true));
 	}
 
 	public static boolean isMarked(Entity entity) {

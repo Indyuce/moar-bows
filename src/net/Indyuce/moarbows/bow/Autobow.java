@@ -17,14 +17,14 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Autobow extends MoarBow {
 	public Autobow() {
 		super(new String[] { "Shoots a flurry of &c{arrows} &7arrows.", "The number depends on the", "bow pull force." },
 				new ParticleData(Particle.CRIT), new String[] { "BOW,BOW,BOW", "BOW,NETHER_STAR,BOW", "BOW,BOW,BOW" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(8, -1, 3, 8)), new DoubleModifier("arrows", new LinearValue(8, -1, 3, 8)));
+		addModifier(new DoubleModifier("cooldown", new LinearFormula(8, -1, 3, 8)), new DoubleModifier("arrows", new LinearFormula(8, -1, 3, 8)));
 	}
 
 	@Override

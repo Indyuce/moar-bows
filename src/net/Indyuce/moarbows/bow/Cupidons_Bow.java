@@ -12,7 +12,7 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Cupidons_Bow extends MoarBow {
 	public Cupidons_Bow() {
@@ -23,7 +23,7 @@ public class Cupidons_Bow extends MoarBow {
 						"GLISTERING_MELON_SLICE,BOW,GLISTERING_MELON_SLICE",
 						"GLISTERING_MELON_SLICE,GLISTERING_MELON_SLICE,GLISTERING_MELON_SLICE" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("heal", new LinearValue(4, 3)));
+		addModifier(new DoubleModifier("cooldown", new LinearFormula(0, 0)), new DoubleModifier("heal", new LinearFormula(4, 3)));
 	}
 
 	@Override

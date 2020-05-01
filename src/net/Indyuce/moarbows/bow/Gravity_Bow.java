@@ -12,15 +12,15 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Gravity_Bow extends MoarBow {
 	public Gravity_Bow() {
 		super(new String[] { "Shoots arrows that attract", "your target to yourself." }, new ParticleData(Particle.SPELL_INSTANT),
 				new String[] { "AIR,FISHING_ROD,AIR", "AIR,BOW,AIR", "AIR,AIR,AIR" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(0, 0)), new DoubleModifier("force", new LinearValue(2.5, .5)),
-				new DoubleModifier("y-static", new LinearValue(.3, .05)));
+		addModifier(new DoubleModifier("cooldown", new LinearFormula(0, 0)), new DoubleModifier("force", new LinearFormula(2.5, .5)),
+				new DoubleModifier("y-static", new LinearFormula(.3, .05)));
 	}
 
 	@Override

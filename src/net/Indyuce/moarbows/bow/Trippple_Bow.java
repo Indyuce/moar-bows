@@ -16,14 +16,14 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Trippple_Bow extends MoarBow {
 	public Trippple_Bow() {
 		super(new String[] { "Shoots 3 arrows at a time." }, new ParticleData(Particle.REDSTONE, Color.fromRGB(255, 255, 255)),
 				new String[] { "AIR,AIR,AIR", "BOW,BOW,BOW", "AIR,AIR,AIR" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(2.5, 0)));
+		addModifier(new DoubleModifier("cooldown", new LinearFormula(2.5, 0)));
 	}
 
 	@Override

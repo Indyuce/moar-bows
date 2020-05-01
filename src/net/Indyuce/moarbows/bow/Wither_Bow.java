@@ -15,7 +15,7 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Wither_Bow extends MoarBow {
 	public Wither_Bow() {
@@ -23,7 +23,7 @@ public class Wither_Bow extends MoarBow {
 				new String[] { "WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL", "WITHER_SKELETON_SKULL,BOW,WITHER_SKELETON_SKULL",
 						"WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(4, -8., 2, 4)));
+		addModifier(new DoubleModifier("cooldown", new LinearFormula(4, -8., 2, 4)));
 	}
 
 	@Override

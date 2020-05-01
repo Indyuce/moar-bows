@@ -1,9 +1,9 @@
 package net.Indyuce.moarbows.api.modifier;
 
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class IntegerModifier extends DoubleModifier {
-	public IntegerModifier(String path, LinearValue value) {
+	public IntegerModifier(String path, LinearFormula value) {
 		super(path, value);
 	}
 

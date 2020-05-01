@@ -18,7 +18,7 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Blaze_Bow extends MoarBow {
 	public Blaze_Bow() {
@@ -26,8 +26,8 @@ public class Blaze_Bow extends MoarBow {
 				"hits, igniting him for &c{duration} &7seconds." }, new ParticleData(Particle.FLAME),
 				new String[] { "MAGMA_CREAM,MAGMA_CREAM,MAGMA_CREAM", "MAGMA_CREAM,BOW,MAGMA_CREAM", "MAGMA_CREAM,MAGMA_CREAM,MAGMA_CREAM" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(10, -1, 3, 10)), new DoubleModifier("damage", new LinearValue(8, 2)),
-				new DoubleModifier("duration", new LinearValue(4, .3)));
+		addModifier(new DoubleModifier("cooldown", new LinearFormula(10, -1, 3, 10)), new DoubleModifier("damage", new LinearFormula(8, 2)),
+				new DoubleModifier("duration", new LinearFormula(4, .3)));
 	}
 
 	@Override

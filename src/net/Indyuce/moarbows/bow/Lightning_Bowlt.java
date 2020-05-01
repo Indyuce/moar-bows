@@ -9,14 +9,14 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Lightning_Bowlt extends MoarBow {
 	public Lightning_Bowlt() {
 		super("LIGHTNING_BOWLT", "&fLightning Bow'lt", new String[] { "Shoots arrows that summon", "lightning upon landing." }, 0,
 				new ParticleData(Particle.FIREWORKS_SPARK), new String[] { "AIR,BEACON,AIR", "AIR,BOW,AIR", "AIR,AIR,AIR" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(10, -1, 3, 10)));
+		addModifier(new DoubleModifier("cooldown", new LinearFormula(10, -1, 3, 10)));
 	}
 
 	@Override

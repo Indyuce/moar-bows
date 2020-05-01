@@ -16,7 +16,7 @@ import net.Indyuce.moarbows.api.ArrowData;
 import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearValue;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Meteor_Bow extends MoarBow {
 	public Meteor_Bow() {
@@ -24,8 +24,8 @@ public class Meteor_Bow extends MoarBow {
 				new ParticleData(Particle.LAVA),
 				new String[] { "FIRE_CHARGE,FIRE_CHARGE,FIRE_CHARGE", "FIRE_CHARGE,BOW,FIRE_CHARGE", "FIRE_CHARGE,FIRE_CHARGE,FIRE_CHARGE" });
 
-		addModifier(new DoubleModifier("cooldown", new LinearValue(10, -1, 3, 10)), new DoubleModifier("damage", new LinearValue(8, 4)),
-				new DoubleModifier("knockback", new LinearValue(1, 1.3)));
+		addModifier(new DoubleModifier("cooldown", new LinearFormula(10, -1, 3, 10)), new DoubleModifier("damage", new LinearFormula(8, 4)),
+				new DoubleModifier("knockback", new LinearFormula(1, 1.3)));
 	}
 
 	@Override
