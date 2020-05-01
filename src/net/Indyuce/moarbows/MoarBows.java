@@ -65,8 +65,6 @@ public class MoarBows extends JavaPlugin {
 			return;
 		}
 
-		Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.broadcastMessage("" + arrowManager.getActive().size()), 20, 20);
-
 		new Metrics(this);
 
 		saveDefaultConfig();
