@@ -41,7 +41,7 @@ public class MoarBows extends JavaPlugin {
 	private ConfigManager language;
 	private ServerVersion version;
 	private BowManager bowManager;
-	private ArrowManager arrowManager = new ArrowManager();
+	private final ArrowManager arrowManager = new ArrowManager();
 
 	public void onLoad() {
 		plugin = this;
@@ -65,6 +65,8 @@ public class MoarBows extends JavaPlugin {
 			return;
 		}
 
+		Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.broadcastMessage("" + arrowManager.getActive().size()), 20, 20);
+
 		new Metrics(this);
 
 		saveDefaultConfig();
@@ -78,9 +80,11 @@ public class MoarBows extends JavaPlugin {
 		Bukkit.getServer().getPluginManager().registerEvents(new HitEntity(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new ArrowLand(), this);
 		if (getConfig().getBoolean("hand-particles.enabled"))
-			Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.getOnlinePlayers().forEach(player -> PlayerData.get(player).updateItems()), 100, 10);
+			Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.getOnlinePlayers().forEach(player -> PlayerData.get(player).updateItems()), 100,
+					10);
 
-		bowManager.getListeners().forEach(listener -> Bukkit.getServer().getPluginManager().registerEvents((Listener) listener, this));
+		bowManager.getBows().stream().filter(bow -> bow instanceof Listener)
+				.forEach(listener -> Bukkit.getServer().getPluginManager().registerEvents((Listener) listener, this));
 
 		/*
 		 * setup player datas for players that have been online e.g during a
@@ -89,10 +93,6 @@ public class MoarBows extends JavaPlugin {
 		 */
 		Bukkit.getOnlinePlayers().forEach(player -> PlayerData.setup(player));
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
-
-		// worldguard flags
-		if (getServer().getPluginManager().isPluginEnabled("WorldGuard"))
-			getLogger().log(Level.INFO, "Hooked onto WorldGuard");
 
 		// commands
 		getCommand("moarbows").setExecutor(new MoarBowsCommand());
@@ -124,13 +124,14 @@ public class MoarBows extends JavaPlugin {
 						try {
 							material = Material.valueOf(s.replace("-", "_").toUpperCase());
 						} catch (Exception e1) {
-							getLogger().log(Level.WARNING, "Couldn't register the recipe of " + bow.getId() + " (" + s.split("\\:")[0] + " is not a valid material)");
+							getLogger().log(Level.WARNING,
+									"Couldn't register the recipe of " + bow.getId() + " (" + s.split("\\:")[0] + " is not a valid material)");
 							continue bowLoop;
 						}
 
 						recipe.setIngredient(c, material);
 					}
-					
+
 					Bukkit.addRecipe(recipe);
 				}
 	}

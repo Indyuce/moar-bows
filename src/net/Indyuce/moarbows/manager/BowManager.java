@@ -1,16 +1,14 @@
 package net.Indyuce.moarbows.manager;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
 
-import org.bukkit.event.Listener;
+import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
 import net.Indyuce.moarbows.MoarBows;
@@ -22,7 +20,7 @@ public class BowManager {
 	 * bows are registered in this map using their bow IDs and two bows with the
 	 * same ID will override.
 	 */
-	private Map<String, MoarBow> map = new HashMap<>();
+	private final Map<String, MoarBow> map = new HashMap<>();
 
 	/*
 	 * the plugin must register the bows before the plugin is enabled otherwise
@@ -42,26 +40,20 @@ public class BowManager {
 					register((MoarBow) Class.forName(name.substring(0, name.length() - 6)).newInstance());
 			}
 			file.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IOException exception) {
+			exception.printStackTrace();
 		}
 	}
 
 	public void register(MoarBow bow) {
-		if (!registration) {
-			MoarBows.plugin.getLogger().log(Level.WARNING, "Could not register the bow called " + bow.getId() + ". Make sure you register it before MoarBows loads.");
-			return;
-		}
+		Validate.isTrue(registration, "Could not register bow '" + bow.getId() + "': bows must be registered before MoarBows enables.");
+		Validate.isTrue(!map.containsKey(bow.getId()), "Could not register '" + bow.getId() + "': a bow with the same ID is already registered.");
 
 		map.put(bow.getId(), bow);
 	}
 
 	public void stopRegistration() {
 		registration = false;
-	}
-
-	public Set<MoarBow> getListeners() {
-		return map.values().stream().filter(bow -> bow instanceof Listener).collect(Collectors.toSet());
 	}
 
 	public Collection<MoarBow> getBows() {

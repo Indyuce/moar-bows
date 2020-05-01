@@ -1,6 +1,7 @@
 package net.Indyuce.moarbows.api;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +33,8 @@ public abstract class MoarBow {
 	private final Map<String, Modifier> mods = new HashMap<>();
 
 	private String name;
-	private String[] lore, craft;
+	private String[] craft;
+	private List<String> lore;
 	private int data;
 	private ParticleData particles;
 	private boolean craftEnabled;
@@ -43,7 +45,7 @@ public abstract class MoarBow {
 		this.id = getClass().getSimpleName().toUpperCase();
 		this.name = "&f" + getClass().getSimpleName().replace("_", " ");
 
-		this.lore = lore;
+		this.lore = lore == null ? new ArrayList<>() : Arrays.asList(lore);
 		this.particles = particles;
 		this.craft = craft;
 	}
@@ -52,7 +54,7 @@ public abstract class MoarBow {
 		this.id = id;
 		this.name = name;
 
-		this.lore = lore;
+		this.lore = lore == null ? new ArrayList<>() : Arrays.asList(lore);
 		this.data = data;
 		this.particles = particles;
 		this.craft = craft;
@@ -81,16 +83,12 @@ public abstract class MoarBow {
 		return ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', name);
 	}
 
+	public List<String> getLore() {
+		return lore;
+	}
+
 	public int getData() {
 		return data;
-	}
-
-	public boolean hasData() {
-		return data > 0;
-	}
-
-	public String[] getLore() {
-		return lore == null ? new String[0] : lore;
 	}
 
 	public Collection<Modifier> getModifiers() {
@@ -140,10 +138,10 @@ public abstract class MoarBow {
 
 	public void update(ConfigurationSection config) {
 		name = config.getString("name");
-		lore = config.getStringList("lore").toArray(new String[0]);
+		lore = config.getStringList("lore");
 		particles = new ParticleData(config.getString("eff"));
-		craft = config.getStringList("craft").toArray(new String[0]);
 		data = (short) config.getInt("durability");
+		craft = config.getStringList("craft").toArray(new String[0]);
 		craftEnabled = config.getBoolean("craft-enabled");
 
 		// reload modifiers
@@ -157,7 +155,7 @@ public abstract class MoarBow {
 	public ItemStack getItem(int level) {
 		level = Math.max(1, level);
 
-		ItemStack item = hasData() ? MoarBows.plugin.getVersion().getTextureHandler().textureItem(Material.BOW, data) : new ItemStack(Material.BOW);
+		ItemStack item = data > 0 ? MoarBows.plugin.getVersion().getTextureHandler().textureItem(Material.BOW, data) : new ItemStack(Material.BOW);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(getName());
 

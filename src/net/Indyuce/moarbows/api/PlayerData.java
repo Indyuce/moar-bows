@@ -25,7 +25,7 @@ public class PlayerData {
 	/*
 	 * where cooldowns from bows are all stored.
 	 */
-	private Map<String, Long> cooldowns = new HashMap<>();
+	private final Map<String, Long> cooldowns = new HashMap<>();
 
 	private static Map<UUID, PlayerData> playerDatas = new HashMap<>();
 

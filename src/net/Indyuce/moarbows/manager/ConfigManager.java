@@ -27,12 +27,14 @@ public class ConfigManager {
 
 	public ConfigManager() {
 
+		MoarBows.plugin.reloadConfig();
+
 		ConfigData bows = new ConfigData("bows");
 		for (MoarBow bow : MoarBows.plugin.getBowManager().getBows()) {
 			if (!bows.getConfig().contains(bow.getId()))
 				bows.getConfig().createSection(bow.getId());
 
-			List<String> lore = new ArrayList<>(Arrays.asList(bow.getLore()));
+			List<String> lore = new ArrayList<>(bow.getLore());
 			if (lore != null && !lore.isEmpty()) {
 				lore.add(0, "");
 				lore.add("");
@@ -40,7 +42,8 @@ public class ConfigManager {
 			}
 
 			String[] paths = { "name", "lore", "durability", "craft-enabled", "craft", "eff" };
-			Object[] values = { bow.getUncoloredName(), lore, bow.getData(), bow.getFormattedCraftingRecipe().length > 0, Arrays.asList(bow.getFormattedCraftingRecipe()), bow.getParticles().toString() };
+			Object[] values = { bow.getUncoloredName(), lore, bow.getData(), bow.getFormattedCraftingRecipe().length > 0,
+					Arrays.asList(bow.getFormattedCraftingRecipe()), bow.getParticles().toString() };
 			ConfigurationSection section = bows.getConfig().getConfigurationSection(bow.getId());
 			for (int j = 0; j < paths.length; j++)
 				if (!section.contains(paths[j]))

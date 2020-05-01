@@ -1,5 +1,7 @@
 package net.Indyuce.moarbows.listener;
 
+import java.util.Optional;
+
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -10,17 +12,19 @@ import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.ArrowData;
 
 public class ArrowLand implements Listener {
-	@EventHandler
+
+	@EventHandler()
 	public void a(ProjectileHitEvent event) {
 		if (event.getEntity().getType() != EntityType.ARROW || event.getHitEntity() != null)
 			return;
 
 		Arrow arrow = (Arrow) event.getEntity();
-		if (!MoarBows.plugin.getArrowManager().isCustomArrow(arrow))
+		Optional<ArrowData> opt = MoarBows.plugin.getArrowManager().getArrowData(arrow);
+		if (!opt.isPresent())
 			return;
 
 		// land effect
-		ArrowData arrowData = MoarBows.plugin.getArrowManager().getArrowData(arrow);
+		ArrowData arrowData = opt.get();
 		arrowData.getBow().whenLand(arrowData);
 		MoarBows.plugin.getArrowManager().unregisterArrow(arrow);
 	}
