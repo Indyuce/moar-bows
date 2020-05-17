@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -88,7 +89,7 @@ public class PlayerData {
 		cooldowns.put(bow.getId(), System.currentTimeMillis());
 	}
 
-	public static PlayerData get(Player player) {
+	public static PlayerData get(OfflinePlayer player) {
 		return playerDatas.get(player.getUniqueId());
 	}
 
@@ -106,7 +107,7 @@ public class PlayerData {
 		/*
 		 * refreshes player if the data already exists
 		 */
-		PlayerData data = new PlayerData(player);
+		PlayerData data = playerDatas.get(player.getUniqueId());
 		data.player = player;
 		return data;
 	}
