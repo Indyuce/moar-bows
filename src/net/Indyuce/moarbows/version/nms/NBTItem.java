@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import net.Indyuce.moarbows.MoarBows;
 
 public abstract class NBTItem {
-	protected ItemStack item;
+	protected final ItemStack item;
 
 	public NBTItem(ItemStack item) {
 		this.item = item;

@@ -1,8 +1,8 @@
 package net.Indyuce.moarbows.version.nms;
 
 public class ItemTag {
-	private String path;
-	private Object value;
+	private final String path;
+	private final Object value;
 
 	public ItemTag(String path, Object value) {
 		this.path = path;
