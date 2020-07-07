@@ -80,7 +80,7 @@ public abstract class MoarBow {
 	}
 
 	public String getName() {
-		return ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', name);
+		return ChatColor.translateAlternateColorCodes('&', name);
 	}
 
 	public List<String> getLore() {
@@ -182,6 +182,9 @@ public abstract class MoarBow {
 	}
 
 	private String applyPlaceholders(String str, int x) {
+
+		// apply bow level placeholder
+		str = str.replace("{level}", "" + x);
 
 		Modifier modifier;
 		while (str.contains("{") && str.substring(str.indexOf("{")).contains("}")) {
