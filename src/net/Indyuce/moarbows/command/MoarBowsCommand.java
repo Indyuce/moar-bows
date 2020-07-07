@@ -28,7 +28,8 @@ public class MoarBowsCommand implements CommandExecutor {
 				return true;
 			}
 
-			sender.sendMessage(ChatColor.DARK_GRAY + "" + ChatColor.STRIKETHROUGH + "-----------------[" + ChatColor.LIGHT_PURPLE + " MoarBows Help " + ChatColor.DARK_GRAY + "" + ChatColor.STRIKETHROUGH + "]-----------------");
+			sender.sendMessage(ChatColor.DARK_GRAY + "" + ChatColor.STRIKETHROUGH + "-----------------[" + ChatColor.LIGHT_PURPLE + " MoarBows Help "
+					+ ChatColor.DARK_GRAY + "" + ChatColor.STRIKETHROUGH + "]-----------------");
 			sender.sendMessage(ChatColor.LIGHT_PURPLE + "<>" + ChatColor.GRAY + " = required");
 			sender.sendMessage(ChatColor.LIGHT_PURPLE + "()" + ChatColor.GRAY + " = optional");
 			sender.sendMessage("");
@@ -76,7 +77,11 @@ public class MoarBowsCommand implements CommandExecutor {
 			}
 
 			for (MoarBow bow : MoarBows.plugin.getBowManager().getBows())
-				MoarBows.plugin.getNMS().sendJson((Player) sender, "{\"text\":\"* " + ChatColor.GREEN + bow.getName() + ChatColor.WHITE + ", use /mb get " + bow.getLowerCaseId() + "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/mb get " + bow.getId() + "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click to get the " + ChatColor.GREEN + bow.getName() + ChatColor.WHITE + ".\",\"color\":\"white\"}]}}}");
+				MoarBows.plugin.getNMS().sendJson((Player) sender,
+						"{\"text\":\"* " + ChatColor.GREEN + bow.getName() + ChatColor.WHITE + ", use /mb get " + bow.getLowerCaseId()
+								+ "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/mb get " + bow.getId()
+								+ "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click to get the "
+								+ ChatColor.GREEN + bow.getName() + ChatColor.WHITE + ".\",\"color\":\"white\"}]}}}");
 		}
 
 		if (args[0].equalsIgnoreCase("equip")) {
@@ -117,13 +122,13 @@ public class MoarBowsCommand implements CommandExecutor {
 
 			// bow
 			String bowFormat = args[1].toUpperCase().replace("-", "_");
-			MoarBow bow = MoarBows.plugin.getBowManager().safeGet(bowFormat);
-			if (bow == null) {
+			if (!MoarBows.plugin.getBowManager().has(bowFormat)) {
 				sender.sendMessage(ChatColor.RED + "Couldn't find the bow called " + bowFormat + ".");
 				return true;
 			}
 
 			// player
+			MoarBow bow = MoarBows.plugin.getBowManager().get(bowFormat);
 			Player target = args.length > 2 ? Bukkit.getPlayer(args[2]) : ((Player) sender);
 			if (target == null) {
 				sender.sendMessage(ChatColor.RED + "Couldn't find the player called " + args[2] + ".");

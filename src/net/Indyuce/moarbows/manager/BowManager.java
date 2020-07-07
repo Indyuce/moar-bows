@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.version.nms.NBTItem;
 
 public class BowManager {
 
@@ -67,6 +68,7 @@ public class BowManager {
 	/*
 	 * returns null if no bow exists otherwise return
 	 */
+	@Deprecated
 	public MoarBow safeGet(String id) {
 		return map.containsKey(id) ? get(id) : null;
 	}
@@ -76,10 +78,7 @@ public class BowManager {
 	}
 
 	public MoarBow get(ItemStack item) {
-		if (item.hasItemMeta())
-			for (MoarBow bow : getBows())
-				if (bow.getName().equals(item.getItemMeta().getDisplayName()))
-					return bow;
-		return null;
+		NBTItem nbtItem = MoarBows.plugin.getNMS().getNBTItem(item);
+		return nbtItem.hasTag("MoarBow") ? MoarBows.plugin.getBowManager().get(nbtItem.getString("MoarBow")) : null;
 	}
 }
