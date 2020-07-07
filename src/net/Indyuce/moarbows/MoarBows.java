@@ -42,7 +42,7 @@ public class MoarBows extends JavaPlugin {
 	private ConfigManager language;
 	private ServerVersion version;
 	private BowManager bowManager;
-	private final ArrowManager arrowManager = new ArrowManager();
+	private ArrowManager arrowManager;
 
 	public void onLoad() {
 		plugin = this;
@@ -69,6 +69,7 @@ public class MoarBows extends JavaPlugin {
 		new Metrics(this);
 
 		saveDefaultConfig();
+		arrowManager = new ArrowManager();
 		language = new ConfigManager();
 
 		Bukkit.getServer().getPluginManager().registerEvents(new BowUtils(), this);
@@ -82,6 +83,9 @@ public class MoarBows extends JavaPlugin {
 			Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.getOnlinePlayers().forEach(player -> PlayerData.get(player).updateItems()), 100,
 					10);
 
+		/*
+		 * automatically registers external listeners
+		 */
 		bowManager.getBows().stream().filter(bow -> bow instanceof Listener)
 				.forEach(listener -> Bukkit.getServer().getPluginManager().registerEvents((Listener) listener, this));
 

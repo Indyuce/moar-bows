@@ -1,7 +1,9 @@
 package net.Indyuce.moarbows;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -35,28 +37,20 @@ public class BowUtils implements Listener {
 
 	public static boolean consumeAmmo(LivingEntity entity, ItemStack i) {
 
-		/*
-		 * if sender is not a player, then do not consume anyammo
-		 */
+		// if sender is not a player, then do not consume any ammo
 		if (!(entity instanceof Player))
 			return true;
 
-		/*
-		 * does not consume ammo if the player is in creative mode
-		 */
+		// does not consume ammo if the player is in creative mode
 		Player player = (Player) entity;
 		if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR)
 			return true;
 
-		/*
-		 * returns false if the player has no item
-		 */
+		// returns false if the player has no item
 		if (!player.getInventory().containsAtLeast(i, 1))
 			return false;
 
-		/*
-		 * returns true and consumes the ammo if the player has enough
-		 */
+		// returns true and consumes the ammo if the player has enough
 		player.getInventory().removeItem(i);
 		return true;
 	}
@@ -66,10 +60,9 @@ public class BowUtils implements Listener {
 	}
 
 	public static ItemStack removeDisplayName(ItemStack item) {
+		ItemStack clone = item.clone();
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(null);
-
-		ItemStack clone = item.clone();
 		clone.setItemMeta(meta);
 		return clone;
 	}
@@ -94,24 +87,6 @@ public class BowUtils implements Listener {
 		return Math.floor(x * pow) / pow;
 	}
 
-	public static Vector rotAxisX(Vector v, double a) {
-		double y = v.getY() * Math.cos(a) - v.getZ() * Math.sin(a);
-		double z = v.getY() * Math.sin(a) + v.getZ() * Math.cos(a);
-		return v.setY(y).setZ(z);
-	}
-
-	public static Vector rotAxisY(Vector v, double b) {
-		double x = v.getX() * Math.cos(b) + v.getZ() * Math.sin(b);
-		double z = v.getX() * -Math.sin(b) + v.getZ() * Math.cos(b);
-		return v.setX(x).setZ(z);
-	}
-
-	public static Vector rotAxisZ(Vector v, double c) {
-		double x = v.getX() * Math.cos(c) - v.getY() * Math.sin(c);
-		double y = v.getX() * Math.sin(c) + v.getY() * Math.cos(c);
-		return v.setX(x).setY(y);
-	}
-
 	public static Vector rotateFunc(Vector v, Location loc) {
 		double yaw = loc.getYaw() / 180 * Math.PI;
 		double pitch = loc.getPitch() / 180 * Math.PI;
@@ -119,6 +94,24 @@ public class BowUtils implements Listener {
 		v = rotAxisY(v, -yaw);
 		return v;
 	}
+
+	private static Vector rotAxisX(Vector v, double a) {
+		double y = v.getY() * Math.cos(a) - v.getZ() * Math.sin(a);
+		double z = v.getY() * Math.sin(a) + v.getZ() * Math.cos(a);
+		return v.setY(y).setZ(z);
+	}
+
+	private static Vector rotAxisY(Vector v, double b) {
+		double x = v.getX() * Math.cos(b) + v.getZ() * Math.sin(b);
+		double z = v.getX() * -Math.sin(b) + v.getZ() * Math.cos(b);
+		return v.setX(x).setZ(z);
+	}
+
+	// private static Vector rotAxisZ(Vector v, double c) {
+	// double x = v.getX() * Math.cos(c) - v.getY() * Math.sin(c);
+	// double y = v.getX() * Math.sin(c) + v.getY() * Math.cos(c);
+	// return v.setX(x).setY(y);
+	// }
 
 	/*
 	 * method to get all entities surrounding a location. this method does not
@@ -146,5 +139,14 @@ public class BowUtils implements Listener {
 					entities.add(entity);
 
 		return entities;
+	}
+
+	public static <T> void clean(Iterable<T> collection, Predicate<T> clean) {
+		Iterator<T> it = collection.iterator();
+		while (it.hasNext()) {
+			T next = it.next();
+			if (clean.test(next))
+				it.remove();
+		}
 	}
 }

@@ -20,6 +20,7 @@ public class ArrowData {
 
 	private final NBTItem source;
 	private final int level;
+	private final long date = System.currentTimeMillis();
 
 	/*
 	 * when a non-player entity uses the bow
@@ -63,8 +64,12 @@ public class ArrowData {
 		return shooter;
 	}
 
+	/*
+	 * lets you know if a player or a monster shot the arrow that way it can
+	 * apply cooldowns to players and not do anything for monsters
+	 */
 	public boolean hasPlayer() {
-		return playerData!=null;
+		return playerData != null;
 	}
 
 	public Arrow getArrow() {
@@ -77,5 +82,14 @@ public class ArrowData {
 
 	public double getDouble(String path) {
 		return bow.getDouble(path, level);
+	}
+
+	/*
+	 * the arrow instance must be flushed from the database if it exists for
+	 * longer than 10 minutes which is reasonnable since landing an arrow should
+	 * only take about a few seconds max
+	 */
+	public boolean hasTimedOut() {
+		return date + 10 * 60 * 1000 < System.currentTimeMillis();
 	}
 }
