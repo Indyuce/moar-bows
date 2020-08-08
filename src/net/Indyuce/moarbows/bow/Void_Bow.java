@@ -17,7 +17,7 @@ import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Void_Bow extends MoarBow {
 	public Void_Bow() {
-		super(new String[] { "Its arrows teleport you", "to where they land." }, new ParticleData(Particle.REDSTONE, Color.fromRGB(128, 0, 128)),
+		super(new String[] { "Its arrows teleport you", "to where they land." }, new ParticleData(Particle.REDSTONE, Color.fromRGB(128, 0, 128), 2),
 				new String[] { "AIR,ENDER_PEARL,AIR", "ENDER_PEARL,BOW,ENDER_PEARL", "AIR,ENDER_PEARL,AIR" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearFormula(5, -1, 2, 5)));

@@ -8,13 +8,6 @@ update-notify: true
 # custom bows to be able to shoot arrows.
 full-pull-restriction: false
 
-# Particles displayed when holding a bow.
-# Changing this requires /reload
-# 'amount' is the amount of particles displayed at once.
-hand-particles:
-    enabled: true
-    amount: 2
-
 # Disables all crafting recipes of special bows.
 # You can still obtain the bows via /mb get...
 disable-bow-craftings: false

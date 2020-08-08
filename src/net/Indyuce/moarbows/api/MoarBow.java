@@ -132,6 +132,10 @@ public abstract class MoarBow {
 		return craftEnabled;
 	}
 
+	public boolean hasParticles() {
+		return particles != null;
+	}
+
 	public ParticleData getParticles() {
 		return particles;
 	}
@@ -139,7 +143,11 @@ public abstract class MoarBow {
 	public void update(ConfigurationSection config) {
 		name = config.getString("name");
 		lore = config.getStringList("lore");
-		particles = new ParticleData(config.getString("eff"));
+		try {
+			particles = config.contains("particle") ? new ParticleData(config.getConfigurationSection("particle")) : null;
+		} catch (IllegalArgumentException exception) {
+			throw new IllegalArgumentException("Could not load bow particle effect: " + exception.getMessage());
+		}
 		data = (short) config.getInt("durability");
 		craft = config.getStringList("craft").toArray(new String[0]);
 		craftEnabled = config.getBoolean("craft-enabled");

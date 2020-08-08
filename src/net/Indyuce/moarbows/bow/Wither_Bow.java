@@ -19,7 +19,7 @@ import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Wither_Bow extends MoarBow {
 	public Wither_Bow() {
-		super(new String[] { "Shoots an exploding wither skull." }, new ParticleData(Particle.REDSTONE, Color.fromRGB(0, 0, 0)),
+		super(new String[] { "Shoots an exploding wither skull." }, new ParticleData(Particle.REDSTONE, Color.fromRGB(0, 0, 0), 2),
 				new String[] { "WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL", "WITHER_SKELETON_SKULL,BOW,WITHER_SKELETON_SKULL",
 						"WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL" });
 

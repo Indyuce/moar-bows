@@ -1,34 +1,37 @@
 package net.Indyuce.moarbows.api.particle;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import net.Indyuce.moarbows.MoarBows;
 
 public class ParticleData {
 	private final Particle particle;
 	private final Color color;
+	private final int amount;
 
-	private static int amount = MoarBows.plugin.getConfig().getInt("hand-particles.amount");
+	public ParticleData(ConfigurationSection config) {
+		Validate.notNull(config, "Could not read config");
 
-	public ParticleData(String formatted) {
-		String[] split = formatted.split("\\:");
-		particle = Particle.valueOf(split[0].toUpperCase().replace("-", "_"));
-		color = split.length > 1
-				? Color.fromRGB(Integer.parseInt((split = split[1].split("\\,"))[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2]))
+		Validate.isTrue(config.contains("particle"), "Could not read particle");
+		particle = Particle.valueOf(config.getString("particle"));
+
+		color = config.contains("color") ? Color.fromRGB(config.getInt("color.red"), config.getInt("color.green"), config.getInt("color.blue"))
 				: null;
+		amount = config.getInt("amount", 2);
 	}
 
 	public ParticleData(Particle particle) {
-		this(particle, null);
+		this(particle, null, 2);
 	}
 
-	public ParticleData(Particle particle, Color color) {
+	public ParticleData(Particle particle, Color color, int amount) {
 		this.particle = particle;
 		this.color = color;
+		this.amount = amount;
 	}
 
 	public boolean isColorable() {
@@ -46,9 +49,14 @@ public class ParticleData {
 			loc.getWorld().spawnParticle(particle, loc, 0);
 	}
 
-	@Override
-	public String toString() {
-		return particle.name().toLowerCase() + (color != null ? ":" + color.getRed() + "," + color.getGreen() + "," + color.getBlue() : "");
+	public void setup(ConfigurationSection config) {
+		config.set("particle", particle.name());
+		config.set("amount", amount);
+		if (color != null) {
+			config.set("color.red", color.getRed());
+			config.set("color.green", color.getGreen());
+			config.set("color.blue", color.getBlue());
+		}
 	}
 
 	public class ParticleRunnable extends BukkitRunnable {

@@ -18,7 +18,7 @@ import net.Indyuce.moarbows.api.util.LinearFormula;
 public class Hunter_Bow extends MoarBow {
 	public Hunter_Bow() {
 		super(new String[] { "Arrows deal &c{extra}% &7additional", "damage to friendly mobs." },
-				new ParticleData(Particle.REDSTONE, Color.fromRGB(255, 0, 0)),
+				new ParticleData(Particle.REDSTONE, Color.fromRGB(255, 0, 0), 2),
 				new String[] { "CHICKEN,BEEF,CHICKEN", "BEEF,BOW,BEEF", "CHICKEN,BEEF,CHICKEN" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearFormula(0, 0)), new DoubleModifier("extra", new LinearFormula(75, 25)));

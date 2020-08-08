@@ -16,7 +16,6 @@ import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.PlayerData;
 import net.Indyuce.moarbows.api.event.MoarBowShootEvent;
 import net.Indyuce.moarbows.api.particle.ArrowParticles;
-import net.Indyuce.moarbows.api.util.Message;
 import net.Indyuce.moarbows.comp.worldguard.CustomFlag;
 
 public class ShootBow implements Listener {
@@ -43,7 +42,7 @@ public class ShootBow implements Listener {
 		 */
 		if (event.getEntity() instanceof Player)
 			if (!event.getEntity().hasPermission("moarbows.use." + bow.getLowerCaseId())) {
-				event.getEntity().sendMessage(Message.NOT_ENOUGH_PERMS.translate());
+				event.getEntity().sendMessage(MoarBows.plugin.getLanguage().formatMessage("not-enough-perms"));
 				event.setCancelled(true);
 				return;
 			}
@@ -51,21 +50,25 @@ public class ShootBow implements Listener {
 		/*
 		 * worldguard flag check
 		 */
-		if (event.getEntity() instanceof Player ? !MoarBows.plugin.getWorldGuard().isFlagAllowed((Player) event.getEntity(), CustomFlag.MB_BOWS) : !MoarBows.plugin.getWorldGuard().isFlagAllowed(event.getEntity().getLocation(), CustomFlag.MB_BOWS)) {
+		if (event.getEntity() instanceof Player ? !MoarBows.plugin.getWorldGuard().isFlagAllowed((Player) event.getEntity(), CustomFlag.MB_BOWS)
+				: !MoarBows.plugin.getWorldGuard().isFlagAllowed(event.getEntity().getLocation(), CustomFlag.MB_BOWS)) {
 			event.setCancelled(true);
 			if (event.getEntity() instanceof Player)
-				event.getEntity().sendMessage(Message.DISABLE_BOWS_FLAG.translate());
+				event.getEntity().sendMessage(MoarBows.plugin.getLanguage().formatMessage("disable-bows-flag"));
 			return;
 		}
 
 		/*
 		 * cooldown check
 		 */
-		ArrowData arrowData = event.getEntity() instanceof Player ? new ArrowData(bow, PlayerData.get((Player) event.getEntity()), (Arrow) event.getProjectile(), item) : new ArrowData(bow, event.getEntity(), (Arrow) event.getProjectile(), item);
+		ArrowData arrowData = event.getEntity() instanceof Player
+				? new ArrowData(bow, PlayerData.get((Player) event.getEntity()), (Arrow) event.getProjectile(), item)
+				: new ArrowData(bow, event.getEntity(), (Arrow) event.getProjectile(), item);
 		if (arrowData.hasPlayer()) {
 			Player player = (Player) event.getEntity();
 			if (arrowData.getPlayerData().hasCooldown(arrowData.getBow(), arrowData.getLevel())) {
-				player.sendMessage(Message.ON_COOLDOWN.translate().replace("%left%", cooldownFormat.format(arrowData.getPlayerData().getRemainingCooldown(bow, arrowData.getLevel()))));
+				player.sendMessage(MoarBows.plugin.getLanguage().formatMessage("on-cooldown", "left",
+						cooldownFormat.format(arrowData.getPlayerData().getRemainingCooldown(bow, arrowData.getLevel()))));
 				event.setCancelled(true);
 				return;
 			}

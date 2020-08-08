@@ -23,7 +23,7 @@ public class Corona_Bow extends MoarBow {
 	public Corona_Bow() {
 		super(new String[] { "Creates a deadly mark on the", "ground during &c{duration} &7seconds, dealing",
 				"&c{damage} &7damage per second to entities", "within &c{radius} &7blocks.", },
-				new ParticleData(Particle.REDSTONE, Color.fromRGB(0, 255, 0)),
+				new ParticleData(Particle.REDSTONE, Color.fromRGB(0, 255, 0), 2),
 				new String[] { "SLIME_BALL,SLIME_BALL,SLIME_BALL", "SLIME_BALL,BOW,SLIME_BALL", "SLIME_BALL,SLIME_BALL,SLIME_BALL" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearFormula(10, 0)), new DoubleModifier("radius", new LinearFormula(5, 1)),

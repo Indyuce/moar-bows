@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.api.util.Message;
 import net.Indyuce.moarbows.gui.BowList;
 
 public class MoarBowsCommand implements CommandExecutor {
@@ -24,7 +23,7 @@ public class MoarBowsCommand implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (args.length < 1) {
 			if (!sender.hasPermission("moarbows.admin")) {
-				sender.sendMessage(Message.NOT_ENOUGH_PERMS.translate());
+				sender.sendMessage(MoarBows.plugin.getLanguage().formatMessage("not-enough-perms"));
 				return true;
 			}
 
@@ -49,7 +48,7 @@ public class MoarBowsCommand implements CommandExecutor {
 			}
 
 			if (!sender.hasPermission("moarbows.gui")) {
-				sender.sendMessage(Message.NOT_ENOUGH_PERMS.translate());
+				sender.sendMessage(MoarBows.plugin.getLanguage().formatMessage("not-enough-perms"));
 				return true;
 			}
 
@@ -58,7 +57,7 @@ public class MoarBowsCommand implements CommandExecutor {
 
 		// perm for op commands
 		if (!sender.hasPermission("moarbows.admin")) {
-			sender.sendMessage(Message.NOT_ENOUGH_PERMS.translate());
+			sender.sendMessage(MoarBows.plugin.getLanguage().formatMessage("not-enough-perms"));
 			return true;
 		}
 
@@ -153,9 +152,9 @@ public class MoarBowsCommand implements CommandExecutor {
 			sender.sendMessage(ChatColor.YELLOW + target.getName() + " was given " + ChatColor.WHITE + bow.getName() + ChatColor.YELLOW + ".");
 
 			// message
-			String message = Message.RECEIVE_BOW.translate();
-			if (!message.equals("") && sender != target)
-				target.sendMessage(ChatColor.YELLOW + message.replace("%bow%", bow.getName()));
+			String message = MoarBows.plugin.getLanguage().formatMessage("receive-bow", "bow", bow.getName());
+			if (!message.equals("") && !sender.equals(target))
+				target.sendMessage(ChatColor.YELLOW + message);
 
 		}
 		if (args[0].equalsIgnoreCase("getall")) {

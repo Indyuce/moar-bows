@@ -20,7 +20,7 @@ import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Trippple_Bow extends MoarBow {
 	public Trippple_Bow() {
-		super(new String[] { "Shoots 3 arrows at a time." }, new ParticleData(Particle.REDSTONE, Color.fromRGB(255, 255, 255)),
+		super(new String[] { "Shoots 3 arrows at a time." }, new ParticleData(Particle.REDSTONE, Color.fromRGB(255, 255, 255), 2),
 				new String[] { "AIR,AIR,AIR", "BOW,BOW,BOW", "AIR,AIR,AIR" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearFormula(2.5, 0)));

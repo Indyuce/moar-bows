@@ -24,7 +24,7 @@ import net.Indyuce.moarbows.api.util.LinearFormula;
 public class Laser_Bow extends MoarBow {
 	public Laser_Bow() {
 		super(new String[] { "Fires instant laser arrows", "that deals &c{damage} &7damage to", "every entity it hits." },
-				new ParticleData(Particle.REDSTONE, Color.fromRGB(255, 0, 0)), new String[] { "REDSTONE_BLOCK,REDSTONE_BLOCK,REDSTONE_BLOCK",
+				new ParticleData(Particle.REDSTONE, Color.fromRGB(255, 0, 0), 2), new String[] { "REDSTONE_BLOCK,REDSTONE_BLOCK,REDSTONE_BLOCK",
 						"REDSTONE_BLOCK,BOW,REDSTONE_BLOCK", "REDSTONE_BLOCK,REDSTONE_BLOCK,REDSTONE_BLOCK" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearFormula(0, 0)), new DoubleModifier("damage", new LinearFormula(5, 3)));

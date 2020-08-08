@@ -53,7 +53,7 @@ public class PlayerData {
 			if (mainparticles != null)
 				mainparticles.cancel();
 			MoarBow mainbow = MoarBows.plugin.getBowManager().get(mainhand);
-			if (mainbow != null)
+			if (mainbow != null && mainbow.hasParticles())
 				(mainparticles = mainbow.getParticles().newRunnable(player, false)).runTaskTimer(MoarBows.plugin, 0, 4);
 		}
 
@@ -62,7 +62,7 @@ public class PlayerData {
 			if (offparticles != null)
 				offparticles.cancel();
 			MoarBow offbow = MoarBows.plugin.getBowManager().get(offhand);
-			if (offbow != null)
+			if (offbow != null && offbow.hasParticles())
 				(offparticles = offbow.getParticles().newRunnable(player, true)).runTaskTimer(MoarBows.plugin, 0, 4);
 		}
 	}
@@ -78,11 +78,14 @@ public class PlayerData {
 	}
 
 	public boolean hasCooldown(MoarBow bow, int level) {
-		return cooldowns.containsKey(bow.getId()) && cooldowns.get(bow.getId()) + bow.getDouble("cooldown", level) * 1000 > System.currentTimeMillis();
+		return cooldowns.containsKey(bow.getId())
+				&& cooldowns.get(bow.getId()) + bow.getDouble("cooldown", level) * 1000 > System.currentTimeMillis();
 	}
 
 	public double getRemainingCooldown(MoarBow bow, int level) {
-		return cooldowns.containsKey(bow.getId()) ? (double) Math.max(0, cooldowns.get(bow.getId()) + bow.getDouble("cooldown", level) * 1000 - System.currentTimeMillis()) / 1000. : 0;
+		return cooldowns.containsKey(bow.getId())
+				? (double) Math.max(0, cooldowns.get(bow.getId()) + bow.getDouble("cooldown", level) * 1000 - System.currentTimeMillis()) / 1000.
+				: 0;
 	}
 
 	public void applyCooldown(MoarBow bow) {

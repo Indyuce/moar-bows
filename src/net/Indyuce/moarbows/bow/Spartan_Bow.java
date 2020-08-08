@@ -20,7 +20,7 @@ import net.Indyuce.moarbows.api.util.LinearFormula;
 public class Spartan_Bow extends MoarBow {
 	public Spartan_Bow() {
 		super(new String[] { "Summons a flurry of arrows from", "the sky when hitting a target." },
-				new ParticleData(Particle.REDSTONE, Color.fromRGB(180, 180, 180)),
+				new ParticleData(Particle.REDSTONE, Color.fromRGB(180, 180, 180), 2),
 				new String[] { "BOW,EMERALD,BOW", "EMERALD,BOW,EMERALD", "BOW,EMERALD,BOW" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearFormula(25, -3, 10, 25)), new DoubleModifier("duration", new LinearFormula(1.5, .5)));

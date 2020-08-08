@@ -24,7 +24,7 @@ import net.Indyuce.moarbows.api.util.LinearFormula;
 public class Shadow_Bow extends MoarBow {
 	public Shadow_Bow() {
 		super(new String[] { "Shoots a long ranged linear", "cursed arrow that deals &c{damage}", "damage tothe first entity it hits." },
-				new ParticleData(Particle.REDSTONE, Color.fromRGB(128, 0, 128)),
+				new ParticleData(Particle.REDSTONE, Color.fromRGB(128, 0, 128), 2),
 				new String[] { "ENDER_EYE,ENDER_EYE,ENDER_EYE", "ENDER_EYE,BOW,ENDER_EYE", "ENDER_EYE,ENDER_EYE,ENDER_EYE" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearFormula(10, -1, 3, 10)), new DoubleModifier("damage", new LinearFormula(8, 4)));

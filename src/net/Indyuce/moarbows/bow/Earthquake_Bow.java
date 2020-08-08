@@ -22,7 +22,7 @@ import net.Indyuce.moarbows.api.util.LinearFormula;
 public class Earthquake_Bow extends MoarBow {
 	public Earthquake_Bow() {
 		super(new String[] { "Summons a shockwave when hitting", "anything, powerfully knocking up", "all enemies within &c{radius} &7blocks.",
-				"Knock-up Force: &c{knockup}" }, new ParticleData(Particle.REDSTONE, Color.fromRGB(128, 0, 0)),
+				"Knock-up Force: &c{knockup}" }, new ParticleData(Particle.REDSTONE, Color.fromRGB(128, 0, 0), 2),
 				new String[] { "DIRT,DIRT,DIRT", "DIRT,BOW,DIRT", "DIRT,DIRT,DIRT" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearFormula(10, -1, 3, 10)), new DoubleModifier("knockup", new LinearFormula(1, .5)),

@@ -24,7 +24,8 @@ import net.Indyuce.moarbows.api.util.LinearFormula;
 public class Composite_Bow extends MoarBow {
 	public Composite_Bow() {
 		super(new String[] { "Fires enchanted arrows that", "follow a linear trajectory.", "Deals &c{damage} &7damage." },
-				new ParticleData(Particle.REDSTONE, Color.fromRGB(91, 60, 17)), new String[] { "AIR,AIR,AIR", "BOW,NETHER_STAR,BOW", "AIR,AIR,AIR" });
+				new ParticleData(Particle.REDSTONE, Color.fromRGB(91, 60, 17), 2),
+				new String[] { "AIR,AIR,AIR", "BOW,NETHER_STAR,BOW", "AIR,AIR,AIR" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearFormula(2, 0)), new DoubleModifier("damage", new LinearFormula(8, 2)));
 	}

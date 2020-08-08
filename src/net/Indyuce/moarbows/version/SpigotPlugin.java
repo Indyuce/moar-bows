@@ -20,8 +20,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SpigotPlugin {
-	private JavaPlugin plugin;
-	private int id;
+	private final JavaPlugin plugin;
+	private final int id;
+
 	private String version;
 
 	public SpigotPlugin(int id, JavaPlugin plugin) {
@@ -35,7 +36,8 @@ public class SpigotPlugin {
 	public void checkForUpdate() {
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 			try {
-				HttpsURLConnection connection = (HttpsURLConnection) new URL("https://api.spigotmc.org/legacy/update.php?resource=" + id).openConnection();
+				HttpsURLConnection connection = (HttpsURLConnection) new URL("https://api.spigotmc.org/legacy/update.php?resource=" + id)
+						.openConnection();
 				connection.setRequestMethod("GET");
 				version = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine();
 			} catch (IOException e) {
@@ -46,7 +48,8 @@ public class SpigotPlugin {
 			if (version.equals(plugin.getDescription().getVersion()))
 				return;
 
-			plugin.getLogger().log(Level.INFO, "A new build is available: " + version + " (you are running " + plugin.getDescription().getVersion() + ")");
+			plugin.getLogger().log(Level.INFO,
+					"A new build is available: " + version + " (you are running " + plugin.getDescription().getVersion() + ")");
 			plugin.getLogger().log(Level.INFO, "Download it here: " + getResourceUrl());
 
 			/*
@@ -66,8 +69,11 @@ public class SpigotPlugin {
 	}
 
 	private List<String> getOutOfDateMessage() {
-		return Arrays.asList("&8--------------------------------------------", "&a" + plugin.getName() + " " + version + " is available!", "&a" + getResourceUrl(), "&7&oYou can disable this notification in the config file.", "&8--------------------------------------------");
+		return Arrays.asList("&8--------------------------------------------", "&a" + plugin.getName() + " " + version + " is available!",
+				"&a" + getResourceUrl(), "&7&oYou can disable this notification in the config file.",
+				"&8--------------------------------------------");
 	}
+
 	public String getResourceUrl() {
 		return "https://www.spigotmc.org/resources/" + id + "/";
 	}

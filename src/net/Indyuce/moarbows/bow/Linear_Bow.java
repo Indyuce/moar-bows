@@ -21,7 +21,7 @@ import net.Indyuce.moarbows.api.util.LinearFormula;
 public class Linear_Bow extends MoarBow {
 	public Linear_Bow() {
 		super(new String[] { "Fires instant linear arrows", "that deals &c{damage} &7damage to", "the first entity it hits." },
-				new ParticleData(Particle.REDSTONE, Color.fromRGB(90, 90, 255)),
+				new ParticleData(Particle.REDSTONE, Color.fromRGB(90, 90, 255), 2),
 				new String[] { "FLINT,STICK,FLINT", "STICK,BOW,STICK", "FLINT,STICK,FLINT" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearFormula(0, 0)), new DoubleModifier("damage", new LinearFormula(8, 3)));

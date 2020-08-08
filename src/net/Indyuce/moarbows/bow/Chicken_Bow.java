@@ -23,7 +23,7 @@ import net.Indyuce.moarbows.api.util.LinearFormula;
 public class Chicken_Bow extends MoarBow {
 	public Chicken_Bow() {
 		super(new String[] { "Shoots a few eggs. The number", "depends on the bow pull force." },
-				new ParticleData(Particle.REDSTONE, Color.fromRGB(240, 230, 140)), new String[] { "EGG,EGG,EGG", "EGG,BOW,EGG", "EGG,EGG,EGG" });
+				new ParticleData(Particle.REDSTONE, Color.fromRGB(240, 230, 140), 2), new String[] { "EGG,EGG,EGG", "EGG,BOW,EGG", "EGG,EGG,EGG" });
 
 		addModifier(new DoubleModifier("cooldown", new LinearFormula(3, 0)));
 	}
