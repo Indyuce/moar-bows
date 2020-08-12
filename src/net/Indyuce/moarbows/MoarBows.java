@@ -63,9 +63,8 @@ public class MoarBows extends JavaPlugin {
 			nms = (VersionWrapper) Class.forName("net.Indyuce.moarbows.version.wrapper.VersionWrapper_" + version.toString().substring(1))
 					.newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException exception) {
-			getLogger().log(Level.WARNING, "Your server version is handled via reflection");
+			getLogger().log(Level.WARNING, "Your server version is handled via reflection.");
 			nms = new VersionWrapper_Reflection();
-			return;
 		}
 
 		new Metrics(this);
