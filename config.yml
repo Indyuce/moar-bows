@@ -8,9 +8,9 @@ update-notify: true
 # custom bows to be able to shoot arrows.
 full-pull-restriction: false
 
-# Disables all crafting recipes of special bows.
+# Enable all crafting recipes of special bows.
 # You can still obtain the bows via /mb get...
-disable-bow-craftings: false
+bow-crafting-recipes: true
 
 # Edit bow options here.
 bow-options:
@@ -18,8 +18,11 @@ bow-options:
     hide-unbreakable: true
     hide-enchants: false
 
-# Disables particles displayed by custom arrows.
+# Enable particles displayed by custom arrows.
 arrow-particles: true
+
+# Enable particles displayed around a bow in a player hand
+hand-particles: true
 
 # Disables interactions with custom bows.
 # Only players with specific perm nodes will be able to

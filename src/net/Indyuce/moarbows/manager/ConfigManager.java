@@ -6,8 +6,10 @@ import java.nio.file.Files;
 import java.util.logging.Level;
 
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.api.MoarBow;
 import net.Indyuce.moarbows.api.util.ConfigData;
 
 public class ConfigManager {
@@ -29,6 +31,14 @@ public class ConfigManager {
 		loadDefaultFile("bows.yml");
 		loadDefaultFile("language.yml");
 		language = new ConfigData("language");
+
+		FileConfiguration bows = new ConfigData("bows").getConfig();
+		for (MoarBow bow : MoarBows.plugin.getBowManager().getBows())
+			try {
+				bow.update(bows.getConfigurationSection(bow.getId()));
+			} catch (Exception exception) {
+				MoarBows.plugin.getLogger().log(Level.INFO, "Could not reload bow '" + bow.getId() + "': " + exception.getMessage());
+			}
 
 		fullPullRestriction = MoarBows.plugin.getConfig().getBoolean("full-pull-restriction");
 		arrowParticles = MoarBows.plugin.getConfig().getBoolean("hand-particles.enabled");

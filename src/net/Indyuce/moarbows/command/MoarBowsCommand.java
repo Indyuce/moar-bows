@@ -76,7 +76,7 @@ public class MoarBowsCommand implements CommandExecutor {
 			}
 
 			for (MoarBow bow : MoarBows.plugin.getBowManager().getBows())
-				MoarBows.plugin.getNMS().sendJson((Player) sender,
+				MoarBows.plugin.getVersionWrapper().sendJson((Player) sender,
 						"{\"text\":\"* " + ChatColor.GREEN + bow.getName() + ChatColor.WHITE + ", use /mb get " + bow.getLowerCaseId()
 								+ "\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/mb get " + bow.getId()
 								+ "\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":{\"text\":\"\",\"extra\":[{\"text\":\"Click to get the "

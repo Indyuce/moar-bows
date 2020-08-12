@@ -5,7 +5,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
 import net.Indyuce.moarbows.MoarBows;
-import net.Indyuce.moarbows.version.nms.NBTItem;
+import net.Indyuce.moarbows.version.wrapper.NBTItem;
 
 public class ArrowData {
 	private final MoarBow bow;
@@ -31,7 +31,7 @@ public class ArrowData {
 		this.shooter = shooter;
 		this.arrow = arrow;
 
-		this.source = MoarBows.plugin.getNMS().getNBTItem(source);
+		this.source = MoarBows.plugin.getVersionWrapper().getNBTItem(source);
 		this.level = this.source.getInteger("MoarBowLevel");
 	}
 
@@ -44,7 +44,7 @@ public class ArrowData {
 		this.shooter = playerData.getPlayer();
 		this.arrow = arrow;
 
-		this.source = MoarBows.plugin.getNMS().getNBTItem(source);
+		this.source = MoarBows.plugin.getVersionWrapper().getNBTItem(source);
 		this.level = this.source.getInteger("MoarBowLevel");
 	}
 

@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import net.Indyuce.moarbows.MoarBows;
 import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.version.nms.NBTItem;
+import net.Indyuce.moarbows.version.wrapper.NBTItem;
 
 public class BowManager {
 
@@ -78,7 +78,7 @@ public class BowManager {
 	}
 
 	public MoarBow get(ItemStack item) {
-		NBTItem nbtItem = MoarBows.plugin.getNMS().getNBTItem(item);
+		NBTItem nbtItem = MoarBows.plugin.getVersionWrapper().getNBTItem(item);
 		return nbtItem.hasTag("MoarBow") ? MoarBows.plugin.getBowManager().get(nbtItem.getString("MoarBow")) : null;
 	}
 }

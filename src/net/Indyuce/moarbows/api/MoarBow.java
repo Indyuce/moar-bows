@@ -25,8 +25,8 @@ import net.Indyuce.moarbows.api.modifier.DoubleModifier;
 import net.Indyuce.moarbows.api.modifier.Modifier;
 import net.Indyuce.moarbows.api.modifier.StringModifier;
 import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.version.nms.ItemTag;
-import net.Indyuce.moarbows.version.nms.NBTItem;
+import net.Indyuce.moarbows.version.wrapper.ItemTag;
+import net.Indyuce.moarbows.version.wrapper.NBTItem;
 
 public abstract class MoarBow {
 	private final String id;
@@ -163,7 +163,7 @@ public abstract class MoarBow {
 	public ItemStack getItem(int level) {
 		level = Math.max(1, level);
 
-		ItemStack item = data > 0 ? MoarBows.plugin.getVersion().getTextureHandler().textureItem(Material.BOW, data) : new ItemStack(Material.BOW);
+		ItemStack item = data > 0 ? MoarBows.plugin.getVersionWrapper().textureItem(Material.BOW, data) : new ItemStack(Material.BOW);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(getName());
 
