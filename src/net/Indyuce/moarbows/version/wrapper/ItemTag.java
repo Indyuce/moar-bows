@@ -1,4 +1,4 @@
-package net.Indyuce.moarbows.version.nms;
+package net.Indyuce.moarbows.version.wrapper;
 
 public class ItemTag {
 	private final String path;

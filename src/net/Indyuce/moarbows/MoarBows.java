@@ -32,12 +32,13 @@ import net.Indyuce.moarbows.manager.BowManager;
 import net.Indyuce.moarbows.manager.ConfigManager;
 import net.Indyuce.moarbows.version.ServerVersion;
 import net.Indyuce.moarbows.version.SpigotPlugin;
-import net.Indyuce.moarbows.version.nms.NMSHandler;
+import net.Indyuce.moarbows.version.wrapper.VersionWrapper;
+import net.Indyuce.moarbows.version.wrapper.VersionWrapper_Reflection;
 
 public class MoarBows extends JavaPlugin {
 	public static MoarBows plugin;
 
-	private NMSHandler nms;
+	private VersionWrapper nms;
 	private WGPlugin wgPlugin;
 	private ConfigManager language;
 	private ServerVersion version;
@@ -59,10 +60,11 @@ public class MoarBows extends JavaPlugin {
 
 			// nms handle
 			getLogger().log(Level.INFO, "Detected Bukkit Version: " + version.toString());
-			nms = (NMSHandler) Class.forName("net.Indyuce.moarbows.version.nms.NMSHandler_" + version.toString().substring(1)).newInstance();
+			nms = (VersionWrapper) Class.forName("net.Indyuce.moarbows.version.wrapper.VersionWrapper_" + version.toString().substring(1))
+					.newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException exception) {
-			getLogger().log(Level.WARNING, "Your server version is not compatible.");
-			Bukkit.getPluginManager().disablePlugin(this);
+			getLogger().log(Level.WARNING, "Your server version is handled via reflection");
+			nms = new VersionWrapper_Reflection();
 			return;
 		}
 
@@ -79,7 +81,7 @@ public class MoarBows extends JavaPlugin {
 		Bukkit.getServer().getPluginManager().registerEvents(new ItemPrevents(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new HitEntity(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new ArrowLand(), this);
-		if (getConfig().getBoolean("hand-particles.enabled"))
+		if (getConfig().getBoolean("hand-particles"))
 			Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.getOnlinePlayers().forEach(player -> PlayerData.get(player).updateItems()), 100,
 					10);
 
@@ -102,7 +104,7 @@ public class MoarBows extends JavaPlugin {
 		getCommand("moarbows").setTabCompleter(new MoarBowsCompletion());
 
 		// crafting recipes
-		if (!getConfig().getBoolean("disable-bow-craftings"))
+		if (getConfig().getBoolean("bow-crafting-recipes"))
 			for (MoarBow bow : bowManager.getBows())
 				if (bow.isCraftEnabled())
 					try {
@@ -133,7 +135,7 @@ public class MoarBows extends JavaPlugin {
 		return arrowManager;
 	}
 
-	public NMSHandler getNMS() {
+	public VersionWrapper getVersionWrapper() {
 		return nms;
 	}
 

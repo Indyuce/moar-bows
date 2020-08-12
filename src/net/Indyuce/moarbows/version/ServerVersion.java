@@ -4,15 +4,11 @@ public class ServerVersion {
 	private final String version;
 	private final int[] integers;
 
-	private final TextureHandler textureHandler;
-
 	public ServerVersion(Class<?> clazz) {
 		version = clazz.getPackage().getName().replace(".", ",").split(",")[3];
 		
 		String[] split = version.substring(1).split("\\_");
 		integers = new int[] { Integer.parseInt(split[0]), Integer.parseInt(split[1]) };
-
-		textureHandler = new TextureHandler(isStrictlyHigher(1, 13) ? "CustomModelData" : "Damage");
 	}
 
 	public boolean isBelowOrEqual(int... version) {
@@ -21,7 +17,6 @@ public class ServerVersion {
 
 	public boolean isStrictlyHigher(int... version) {
 		return version[0] < integers[0] ? true : version[1] < integers[1];
-		// return !isBelowOrEqual(version);
 	}
 
 	public int getRevisionNumber() {
@@ -35,9 +30,5 @@ public class ServerVersion {
 	@Override
 	public String toString() {
 		return version;
-	}
-
-	public TextureHandler getTextureHandler() {
-		return textureHandler;
 	}
 }

@@ -1,18 +1,21 @@
-package net.Indyuce.moarbows.version.nms;
+package net.Indyuce.moarbows.version.wrapper;
 
 import java.util.List;
 import java.util.Set;
 
-import org.bukkit.craftbukkit.v1_13_R1.inventory.CraftItemStack;
 import org.bukkit.craftbukkit.v1_13_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_13_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
-import net.minecraft.server.v1_13_R1.ItemStack;
+import net.minecraft.server.v1_13_R1.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_13_R1.NBTTagCompound;
 import net.minecraft.server.v1_13_R1.PacketPlayOutChat;
-import net.minecraft.server.v1_13_R1.IChatBaseComponent.ChatSerializer;
 
-public class NMSHandler_1_13_R1 implements NMSHandler {
+public class VersionWrapper_1_13_R1 extends VersionWrapper {
+	public VersionWrapper_1_13_R1() {
+		super("Damage");
+	}
+
 	@Override
 	public void sendJson(Player player, String message) {
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutChat(ChatSerializer.a(message)));
@@ -20,14 +23,14 @@ public class NMSHandler_1_13_R1 implements NMSHandler {
 
 	@Override
 	public NBTItem getNBTItem(org.bukkit.inventory.ItemStack item) {
-		return new NBTItem_v1_13_1(item);
+		return new NBTItem_v1_13_R1(item);
 	}
 
-	public class NBTItem_v1_13_1 extends NBTItem {
-		private final ItemStack nms;
+	public class NBTItem_v1_13_R1 extends NBTItem {
+		private final net.minecraft.server.v1_13_R1.ItemStack nms;
 		private final NBTTagCompound compound;
 
-		public NBTItem_v1_13_1(org.bukkit.inventory.ItemStack item) {
+		public NBTItem_v1_13_R1(org.bukkit.inventory.ItemStack item) {
 			super(item);
 
 			nms = CraftItemStack.asNMSCopy(item);

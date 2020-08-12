@@ -1,20 +1,24 @@
-package net.Indyuce.moarbows.version.nms;
+package net.Indyuce.moarbows.version.wrapper;
 
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_16_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_16_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 
-import net.minecraft.server.v1_16_R1.ChatMessageType;
-import net.minecraft.server.v1_16_R1.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_16_R1.ItemStack;
-import net.minecraft.server.v1_16_R1.NBTTagCompound;
-import net.minecraft.server.v1_16_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_16_R2.ChatMessageType;
+import net.minecraft.server.v1_16_R2.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_16_R2.ItemStack;
+import net.minecraft.server.v1_16_R2.NBTTagCompound;
+import net.minecraft.server.v1_16_R2.PacketPlayOutChat;
 
-public class NMSHandler_1_16_R1 implements NMSHandler {
+public class VersionWrapper_1_16_R2 extends VersionWrapper {
+	public VersionWrapper_1_16_R2() {
+		super("CustomModelData");
+	}
+
 	@Override
 	public void sendJson(Player player, String message) {
 		((CraftPlayer) player).getHandle().playerConnection
@@ -23,14 +27,14 @@ public class NMSHandler_1_16_R1 implements NMSHandler {
 
 	@Override
 	public NBTItem getNBTItem(org.bukkit.inventory.ItemStack item) {
-		return new NBTItem_v1_16_1(item);
+		return new NBTItem_v1_16_R2(item);
 	}
 
-	public class NBTItem_v1_16_1 extends NBTItem {
+	public class NBTItem_v1_16_R2 extends NBTItem {
 		private final ItemStack nms;
 		private final NBTTagCompound compound;
 
-		public NBTItem_v1_16_1(org.bukkit.inventory.ItemStack item) {
+		public NBTItem_v1_16_R2(org.bukkit.inventory.ItemStack item) {
 			super(item);
 
 			nms = CraftItemStack.asNMSCopy(item);

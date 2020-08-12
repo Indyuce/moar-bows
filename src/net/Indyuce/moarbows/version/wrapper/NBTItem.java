@@ -1,4 +1,4 @@
-package net.Indyuce.moarbows.version.nms;
+package net.Indyuce.moarbows.version.wrapper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,6 +44,6 @@ public abstract class NBTItem {
 	}
 
 	public static NBTItem get(ItemStack item) {
-		return MoarBows.plugin.getNMS().getNBTItem(item);
+		return MoarBows.plugin.getVersionWrapper().getNBTItem(item);
 	}
 }
