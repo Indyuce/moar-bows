@@ -35,7 +35,7 @@ public class Silver_Bow extends MoarBow {
 		int id = (int) data.getDouble("block-effect-id");
 		data.getShooter().getWorld().playEffect(data.getShooter().getLocation(), Effect.STEP_SOUND, id);
 		data.getShooter().getWorld().playEffect(data.getShooter().getLocation().add(0, 1, 0), Effect.STEP_SOUND, id);
-		event.setDamage(event.getDamage() * (1. + data.getDouble("damage-percent") / 100.));
+		event.setDamage(event.getDamage() * (1. + data.getDouble("extra") / 100.));
 	}
 
 	@Override
