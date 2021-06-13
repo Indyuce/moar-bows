@@ -1,0 +1,750 @@
+EARTHQUAKE_BOW:
+  name: '&fEarthquake Bow'
+  lore:
+  - ''
+  - Summons a shockwave when hitting
+  - anything, powerfully knocking up
+  - all enemies within &c{radius} &7blocks.
+  - 'Knock-up Force: &c{knockup}'
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - DIRT,DIRT,DIRT
+  - DIRT,BOW,DIRT
+  - DIRT,DIRT,DIRT
+  particle:
+    particle: REDSTONE
+    amount: 2
+    color:
+      red: 128
+      green: 0
+      blue: 0
+  knockup:
+    base: 1.0
+    per-level: 0.5
+  cooldown:
+    base: 10.0
+    per-level: -1.0
+    max: 10.0
+    min: 3.0
+  radius:
+    base: 5.0
+    per-level: 0.2
+SNOW_BOW:
+  name: '&fSnow Bow'
+  lore:
+  - ''
+  - Shoots a few snowballs.
+  - The number depends on
+  - the bow pull force.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - SNOW_BLOCK,SNOW_BLOCK,SNOW_BLOCK
+  - SNOW_BLOCK,BOW,SNOW_BLOCK
+  - SNOW_BLOCK,SNOW_BLOCK,SNOW_BLOCK
+  particle:
+    particle: SNOW_SHOVEL
+    amount: 2
+  cooldown:
+    base: 2.0
+    per-level: 0.0
+LINEAR_BOW:
+  name: '&fLinear Bow'
+  lore:
+  - ''
+  - Fires instant linear arrows
+  - that deals &c{damage} &7damage to
+  - the first entity it hits.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - FLINT,STICK,FLINT
+  - STICK,BOW,STICK
+  - FLINT,STICK,FLINT
+  particle:
+    particle: REDSTONE
+    amount: 2
+    color:
+      red: 90
+      green: 90
+      blue: 255
+  damage:
+    base: 8.0
+    per-level: 3.0
+  cooldown:
+    base: 0.0
+    per-level: 0.0
+LASER_BOW:
+  name: '&fLaser Bow'
+  lore:
+  - ''
+  - Fires instant laser arrows
+  - that deals &c{damage} &7damage to
+  - every entity it hits.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - REDSTONE_BLOCK,REDSTONE_BLOCK,REDSTONE_BLOCK
+  - REDSTONE_BLOCK,BOW,REDSTONE_BLOCK
+  - REDSTONE_BLOCK,REDSTONE_BLOCK,REDSTONE_BLOCK
+  particle:
+    particle: REDSTONE
+    amount: 2
+    color:
+      red: 255
+      green: 0
+      blue: 0
+  damage:
+    base: 5.0
+    per-level: 3.0
+  cooldown:
+    base: 0.0
+    per-level: 0.0
+SILVER_BOW:
+  name: '&fSilver Bow'
+  lore:
+  - ''
+  - Arrows deal &c{extra}% &7additional damage.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - IRON_INGOT,IRON_INGOT,IRON_INGOT
+  - IRON_INGOT,BOW,IRON_INGOT
+  - IRON_INGOT,IRON_INGOT,IRON_INGOT
+  particle:
+    particle: CRIT
+    amount: 2
+  block-effect-id:
+    base: 12.0
+    per-level: 0.0
+  extra:
+    base: 40.0
+    per-level: 30.0
+  cooldown:
+    base: 0.0
+    per-level: 0.0
+GRAVITY_BOW:
+  name: '&fGravity Bow'
+  lore:
+  - ''
+  - Shoots arrows that attract
+  - your target to yourself.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - AIR,FISHING_ROD,AIR
+  - AIR,BOW,AIR
+  - AIR,AIR,AIR
+  particle:
+    particle: SPELL_INSTANT
+    amount: 2
+  y-static:
+    base: 0.3
+    per-level: 0.05
+  cooldown:
+    base: 0.0
+    per-level: 0.0
+  force:
+    base: 2.5
+    per-level: 0.5
+TRIPPPLE_BOW:
+  name: '&fTrippple Bow'
+  lore:
+  - ''
+  - Shoots 3 arrows at a time.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - AIR,AIR,AIR
+  - BOW,BOW,BOW
+  - AIR,AIR,AIR
+  particle:
+    particle: REDSTONE
+    amount: 2
+    color:
+      red: 255
+      green: 255
+      blue: 255
+  cooldown:
+    base: 2.5
+    per-level: 0.0
+VOID_BOW:
+  name: '&fVoid Bow'
+  lore:
+  - ''
+  - Its arrows teleport you
+  - to where they land.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - AIR,ENDER_PEARL,AIR
+  - ENDER_PEARL,BOW,ENDER_PEARL
+  - AIR,ENDER_PEARL,AIR
+  particle:
+    particle: REDSTONE
+    amount: 2
+    color:
+      red: 128
+      green: 0
+      blue: 128
+  cooldown:
+    base: 5.0
+    per-level: -1.0
+    max: 5.0
+    min: 2.0
+WITHER_BOW:
+  name: '&fWither Bow'
+  lore:
+  - ''
+  - Shoots an exploding wither skull.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL
+  - WITHER_SKELETON_SKULL,BOW,WITHER_SKELETON_SKULL
+  - WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL,WITHER_SKELETON_SKULL
+  particle:
+    particle: REDSTONE
+    amount: 2
+    color:
+      red: 0
+      green: 0
+      blue: 0
+  cooldown:
+    base: 4.0
+    per-level: -8.0
+    max: 4.0
+    min: 2.0
+EXPLOSIVE_BOW:
+  name: '&fExplosive Bow'
+  lore:
+  - ''
+  - Arrows explode when landing, deal
+  - '&c{damage} &7damage to nearby entities.'
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - TNT,TNT,TNT
+  - TNT,BOW,TNT
+  - TNT,TNT,TNT
+  particle:
+    particle: EXPLOSION_NORMAL
+    amount: 2
+  damage:
+    base: 8.0
+    per-level: 4.0
+  cooldown:
+    base: 0.0
+    per-level: 0.0
+RAILGUN_BOW:
+  name: '&fRailgun Bow'
+  lore:
+  - ''
+  - 'Only works in minecarts. Arrows '
+  - explode upon landing, causing
+  - a powerful explosion.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - TNT,RAIL,TNT
+  - RAIL,BOW,RAIL
+  - TNT,RAIL,TNT
+  particle:
+    particle: VILLAGER_ANGRY
+    amount: 2
+  cooldown:
+    base: 8.0
+    per-level: -1.0
+    max: 8.0
+    min: 3.0
+  radius:
+    base: 5.0
+    per-level: 1.0
+SPARTAN_BOW:
+  name: '&fSpartan Bow'
+  lore:
+  - ''
+  - Summons a flurry of arrows from
+  - the sky when hitting a target.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - BOW,EMERALD,BOW
+  - EMERALD,BOW,EMERALD
+  - BOW,EMERALD,BOW
+  particle:
+    particle: REDSTONE
+    amount: 2
+    color:
+      red: 180
+      green: 180
+      blue: 180
+  duration:
+    base: 1.5
+    per-level: 0.5
+  cooldown:
+    base: 25.0
+    per-level: -3.0
+    max: 25.0
+    min: 10.0
+CORONA_BOW:
+  name: '&fCorona Bow'
+  lore:
+  - ''
+  - Creates a deadly mark on the
+  - ground during &c{duration} &7seconds, dealing
+  - '&c{damage} &7damage per second to entities'
+  - within &c{radius} &7blocks.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - SLIME_BALL,SLIME_BALL,SLIME_BALL
+  - SLIME_BALL,BOW,SLIME_BALL
+  - SLIME_BALL,SLIME_BALL,SLIME_BALL
+  particle:
+    particle: REDSTONE
+    amount: 2
+    color:
+      red: 0
+      green: 255
+      blue: 0
+  duration:
+    base: 5.0
+    per-level: 1.0
+  damage:
+    base: 2.0
+    per-level: 1.0
+  cooldown:
+    base: 10.0
+    per-level: 0.0
+  radius:
+    base: 5.0
+    per-level: 1.0
+HUNTER_BOW:
+  name: '&fHunter Bow'
+  lore:
+  - ''
+  - Arrows deal &c{extra}% &7additional
+  - damage to friendly mobs.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - CHICKEN,BEEF,CHICKEN
+  - BEEF,BOW,BEEF
+  - CHICKEN,BEEF,CHICKEN
+  particle:
+    particle: REDSTONE
+    amount: 2
+    color:
+      red: 255
+      green: 0
+      blue: 0
+  extra:
+    base: 75.0
+    per-level: 25.0
+  cooldown:
+    base: 0.0
+    per-level: 0.0
+CHICKEN_BOW:
+  name: '&fChicken Bow'
+  lore:
+  - ''
+  - Shoots a few eggs. The number
+  - depends on the bow pull force.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - EGG,EGG,EGG
+  - EGG,BOW,EGG
+  - EGG,EGG,EGG
+  particle:
+    particle: REDSTONE
+    amount: 2
+    color:
+      red: 240
+      green: 230
+      blue: 140
+  cooldown:
+    base: 3.0
+    per-level: 0.0
+AUTOBOW:
+  name: '&fAutobow'
+  lore:
+  - ''
+  - Shoots a flurry of &c{arrows} &7arrows.
+  - The number depends on the
+  - bow pull force.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - BOW,BOW,BOW
+  - BOW,NETHER_STAR,BOW
+  - BOW,BOW,BOW
+  particle:
+    particle: CRIT
+    amount: 2
+  cooldown:
+    base: 8.0
+    per-level: -1.0
+    max: 8.0
+    min: 3.0
+  arrows:
+    base: 8.0
+    per-level: -1.0
+    max: 8.0
+    min: 3.0
+SHOCKING_BOW:
+  name: '&fShocking Bow'
+  lore:
+  - ''
+  - Fires enchanted arrows
+  - that shock your targets.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - FLINT,FLINT,FLINT
+  - FLINT,BOW,FLINT
+  - FLINT,FLINT,FLINT
+  particle:
+    particle: SMOKE_NORMAL
+    amount: 2
+  duration:
+    base: 2.0
+    per-level: 1.0
+  cooldown:
+    base: 5.0
+    per-level: -1.0
+    max: 5.0
+    min: 1.0
+COMPOSITE_BOW:
+  name: '&fComposite Bow'
+  lore:
+  - ''
+  - Fires enchanted arrows that
+  - follow a linear trajectory.
+  - Deals &c{damage} &7damage.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - AIR,AIR,AIR
+  - BOW,NETHER_STAR,BOW
+  - AIR,AIR,AIR
+  particle:
+    particle: REDSTONE
+    amount: 2
+    color:
+      red: 91
+      green: 60
+      blue: 17
+  damage:
+    base: 8.0
+    per-level: 2.0
+  cooldown:
+    base: 2.0
+    per-level: 0.0
+ICE_BOW:
+  name: '&fIce Bow'
+  lore:
+  - ''
+  - Shoots ice arrows that cause an ice
+  - explosion upon landing, temporarily
+  - slowing every nearby entity.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - ICE,ICE,ICE
+  - ICE,BOW,ICE
+  - ICE,ICE,ICE
+  particle:
+    particle: SNOW_SHOVEL
+    amount: 2
+  duration:
+    base: 5.0
+    per-level: 1.0
+  cooldown:
+    base: 0.0
+    per-level: 0.0
+  amplifier:
+    base: 2.0
+    per-level: 0.4
+SHADOW_BOW:
+  name: '&fShadow Bow'
+  lore:
+  - ''
+  - Shoots a long ranged linear
+  - cursed arrow that deals &c{damage}
+  - damage tothe first entity it hits.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - ENDER_EYE,ENDER_EYE,ENDER_EYE
+  - ENDER_EYE,BOW,ENDER_EYE
+  - ENDER_EYE,ENDER_EYE,ENDER_EYE
+  particle:
+    particle: REDSTONE
+    amount: 2
+    color:
+      red: 128
+      green: 0
+      blue: 128
+  damage:
+    base: 8.0
+    per-level: 4.0
+  cooldown:
+    base: 10.0
+    per-level: -1.0
+    max: 10.0
+    min: 3.0
+MARKED_BOW:
+  name: '&fMarked Bow'
+  lore:
+  - ''
+  - Arrows mark players. Hitting a
+  - marked player deals &c{extra}% &7additional
+  - damage. Milk dispels the mark.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - COAL,COAL,COAL
+  - COAL,BOW,COAL
+  - COAL,COAL,COAL
+  particle:
+    particle: SPELL_WITCH
+    amount: 2
+  duration:
+    base: 6.0
+    per-level: 1.0
+  extra:
+    base: 40.0
+    per-level: 20.0
+  cooldown:
+    base: 10.0
+    per-level: -1.0
+    max: 10.0
+    min: 3.0
+  particles: true
+LIGHTNING_BOWLT:
+  name: '&fLightning Bow''lt'
+  lore:
+  - ''
+  - Shoots arrows that summon
+  - lightning upon landing.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - AIR,BEACON,AIR
+  - AIR,BOW,AIR
+  - AIR,AIR,AIR
+  particle:
+    particle: FIREWORKS_SPARK
+    amount: 2
+  cooldown:
+    base: 10.0
+    per-level: -1.0
+    max: 10.0
+    min: 3.0
+PULSAR_BOW:
+  name: '&fPulsar Bow'
+  lore:
+  - ''
+  - Shoots arrows that summon a black
+  - hole that attracts nearby enemies.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - AIR,WITHER_SKELETON_SKULL,AIR
+  - WITHER_SKELETON_SKULL,BOW,WITHER_SKELETON_SKULL
+  - AIR,WITHER_SKELETON_SKULL,AIR
+  particle:
+    particle: SMOKE_NORMAL
+    amount: 2
+  duration:
+    base: 3.0
+    per-level: 1.0
+  cooldown:
+    base: 10.0
+    per-level: -1.0
+    max: 10.0
+    min: 3.0
+METEOR_BOW:
+  name: '&fMeteor Bow'
+  lore:
+  - ''
+  - Shoots arrows that summon a fire
+  - comet upon landing, dealing damage
+  - and knockback to nearby entities.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - FIRE_CHARGE,FIRE_CHARGE,FIRE_CHARGE
+  - FIRE_CHARGE,BOW,FIRE_CHARGE
+  - FIRE_CHARGE,FIRE_CHARGE,FIRE_CHARGE
+  particle:
+    particle: LAVA
+    amount: 2
+  damage:
+    base: 8.0
+    per-level: 4.0
+  cooldown:
+    base: 10.0
+    per-level: -1.0
+    max: 10.0
+    min: 3.0
+  knockback:
+    base: 1.0
+    per-level: 1.3
+BLAZE_BOW:
+  name: '&fBlaze Bow'
+  lore:
+  - ''
+  - Shoots a long ranged firebolt that
+  - deals &c{damage} &7damage to the first entity it
+  - hits, igniting him for &c{duration} &7seconds.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - MAGMA_CREAM,MAGMA_CREAM,MAGMA_CREAM
+  - MAGMA_CREAM,BOW,MAGMA_CREAM
+  - MAGMA_CREAM,MAGMA_CREAM,MAGMA_CREAM
+  particle:
+    particle: FLAME
+    amount: 2
+  duration:
+    base: 4.0
+    per-level: 0.3
+  damage:
+    base: 8.0
+    per-level: 2.0
+  cooldown:
+    base: 10.0
+    per-level: -1.0
+    max: 10.0
+    min: 3.0
+CORROSIVE_BOW:
+  name: '&fCorrosive Bow'
+  lore:
+  - ''
+  - Arrows poison your targets and
+  - nearby entities for &c{duration} &7seconds.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - AIR,SLIME_BALL,AIR
+  - SLIME_BALL,BOW,SLIME_BALL
+  - AIR,SLIME_BALL,AIR
+  particle:
+    particle: VILLAGER_HAPPY
+    amount: 2
+  duration:
+    base: 4.0
+    per-level: 0.2
+  cooldown:
+    base: 0.0
+    per-level: 0.0
+CUPIDONS_BOW:
+  name: '&fCupidon''s Bow'
+  lore:
+  - ''
+  - Arrows heal players for &a{heal} &7hearts.
+  - Also unmarks (&nMarked Bow&7) players.
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - GLISTERING_MELON_SLICE,GLISTERING_MELON_SLICE,GLISTERING_MELON_SLICE
+  - GLISTERING_MELON_SLICE,BOW,GLISTERING_MELON_SLICE
+  - GLISTERING_MELON_SLICE,GLISTERING_MELON_SLICE,GLISTERING_MELON_SLICE
+  particle:
+    particle: HEART
+    amount: 2
+  cooldown:
+    base: 0.0
+    per-level: 0.0
+  heal:
+    base: 4.0
+    per-level: 3.0
+FIRE_BOW:
+  name: '&fFire Bow'
+  lore:
+  - ''
+  - Shoots burning arrows that cause a
+  - first burst upon landing, igniting
+  - any entity within &c{radius} &7blocks.
+  - 'Ignite duration: &c{ignite} &7seconds'
+  - ''
+  - '&e{cooldown}s Cooldown'
+  durability: 0
+  craft-enabled: true
+  craft:
+  - BLAZE_ROD,BLAZE_ROD,BLAZE_ROD
+  - BLAZE_ROD,BOW,BLAZE_ROD
+  - BLAZE_ROD,BLAZE_ROD,BLAZE_ROD
+  particle:
+    particle: FLAME
+    amount: 2
+  ignite:
+    base: 4.0
+    per-level: 2.0
+  cooldown:
+    base: 0.0
+    per-level: 0.0
+  radius:
+    base: 5.0
+    per-level: 1.0
+  max-burning-time:
+    base: 8.0
+    per-level: 2.0

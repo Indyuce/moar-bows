@@ -54,6 +54,7 @@ public class MoarBows extends JavaPlugin {
 
 	public void onEnable() {
 		bowManager.stopRegistration();
+
 		new SpigotPlugin(36387, this).checkForUpdate();
 
 		try {
@@ -63,8 +64,9 @@ public class MoarBows extends JavaPlugin {
 			nms = (VersionWrapper) Class.forName("net.Indyuce.moarbows.version.wrapper.VersionWrapper_" + version.toString().substring(1))
 					.newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException exception) {
-			getLogger().log(Level.WARNING, "Your server version is handled via reflection.");
+			getLogger().log(Level.WARNING, "Your server version is not natively supported, MoarBows may malfunction.");
 			nms = new VersionWrapper_Reflection();
+			return;
 		}
 
 		new Metrics(this);

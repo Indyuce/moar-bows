@@ -1,0 +1,4 @@
+on-cooldown: '&cThis bow is on cooldown! Please wait another {left}s.'
+receive-bow: '&eYou were given &f{bow}&e.'
+not-enough-perms: '&cYou don''t have enough permissions.'
+disable-bows-flag: '&cBows are disabled here.'
