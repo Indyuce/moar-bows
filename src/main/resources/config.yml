@@ -1,0 +1,32 @@
+# Notifies players with the 'moarbows.update-notify' perm node when
+# they join the server if a new update is available for download.
+# Requires /reload when changed.
+update-notify: true
+
+# If set to true, players must fully pull
+# custom bows to be able to shoot arrows.
+full-pull-restriction: false
+
+# Enable all crafting recipes of special bows.
+# You can still obtain the bows via /mb get...
+bow-crafting-recipes: true
+
+# Edit bow options here.
+bow-options:
+  unbreakable: true
+  hide-unbreakable: true
+  hide-enchants: false
+
+# Enable particles displayed by custom arrows.
+arrow-particles: true
+
+# Enable particles displayed around a bow in a player hand
+hand-particles: true
+
+# Disables interactions with custom bows.
+# Only players with specific perm nodes will be able to
+# perform these actions (moarbows.repair & moarbows.enchant).
+# Make sure you restart your server after changing these.
+disable:
+  repair: true
+  enchant: true
