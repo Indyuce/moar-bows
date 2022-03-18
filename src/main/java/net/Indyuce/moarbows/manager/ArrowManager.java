@@ -1,7 +1,7 @@
 package net.Indyuce.moarbows.manager;
 
 import net.Indyuce.moarbows.BowUtils;
-import net.Indyuce.moarbows.api.ArrowData;
+import net.Indyuce.moarbows.bow.ArrowData;
 import org.bukkit.entity.Arrow;
 
 import java.util.Collection;

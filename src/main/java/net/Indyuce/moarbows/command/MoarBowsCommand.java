@@ -1,7 +1,7 @@
 package net.Indyuce.moarbows.command;
 
 import net.Indyuce.moarbows.MoarBows;
-import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.bow.MoarBow;
 import net.Indyuce.moarbows.gui.BowList;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;

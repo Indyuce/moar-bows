@@ -5,7 +5,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import net.Indyuce.moarbows.api.PlayerData;
+import net.Indyuce.moarbows.player.PlayerData;
 
 public class PlayerListener implements Listener {
 	@EventHandler

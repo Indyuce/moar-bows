@@ -1,7 +1,7 @@
 package net.Indyuce.moarbows.manager;
 
 import net.Indyuce.moarbows.MoarBows;
-import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.bow.MoarBow;
 import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -50,7 +50,7 @@ public class BowManager {
                 String name = entry.getName().replace("/", ".");
 
                 // Check for real & non anonymous classes
-                if (name.endsWith(".class") && !name.contains("$") && name.startsWith("net.Indyuce.moarbows.bow."))
+                if (name.endsWith(".class") && !name.contains("$") && name.startsWith("net.Indyuce.moarbows.bow.list."))
                     register((MoarBow) Class.forName(name.substring(0, name.length() - 6)).getDeclaredConstructor().newInstance());
             }
             file.close();

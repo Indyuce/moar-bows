@@ -5,8 +5,8 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityEvent;
 
-import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.bow.ArrowData;
+import net.Indyuce.moarbows.bow.MoarBow;
 
 public class MoarBowShootEvent extends EntityEvent implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();

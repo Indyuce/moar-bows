@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
 import net.Indyuce.moarbows.MoarBows;
-import net.Indyuce.moarbows.api.ArrowData;
+import net.Indyuce.moarbows.bow.ArrowData;
 
 public class ArrowLand implements Listener {
 

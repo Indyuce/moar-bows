@@ -1,7 +1,7 @@
 package net.Indyuce.moarbows;
 
-import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.api.PlayerData;
+import net.Indyuce.moarbows.player.PlayerData;
+import net.Indyuce.moarbows.bow.MoarBow;
 import net.Indyuce.moarbows.command.MoarBowsCommand;
 import net.Indyuce.moarbows.command.completion.MoarBowsCompletion;
 import net.Indyuce.moarbows.comp.Metrics;

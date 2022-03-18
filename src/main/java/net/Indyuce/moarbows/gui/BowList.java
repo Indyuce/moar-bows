@@ -2,7 +2,7 @@ package net.Indyuce.moarbows.gui;
 
 import net.Indyuce.moarbows.BowUtils;
 import net.Indyuce.moarbows.MoarBows;
-import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.bow.MoarBow;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;

@@ -9,8 +9,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import net.Indyuce.moarbows.MoarBows;
-import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.api.util.ConfigFile;
+import net.Indyuce.moarbows.bow.MoarBow;
+import net.Indyuce.moarbows.util.ConfigFile;
 
 public class ConfigManager {
 

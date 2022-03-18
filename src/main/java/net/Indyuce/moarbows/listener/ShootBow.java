@@ -11,11 +11,11 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.inventory.ItemStack;
 
 import net.Indyuce.moarbows.MoarBows;
-import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.api.PlayerData;
+import net.Indyuce.moarbows.bow.ArrowData;
+import net.Indyuce.moarbows.bow.MoarBow;
+import net.Indyuce.moarbows.player.PlayerData;
 import net.Indyuce.moarbows.api.event.MoarBowShootEvent;
-import net.Indyuce.moarbows.api.particle.ArrowParticles;
+import net.Indyuce.moarbows.bow.particle.ArrowParticles;
 import net.Indyuce.moarbows.comp.worldguard.CustomFlag;
 
 public class ShootBow implements Listener {
