@@ -84,7 +84,7 @@ public class ArrowData {
 
 	/**
 	 * The arrow instance must be flushed from the database if it exists for
-	 * longer than 10 minutes which is reasonnable since landing an arrow should
+	 * longer than 10 minutes which is reasonable since landing an arrow should
 	 * only take about a few seconds max
 	 */
 	public boolean hasTimedOut() {
