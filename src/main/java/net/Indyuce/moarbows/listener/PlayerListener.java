@@ -15,6 +15,6 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void b(PlayerQuitEvent event) {
-		PlayerData.get(event.getPlayer()).cancelRunnables();
+		PlayerData.get(event.getPlayer()).logOff();
 	}
 }

@@ -1,5 +1,12 @@
 package net.Indyuce.moarbows.bow;
 
+import net.Indyuce.moarbows.BowUtils;
+import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.api.ArrowData;
+import net.Indyuce.moarbows.api.MoarBow;
+import net.Indyuce.moarbows.api.modifier.DoubleModifier;
+import net.Indyuce.moarbows.api.particle.ParticleData;
+import net.Indyuce.moarbows.api.util.LinearFormula;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -10,14 +17,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import net.Indyuce.moarbows.BowUtils;
-import net.Indyuce.moarbows.MoarBows;
-import net.Indyuce.moarbows.api.ArrowData;
-import net.Indyuce.moarbows.api.MoarBow;
-import net.Indyuce.moarbows.api.modifier.DoubleModifier;
-import net.Indyuce.moarbows.api.particle.ParticleData;
-import net.Indyuce.moarbows.api.util.LinearFormula;
 
 public class Corona_Bow extends MoarBow {
 	public Corona_Bow() {
@@ -74,10 +73,11 @@ public class Corona_Bow extends MoarBow {
 			loc.getWorld().spawnParticle(Particle.REDSTONE, loc, 8, 3, .1, 3, new Particle.DustOptions(Color.GREEN, 1.2f));
 
 			if (t % 5 == 0)
-				for (Entity entity : BowUtils.getNearbyChunkEntities(loc))
+				BowUtils.forEachNearbyChunkEntity(loc, entity -> {
 					if (entity instanceof LivingEntity && entity.getLocation().distanceSquared(loc) < radiusSquared
 							&& BowUtils.canTarget(shooter, null, entity))
 						((Damageable) entity).damage(damage / 2);
+				});
 		}
 	}
 }

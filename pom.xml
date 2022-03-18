@@ -6,7 +6,7 @@
 
     <groupId>net.Indyuce</groupId>
     <artifactId>MoarBows</artifactId>
-    <version>3.0</version>
+    <version>2.6</version>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
@@ -36,7 +36,6 @@
                 <version>3.1.0</version>
                 <configuration>
                     <finalName>${project.name}-${project.version}</finalName>
-                    <outputDirectory>../target</outputDirectory>
                 </configuration>
             </plugin>
 
@@ -76,7 +75,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.18.1-R0.1-SNAPSHOT</version>
+            <version>1.18.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
