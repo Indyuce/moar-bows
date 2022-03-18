@@ -32,26 +32,6 @@ public class BowManager {
      */
     private boolean registration = true;
 
-    public BowManager() {
-        try {
-            JarFile file = new JarFile(MoarBows.plugin.getJarFile());
-            for (Enumeration<JarEntry> entry = file.entries(); entry.hasMoreElements(); ) {
-                JarEntry jarEntry = entry.nextElement();
-                String name = jarEntry.getName().replace("/", ".");
-
-                // Check for real & non anonymous classes
-                if (name.endsWith(".class") && !name.contains("$") && name.startsWith("net.Indyuce.moarbows.bow.")) {
-                    Class<?> javaClass = Class.forName(name.substring(0, name.length() - 6));
-                    if (javaClass.isAssignableFrom(MoarBow.class))
-                        register((MoarBow) javaClass.getDeclaredConstructor().newInstance());
-                }
-            }
-            file.close();
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IOException | NoSuchMethodException | InvocationTargetException exception) {
-            exception.printStackTrace();
-        }
-    }
-
     public void register(MoarBow bow) {
         Validate.isTrue(registration, "Bows must be registered before MoarBows enables");
         Validate.isTrue(!map.containsKey(bow.getId()), "A bow with the same ID already exists");
@@ -60,6 +40,24 @@ public class BowManager {
     }
 
     public void stopRegistration() {
+        Validate.isTrue(registration, "Bow registration is disabled");
+
+        // Load default bows
+        try {
+            JarFile file = new JarFile(MoarBows.plugin.getJarFile());
+            for (Enumeration<JarEntry> entryEnum = file.entries(); entryEnum.hasMoreElements(); ) {
+                JarEntry entry = entryEnum.nextElement();
+                String name = entry.getName().replace("/", ".");
+
+                // Check for real & non anonymous classes
+                if (name.endsWith(".class") && !name.contains("$") && name.startsWith("net.Indyuce.moarbows.bow."))
+                    register((MoarBow) Class.forName(name.substring(0, name.length() - 6)).getDeclaredConstructor().newInstance());
+            }
+            file.close();
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IOException | NoSuchMethodException | InvocationTargetException exception) {
+            exception.printStackTrace();
+        }
+
         registration = false;
     }
 
