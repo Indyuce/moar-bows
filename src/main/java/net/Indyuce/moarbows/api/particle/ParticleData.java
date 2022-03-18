@@ -34,16 +34,12 @@ public class ParticleData {
 		this.amount = amount;
 	}
 
-	public boolean isColorable() {
-		return particle == Particle.SPELL_MOB || particle == Particle.SPELL_MOB_AMBIENT || particle == Particle.REDSTONE || particle == Particle.NOTE;
-	}
-
 	public ParticleRunnable newRunnable(Player player, boolean offhand) {
 		return new ParticleRunnable(player, offhand);
 	}
 
 	public void displayParticle(Location loc) {
-		if (isColorable() && color != null)
+		if (particle.getDataType() == Particle.DustOptions.class && color != null)
 			loc.getWorld().spawnParticle(particle, loc, 0, new Particle.DustOptions(color, 1));
 		else
 			loc.getWorld().spawnParticle(particle, loc, 0);
@@ -77,7 +73,7 @@ public class ParticleData {
 			loc.setYaw(player.getLocation().getYaw() + (offhand ? -90 : 90));
 			loc.add(loc.getDirection().multiply(.3));
 
-			if (isColorable() && color != null)
+			if (particle.getDataType() == Particle.DustOptions.class && color != null)
 				loc.getWorld().spawnParticle(particle, loc, amount, .1, .1, .1, 0, new Particle.DustOptions(color, 1));
 			else
 				loc.getWorld().spawnParticle(particle, loc, amount, .1, .1, .1, 0);
