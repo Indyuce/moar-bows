@@ -14,6 +14,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -49,9 +50,28 @@ public class BowUtils implements Listener {
         if (!player.getInventory().containsAtLeast(ammo, 1))
             return false;
 
+        // Does not consume ammo if the bow has infinity enchantment
+        ItemStack bowInHand = getBowInHand(player);
+        if (Objects.nonNull(bowInHand) && bowInHand.getEnchantments().containsKey(Enchantment.ARROW_INFINITE)) {
+            return true;
+        }
+
         // Returns true and consumes the ammo if the player has enough
         player.getInventory().removeItem(ammo);
         return true;
+    }
+
+    private static ItemStack getBowInHand(Player player) {
+        ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
+        if (itemInMainHand.getType() == Material.BOW) {
+            return itemInMainHand;
+        }
+
+        ItemStack itemInOffHand = player.getInventory().getItemInOffHand();
+        if (itemInOffHand.getType() == Material.BOW) {
+            return itemInOffHand;
+        }
+        return null;
     }
 
     public static boolean isPluginItem(ItemStack item, boolean lore) {
