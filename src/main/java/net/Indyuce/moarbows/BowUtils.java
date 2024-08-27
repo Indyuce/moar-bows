@@ -26,10 +26,7 @@ public class BowUtils implements Listener {
             if (isLastSpace && ch >= 'a' && ch <= 'z') {
                 builder.setCharAt(i, (char) (ch + ('A' - 'a')));
                 isLastSpace = false;
-            } else if (ch != ' ')
-                isLastSpace = false;
-            else
-                isLastSpace = true;
+            } else isLastSpace = ch == ' ';
         }
         return builder.toString();
     }
@@ -37,11 +34,10 @@ public class BowUtils implements Listener {
     public static boolean consumeAmmo(LivingEntity entity, ItemStack ammo) {
 
         // If sender is not a player, then do not consume any ammo
-        if (!(entity instanceof Player))
+        if (!(entity instanceof Player player))
             return true;
 
         // Does not consume ammo if the player is in creative mode
-        Player player = (Player) entity;
         if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR)
             return true;
 

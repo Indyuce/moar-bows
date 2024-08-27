@@ -4,6 +4,7 @@ main: net.Indyuce.moarbows.MoarBows
 author: Indyuce
 softdepend: [ WorldGuard ]
 api-version: 1.13
+folia-supported: true
 commands:
   moarbows:
     description: Main command.

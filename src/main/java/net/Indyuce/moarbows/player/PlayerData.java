@@ -1,7 +1,7 @@
 package net.Indyuce.moarbows.player;
 
-import net.Indyuce.moarbows.bow.MoarBow;
 import net.Indyuce.moarbows.MoarBows;
+import net.Indyuce.moarbows.bow.MoarBow;
 import net.Indyuce.moarbows.bow.particle.ParticleData.ParticleRunnable;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.bukkit.OfflinePlayer;
@@ -14,10 +14,13 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class PlayerData {
+    private static final Map<UUID, PlayerData> playerDatas = new HashMap<>();
     private final UUID uuid;
-
+    /**
+     * Where cooldowns from bows are all stored.
+     */
+    private final Map<String, Long> cooldowns = new HashMap<>();
     private Player player;
-
     /*
      * used to check twice a second if the player changed the item he's been
      * holding.
@@ -26,19 +29,23 @@ public class PlayerData {
     private ParticleRunnable mainparticles, offparticles;
 
     /**
-     * Where cooldowns from bows are all stored.
-     */
-    private final Map<String, Long> cooldowns = new HashMap<>();
-
-    private static Map<UUID, PlayerData> playerDatas = new HashMap<>();
-
-    /**
      * Private constructor since it is only used when setting
      * up playerDatas, this way there is no possible confusion
      */
     private PlayerData(Player player) {
         this.player = player;
         this.uuid = player.getUniqueId();
+    }
+
+    @NotNull
+    public static PlayerData get(OfflinePlayer player) {
+        return Objects.requireNonNull(playerDatas.get(player.getUniqueId()), "Player data not loaded");
+    }
+
+    public static PlayerData setup(Player player) {
+        PlayerData found = playerDatas.computeIfAbsent(player.getUniqueId(), uuid -> new PlayerData(player));
+        found.player = player;
+        return found;
     }
 
     public UUID getUniqueId() {
@@ -88,22 +95,11 @@ public class PlayerData {
 
     public double getRemainingCooldown(MoarBow bow, int level) {
         return cooldowns.containsKey(bow.getId())
-                ? (double) Math.max(0, cooldowns.get(bow.getId()) + bow.getDouble("cooldown", level) * 1000 - System.currentTimeMillis()) / 1000.
+                ? Math.max(0, cooldowns.get(bow.getId()) + bow.getDouble("cooldown", level) * 1000 - System.currentTimeMillis()) / 1000.
                 : 0;
     }
 
     public void applyCooldown(MoarBow bow) {
         cooldowns.put(bow.getId(), System.currentTimeMillis());
-    }
-
-    @NotNull
-    public static PlayerData get(OfflinePlayer player) {
-        return Objects.requireNonNull(playerDatas.get(player.getUniqueId()), "Player data not loaded");
-    }
-
-    public static PlayerData setup(Player player) {
-        PlayerData found = playerDatas.computeIfAbsent(player.getUniqueId(), uuid -> new PlayerData(player));
-        found.player = player;
-        return found;
     }
 }

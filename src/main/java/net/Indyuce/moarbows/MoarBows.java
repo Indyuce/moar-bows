@@ -1,6 +1,6 @@
 package net.Indyuce.moarbows;
 
-import net.Indyuce.moarbows.player.PlayerData;
+import com.github.Anon8281.universalScheduler.foliaScheduler.FoliaScheduler;
 import net.Indyuce.moarbows.bow.MoarBow;
 import net.Indyuce.moarbows.command.MoarBowsCommand;
 import net.Indyuce.moarbows.command.completion.MoarBowsCompletion;
@@ -13,6 +13,7 @@ import net.Indyuce.moarbows.listener.*;
 import net.Indyuce.moarbows.manager.ArrowManager;
 import net.Indyuce.moarbows.manager.BowManager;
 import net.Indyuce.moarbows.manager.ConfigManager;
+import net.Indyuce.moarbows.player.PlayerData;
 import net.Indyuce.moarbows.version.SpigotPlugin;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -25,6 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 
 public class MoarBows extends JavaPlugin {
@@ -59,8 +61,7 @@ public class MoarBows extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new HitEntity(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new ArrowLand(), this);
         if (getConfig().getBoolean("hand-particles"))
-            Bukkit.getScheduler().runTaskTimer(this, () -> Bukkit.getOnlinePlayers().forEach(player -> PlayerData.get(player).updateItems()), 100,
-                    10);
+            new FoliaScheduler(MoarBows.plugin).runTaskTimer(() -> Bukkit.getOnlinePlayers().forEach(player -> PlayerData.get(player).updateItems()), 100, 10);
 
         // Automatically registers external listeners
         bowManager.getBows().stream().filter(bow -> bow instanceof Listener)
@@ -71,19 +72,19 @@ public class MoarBows extends JavaPlugin {
          * 10 minutes to make sure there are no memory issues, sometimes a plugin
          * bug happens and makes unregistering the instance impossible
          */
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(MoarBows.plugin, () -> arrowManager.flushArrowData(), 5 * 60 * 20, 5 * 60 * 20);
+        new FoliaScheduler(MoarBows.plugin).scheduleSyncRepeatingTask(arrowManager::flushArrowData, 5 * 60 * 20, 5 * 60 * 20);
 
         /*
          * Setup player datas for players that have been online e.g during a
          * reload, so the plugin doesn't crash since normally the player datas
          * are initialized whenever players log on the server
          */
-        Bukkit.getOnlinePlayers().forEach(player -> PlayerData.setup(player));
+        Bukkit.getOnlinePlayers().forEach(PlayerData::setup);
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
 
         // Commands
-        getCommand("moarbows").setExecutor(new MoarBowsCommand());
-        getCommand("moarbows").setTabCompleter(new MoarBowsCompletion());
+        Objects.requireNonNull(getCommand("moarbows")).setExecutor(new MoarBowsCommand());
+        Objects.requireNonNull(getCommand("moarbows")).setTabCompleter(new MoarBowsCompletion());
 
         // Crafting recipes
         if (getConfig().getBoolean("bow-crafting-recipes"))
@@ -91,7 +92,7 @@ public class MoarBows extends JavaPlugin {
                 if (bow.isCraftEnabled())
                     try {
                         ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(MoarBows.plugin, "MoarBows_" + bow.getId()), bow.getItem(1));
-                        recipe.shape(new String[]{"ABC", "DEF", "GHI"});
+                        recipe.shape("ABC", "DEF", "GHI");
                         char[] chars = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'};
                         List<String> list = Arrays.asList(bow.getFormattedCraftingRecipe());
                         Validate.isTrue(list.size() == 3, "Crafting recipe must have 3 lines");

@@ -15,14 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BowList extends PluginInventory {
-    private final List<MoarBow> bows = new ArrayList<>();
-    private final int maxPage;
-
-    private int page = 1;
-
     private static final int[] SLOTS = {00, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
     private static final int BOWS_PER_PAGE = SLOTS.length;
     private static final NamespacedKey INV_FUNCTION_NAMESPACED_KEY = new NamespacedKey(MoarBows.plugin, "InventoryFunction");
+    private final List<MoarBow> bows = new ArrayList<>();
+    private final int maxPage;
+    private int page = 1;
 
     public BowList(Player player) {
         super(player);

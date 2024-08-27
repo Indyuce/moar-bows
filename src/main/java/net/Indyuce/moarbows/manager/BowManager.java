@@ -54,7 +54,8 @@ public class BowManager {
                     register((MoarBow) Class.forName(name.substring(0, name.length() - 6)).getDeclaredConstructor().newInstance());
             }
             file.close();
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IOException | NoSuchMethodException | InvocationTargetException exception) {
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | IOException |
+                 NoSuchMethodException | InvocationTargetException exception) {
             exception.printStackTrace();
         }
 

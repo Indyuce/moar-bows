@@ -1,5 +1,7 @@
 package net.Indyuce.moarbows.version;
 
+import com.github.Anon8281.universalScheduler.foliaScheduler.FoliaScheduler;
+import net.Indyuce.moarbows.MoarBows;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -33,7 +35,7 @@ public class SpigotPlugin {
      * The request is executed asynchronously as not to block the main thread.
      */
     public void checkForUpdate() {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+        new FoliaScheduler(MoarBows.plugin).runTaskAsynchronously(() -> {
             try {
                 HttpsURLConnection connection = (HttpsURLConnection) new URL("https://api.spigotmc.org/legacy/update.php?resource=" + id)
                         .openConnection();
@@ -56,7 +58,7 @@ public class SpigotPlugin {
              * join only if the corresponding option is enabled
              */
             if (plugin.getConfig().getBoolean("update-notify"))
-                Bukkit.getScheduler().runTask(plugin, () -> Bukkit.getPluginManager().registerEvents(new Listener() {
+                new FoliaScheduler(MoarBows.plugin).runTask(() -> Bukkit.getPluginManager().registerEvents(new Listener() {
                     @EventHandler(priority = EventPriority.MONITOR)
                     public void onPlayerJoin(PlayerJoinEvent event) {
                         Player player = event.getPlayer();

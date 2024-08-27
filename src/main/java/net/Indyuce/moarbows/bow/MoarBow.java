@@ -21,17 +21,15 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.*;
 
 public abstract class MoarBow {
+    protected static final Random random = new Random();
     private final String id;
     private final Map<String, Modifier> mods = new HashMap<>();
-
     private String name;
     private String[] craft;
     private List<String> lore;
     private int customModelData;
     private ParticleData particles;
     private boolean craftEnabled;
-
-    protected static final Random random = new Random();
 
     public MoarBow(String[] lore, ParticleData particles, String[] craft) {
         this.id = getClass().getSimpleName().toUpperCase();

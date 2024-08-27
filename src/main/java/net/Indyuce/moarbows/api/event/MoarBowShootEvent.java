@@ -1,57 +1,56 @@
 package net.Indyuce.moarbows.api.event;
 
+import net.Indyuce.moarbows.bow.ArrowData;
+import net.Indyuce.moarbows.bow.MoarBow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityEvent;
 
-import net.Indyuce.moarbows.bow.ArrowData;
-import net.Indyuce.moarbows.bow.MoarBow;
-
 public class MoarBowShootEvent extends EntityEvent implements Cancellable {
-	private static final HandlerList handlers = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
 
-	private final ArrowData arrow;
+    private final ArrowData arrow;
 
-	private boolean cancelled = false;
+    private boolean cancelled = false;
 
-	public MoarBowShootEvent(ArrowData arrow) {
-		super(arrow.getShooter());
+    public MoarBowShootEvent(ArrowData arrow) {
+        super(arrow.getShooter());
 
-		this.arrow = arrow;
-	}
+        this.arrow = arrow;
+    }
 
-	public ArrowData getArrowData() {
-		return arrow;
-	}
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 
-	public MoarBow getBow() {
-		return arrow.getBow();
-	}
-	
-	public Arrow getArrow() {
-		return arrow.getArrow();
-	}
-	
-	public int getBowLevel() {
-		return arrow.getLevel();
-	}
+    public ArrowData getArrowData() {
+        return arrow;
+    }
 
-	@Override
-	public boolean isCancelled() {
-		return cancelled;
-	}
+    public MoarBow getBow() {
+        return arrow.getBow();
+    }
 
-	@Override
-	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
-	}
+    public Arrow getArrow() {
+        return arrow.getArrow();
+    }
 
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    public int getBowLevel() {
+        return arrow.getLevel();
+    }
 
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    @Override
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
+
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 }
